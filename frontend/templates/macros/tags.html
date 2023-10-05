@@ -1,0 +1,13 @@
+{% macro list_with_count() %}
+  <div class="field is-grouped is-grouped-multiline">
+    {% set tags = get_taxonomy(kind="tags") %}
+    {% for tag in tags.items %}
+      <div class="control">
+        <div class="tags has-addons">
+          <a class="tag is-rounded is-link p-1" href="{{ tag.permalink | safe }}">{{ tag.name }}</a>
+          <span class="tag is-rounded is-info p-1">{{ tag.page_count }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endmacro %}

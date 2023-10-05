@@ -1,0 +1,16 @@
+{% macro banner(title, background_class) %}
+<div class="banner {{ background_class }}">
+  <section class="hero container is-max-desktop">
+    <div class="hero-body">
+      <div class="">
+        <p class="title has-text-white">
+          {{ title }}
+        </p>
+        {# <p class="subtitle has-text-white">
+          <a href="#main" class="button is-small is-info is-rounded is-outlined">Read More</a>
+        </p> #}
+      </div>
+    </div>
+  </section>
+</div>
+{% endmacro %}

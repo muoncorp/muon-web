@@ -1,0 +1,103 @@
+@charset "utf-8";
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap");
+
+@import "_vendor/bulma-0.9.4/sass/utilities/initial-variables.sass";
+
+$family-serif: "Noto Sans KR", serif;
+$family-primary: $family-serif;
+$footer-padding: 1rem;
+$column-gap: 0.5rem;
+// $fa-font-path: "/new/webfonts";
+$fa-font-path: "/webfonts";
+$navbar-background-color: #022c4c;
+$navbar-item-color: #d0d0d0;
+$navbar-burger-color: #d0d0d0;
+$navbar-item-hover-background-color: #224466;
+$navbar-dropdown-background-color: #022c4c;
+$navbar-breakpoint: $tablet;
+$timeline-content-padding: 0 0 0 2em;
+
+@import "_vendor/fontawesome-free-6.4.2-web/scss/fontawesome.scss";
+@import "_vendor/fontawesome-free-6.4.2-web/scss/solid.scss";
+@import "_vendor/fontawesome-free-6.4.2-web/scss/regular.scss";
+@import "_vendor/fontawesome-free-6.4.2-web/scss/brands.scss";
+@import "_vendor/bulma-0.9.4/bulma.sass";
+@import "_vendor/bulma-carousel.sass";
+@import "_vendor/bulma-timeline-master/src/sass/index.sass";
+
+html {
+  scroll-behavior: smooth;
+}
+
+main {
+  scroll-margin-top: 56px;
+
+  @include until(1023px) {
+    padding: 0 16px;
+  }
+}
+
+.content ul {
+  margin-top: 0;
+}
+
+.timeline .timeline-item {
+  padding-bottom: 0;
+}
+
+.category-link {
+  text-decoration: none !important;
+}
+
+.category-link:hover {
+  text-decoration: underline !important;
+}
+
+section {
+  scroll-margin-top: 56px;
+}
+
+#continue-reading {
+  scroll-margin-top: 56px;
+}
+
+.banner {
+  background-size: cover !important;
+}
+
+.about-banner {
+  background: transparent url("/images/about.jpg") 0 0 no-repeat fixed;
+}
+
+.home-banner {
+  background: transparent url("/images/6108124.jpg") 0 0 no-repeat fixed;
+}
+
+.contact-banner {
+  background: transparent url("/images/contact.jpg") 0 0 no-repeat fixed;
+}
+
+.blog-banner {
+  background: transparent url("/images/blog.jpg") 0 0 no-repeat fixed;
+}
+
+.search-form {
+  width: 200px;
+}
+
+.vision-block {
+  @include block(1rem)
+}
+
+.carousel {
+  overflow: hidden;
+}
+
+.blog-list-title:hover {
+  text-decoration: underline;
+}
+
+.title-border {
+  border-bottom: 1px solid black;
+}

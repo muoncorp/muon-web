@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block header %}
+  {% set current_section = "about" %}
+  {{ macros_header::header(current_section=current_section) }}
+{% endblock %}

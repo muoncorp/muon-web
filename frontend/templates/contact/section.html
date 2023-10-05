@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block header %}
+  {% set current_section = "contact" %}
+  {{ macros_header::header(current_section=current_section) }}
+{% endblock %}
+
+{% block banner %}
+  {{ macros_banner::banner(title=section.extra.banner_title, background_class="contact-banner") }}
+{% endblock %}
+
+{% block content %}
+  <section id="contact">
+    {{ macros_title::title(title='개발 의뢰 및 문의')}}
+    <p id="contact" class="has-text-centered">
+      뮤온은 고객의 성공을 위해 항상 최선을 다하고 있습니다.<br>
+      전화, 이메일, 문의하기를 이용하시면 빠르게 연락 드리겠습니다.<br>
+      <span class="has-text-grey"> Phone: 02.2635.6789 &nbsp; E-mail: <a href="mailto:contact@muon.co">contact@muon.co</a></span>
+    </p>
+    <h5 class="title is-5">
+      문의하기
+    </h5>
+    <form id="contactForm">
+      <div class="columns is-multiline">
+        <div class="column is-one-third">
+          <p class="control has-icons-left has-icons-right">
+            <input name="name" class="input" type="text" placeholder="이름 / 회사명">
+            <span class="icon is-small is-left">
+              <i class="fa-solid fa-user"></i>
+            </span>
+            {# <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span> #}
+          </p>
+        </div>
+        <div class="column is-one-third">
+          <p class="control has-icons-left has-icons-right">
+            <input name="email" class="input" type="email" placeholder="이메일">
+            <span class="icon is-small is-left">
+              <i class="fa-solid fa-envelope"></i>
+            </span>
+            {# <span class="icon is-small is-right">
+              <i class="fas fa-check"></i>
+            </span> #}
+          </p>
+        </div>
+        <div class="column is-one-third">
+          <p class="control has-icons-left">
+            <input name="phone" class="input" type="text" placeholder="전화번호">
+            <span class="icon is-small is-left">
+              <i class="fa-solid fa-mobile"></i>
+            </span>
+          </p>
+        </div>
+        <div class="column is-full">
+          <input name="subject" class="input" type="text" placeholder="제목">
+        </div>
+        <div class="column is-full">
+          <textarea name="message" class="textarea" placeholder="문의내용"></textarea>
+        </div>
+      </div>
+    </form>
+    <div class="column is-full has-text-centered">
+      <button id="submitButton" class="button is-info is-centered" onclick="sendContactMessage()">문의하기</button>
+    </div>
+  </section>
+
+  <script>
+    function sendContactMessage () {
+      const button = document.getElementById('submitButton');
+      const modalSuccess = document.getElementById('messageSendSuccessModal');
+      const modalFailed = document.getElementById('messageSendFailModal');
+      const formData = new FormData(contactForm);
+      const email = formData.get('email');
+      const name = formData.get('name');
+      const phone = formData.get('phone');
+      const subject = formData.get('subject');
+      const message = formData.get('message'); 
+      let data = {
+        email,
+        subject: '[From Contact] ' + subject,
+        message: 'Name: ' + name + '\nE-mail: ' + email + '\nPhone: ' + phone + '\n---------\n' + message,
+      };
+      window.axios.post(
+        "/api/contact/send-message",
+        JSON.stringify(data),
+        {
+          headers: { "Content-Type": 'application/json' }
+        }
+      ).then(function (response) {
+        console.log(response);
+        button.disabled = false;
+        modalSuccess.classList.add('is-active');
+      }).catch(function (error) {
+        button.disabled = false;
+        modalFailed.classList.add('is-active');
+      });
+      button.disabled = true;
+    }
+  </script>
+
+  <section id="recruit">
+    {{ macros_title::title(title='입사 지원')}}
+    {% for page in section.pages %}
+      <h5 class="title is-5">
+        {{ page.title }}
+      </h5>
+      {{ page.content | safe }}
+    {% endfor %}
+  </section>
+
+  <div class="modal" id="messageSendSuccessModal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <section class="modal-card-body">
+        담당자에게 메시지를 전송하였습니다. 확인 후 연락드리겠습니다.<br>
+        감사합니다.
+      </section>
+      <footer class="modal-card-foot is-flex is-justify-content-center p-2">
+        <button class="button is-success">확인</button>
+      </footer>
+    </div>
+  </div>
+  <div class="modal" id="messageSendFailModal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <section class="modal-card-body">
+        메시지 전송에 실패하였습니다.<br>
+        담당자 메일 <a href="mailto:contact@muon.co">contact@muon.co</a>로 문의해주시기 바랍니다.
+      </section>
+      <footer class="modal-card-foot is-flex is-justify-content-center p-2">
+        <button class="button is-success">확인</button>
+      </footer>
+    </div>
+  </div>
+{% endblock %}

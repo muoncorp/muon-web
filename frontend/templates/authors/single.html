@@ -1,0 +1,15 @@
+{% extends "blog/section.html" %}
+
+{% block content %}
+<div class="columns">
+  <div class="column is-3">
+    {{ macros_blog::side_menu(current_category_name=term.name) }}
+  </div>
+  <div class="column is-rest">
+    <h6 class="title is-6">
+      작성자: {{ term.name }}
+    </h6>
+    {{ macros_pages::list(pages=term.pages) }}
+  </div>
+</div>
+{% endblock %}

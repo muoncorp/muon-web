@@ -1,0 +1,91 @@
+{%- import 'macros/header.html' as macros_header -%}
+{%- import 'macros/footer.html' as macros_footer -%}
+{%- import 'macros/banner.html' as macros_banner -%}
+{%- import 'macros/blog.html' as macros_blog -%}
+{%- import 'macros/pages.html' as macros_pages -%}
+{%- import 'macros/tags.html' as macros_tags -%}
+{%- import 'macros/title.html' as macros_title -%}
+<!DOCTYPE html>
+<html lang="ko-KR" class="has-navbar-fixed-top">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ config.description }}">
+  <title>
+    {%- if section.title -%}
+      {{ section.title }} | {{ config.title }}
+    {%- elif page.title -%}
+      {{ page.title }} | {{ config.title }}
+    {%- else -%}
+      {{ config.title }}
+    {%- endif -%}
+  </title>
+  <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
+  <link rel="icon" type="image/x-icon" href="{{ get_url(path='favicon.ico') }}">
+  <script src="{{ get_url(path='js/navbar.js') }}"></script>
+  {%- if config.build_search_index %}
+    <script defer src="{{ get_url(path='elasticlunr.min.js') }}"></script>
+    <script defer src="{{ get_url(path='search_index.en.js') }}"></script>
+  {% endif %}
+  <script src="{{ get_url(path='js/search.js') }}"></script>
+  <script src="{{ get_url(path='js/bulma-carousel.min.js') }}"></script>
+  <script src="{{ get_url(path='js/carousel.js') }}"></script>
+  <script src="{{ get_url(path='js/axios.min.js') }}"></script>
+  {% if page and page.extra and page.extra.id == "company" %}
+    <meta http-equiv="Refresh" content="0; url='/'" />
+  {% elif page and page.extra and page.extra.id == "history"%}
+    <meta http-equiv="Refresh" content="0; url='/'" />
+  {% elif page and page.extra and page.extra.id == "products"%}
+    <meta http-equiv="Refresh" content="0; url='/'" />
+  {% endif %}
+</head>
+
+<body>
+  {% block header %}
+    {{ macros_header::header(current_section="business") }}
+  {% endblock %}
+  
+  {% block banner %}
+  {% endblock %}
+
+  <main id="main" class="container is-max-desktop mt-5">
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+    
+    {# {% block toc %}
+      <main class="content">
+        {% if section.toc %}
+          {% set toc = section.toc %}
+        {% elif page.toc %}
+          {% set toc = page.toc %}
+        {% endif %}
+        {% if toc %}
+          <div class="toc">
+            <div class="toc-sticky">
+              {% for h in toc %}
+                <div class="toc-item">
+                  <a class="subtext" href="{{h.permalink | safe}}">{{ h.title }}</a>
+                </div>
+                {% if h.children %}
+                  {% for h2 in h.children %}
+                    <div class="toc-item-child">
+                      <a class="subtext" href="{{h2.permalink | safe}}"><small>- {{ h2.title }}</small></a>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </main>
+    {% endblock %} #}
+    </main>
+  
+  {% block footer %}
+    {{ macros_footer::footer() }}
+  {% endblock %}
+</body>
+
+</html>

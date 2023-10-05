@@ -1,0 +1,70 @@
+# The URL the site will be built for
+# base_url = "https://muon.co/"
+base_url = "http://127.0.0.1:1111/"
+
+title = "뮤온"
+description = "뮤온 주식회사 웹사이트"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = true
+
+taxonomies = [
+    { name = "categories", feed = true },
+    { name = "tags", feed = true },
+    { name = "authors" },
+]
+
+[markdown]
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Zola
+highlight_code = true
+
+[extra]
+search = "Search"
+
+[[extra.menu.nav]]
+name = "Business"
+section = "business"
+url = "/#"
+subitems = [
+    { name = "사업 분야", href = "#business-field" },
+    { name = "보유 기술", href = "#company-tech" },
+    { name = "개발 실적", href = "#products" },
+]
+
+[[extra.menu.nav]]
+name = "About"
+section = "about"
+url = "/about/#"
+subitems = [
+    { name = "회사소개", href = "/about/#company" },
+    { name = "연혁", href = "/about/#history" },
+    { name = "오시는 길", href = "/about/#location" },
+]
+
+[[extra.menu.nav]]
+name = "Contact"
+section = "contact"
+url = "/contact/#"
+subitems = [
+    { name = "개발의뢰 및 문의", href = "/contact/#contact" },
+    { name = "입사 지원", href = "/contact/#recruit" },
+]
+
+[[extra.menu.nav]]
+name = "Blog"
+section = "blog"
+url = "/blog/"
+
+[[extra.menu.social]]
+name = "Store"
+icon = "fa-solid fa-cart-shopping"
+url = "https://smartstore.naver.com/muonstore"
+
+[[extra.menu.social]]
+name = "Github"
+icon = "fa-brands fa-github-alt"
+url = "https://github.com/muoncorp/"

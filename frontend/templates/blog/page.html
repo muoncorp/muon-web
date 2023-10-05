@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block header %}
+  {% set current_section = "blog" %}
+  {{ macros_header::header(current_section=current_section) }}
+{% endblock %}
+
+{% block content %}
+  <article class="content">
+    <div class="has-text-centered mb-5">
+      <h1 class="title mb-2">
+        {{ page.title }}
+      </h1>
+      <div class="columns">
+        <div class="column">
+        </div>
+        <div class="column">
+          {{ macros_blog::metadata(page=page) }}
+        </div>
+        <div class="column">
+          {{ macros_blog::list_tags(page=page) }}
+        </div>
+      </div>
+    </div>
+    {{ page.content | safe }}
+  </article>
+{% endblock %}

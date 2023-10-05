@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block header %}
+  {% set current_section = "blog" %}
+  {{ macros_header::header(current_section=current_section) }}
+{% endblock %}
+
+{% block banner %}
+  {{ macros_banner::banner(title="Blog", background_class="blog-banner") }}
+{% endblock %}
+
+{% block content %}
+  <div class="columns">
+    <div class="column is-3">
+      {{ macros_blog::side_menu(current_category_name="") }}
+    </div>
+    <div class="column is-rest">
+      <h6 class="title is-6">
+        최신글
+      </h6>
+      {{ macros_pages::list(pages=section.pages) }}
+    </div>
+  </div>
+{% endblock %}

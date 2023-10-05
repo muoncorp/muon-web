@@ -1,0 +1,71 @@
+{% macro side_menu(current_category_name) %}
+<div>
+  <div class="message">
+    <div class="message-body">
+      <h5 class="title is-6">
+        카테고리
+      </h5>
+      {% set blog_section = get_section(path="blog/_index.md") %}
+      {% set categories = get_taxonomy(kind="categories") %}
+      <div>
+        <a class="{% if current_category_name == '' %}has-text-info{% endif %} category-link" href="/blog">
+          전체보기 ({{ blog_section.pages | length }})
+        </a>
+      </div>
+      {% for category in categories.items %}
+        <div>
+          <a class="{% if current_category_name == category.name %}has-text-info{% endif %} category-link"
+              href="{{ category.permalink | safe }}">
+            {{ category.name }} ({{ category.page_count }})
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="message">
+    <div class="message-body">
+      <h5 class="title is-6">
+        태그
+      </h5>
+      {{ macros_tags::list_with_count() }}
+    </div>
+  </div>
+</div>
+{% endmacro %}
+
+{% macro metadata(page) %}
+<p>
+  <small>
+    Posted {{ page.date | date(format=config.extra.timeformat | default(value="%Y-%m-%d"), timezone=config.extra.timezone | default(value="America/New_York")) }}
+    {% if page.taxonomies.authors and config.taxonomies %}
+      by
+      {% for author in page.taxonomies.authors %}
+        {% if author_flag %}
+          and
+        {% endif %}
+        <a class="stretched-link position-relative" href="{{ get_taxonomy_url(kind='authors', name=author) | safe }}">
+          {{ author }}
+        </a>
+        {% set_global author_flag = true %}
+      {% endfor %}
+    {% endif %}
+    <span class="icon-text mr-5">
+      <span class="icon mr-0">
+        <i class="fa-regular fa-clock"></i>
+      </span>
+      <span class="ml-0">{{ page.reading_time }} minute read</span>
+    </span>
+
+  </small>
+</p>
+{% endmacro %}
+
+{% macro list_tags(page) %}
+  {% if page.taxonomies.tags and config.taxonomies %}
+    {% for tag in page.taxonomies.tags %}
+    <a class="tag is-rounded is-link" href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">
+      {{ tag }}
+    </a>
+    {% endfor %}
+  {% endif %}
+{% endmacro %}

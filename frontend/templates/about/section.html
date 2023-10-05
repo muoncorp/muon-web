@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block header %}
+  {% set current_section = "about" %}
+  {{ macros_header::header(current_section=current_section) }}
+{% endblock %}
+
+{% block banner %}
+  {{ macros_banner::banner(title=section.extra.banner_title, background_class=section.extra.banner_background_class) }}
+{% endblock %}
+
+{% block content %}
+  {% for page in section.pages %}
+    <section {% if page.extra.id %}id="{{ page.extra.id }}"{% endif %} class="mb-4">
+      {{ macros_title::title(title=page.title)}}
+      <div class="message{% if loop.index % 2 == 0 %}{{ ' is-primary' }}{% else %}{{ ' is-info' }}{% endif %}">
+        <div class="message-body has-background-white">
+          {{ page.content | safe }}
+        </div>
+      </div>
+    </section>
+  {% endfor %}
+
+  <section id="location">
+    {{ macros_title::title(title='회사 위치')}}
+    <div id="map" style="width: 100%; height: 400px;">
+    </div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eac01bf5a5df194022422e3e97fa2d93"></script>
+    <script>
+      const container = document.getElementById('map');
+      const options = {
+        center: new kakao.maps.LatLng(37.537990, 126.892892),
+        level: 3
+      };
+      const map = new kakao.maps.Map(container, options);
+      const markerPosition = new window.kakao.maps.LatLng(37.53823, 126.89159)
+      const marker = new window.kakao.maps.Marker({
+        map,
+        position: markerPosition,
+        title: "뮤온(주)"
+      })
+    </script>
+    <h5 class="title is-5 mt-4">
+      찾아 오시는 길
+    </h5>
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fa fa-map-marker"></i>
+      </span>
+      <span class="has-text-weight-semibold">주소</span>
+    </span>
+    <p>
+      서울시 영등포구 양평로21가길, 선유도우림라이온스밸리 B동 304호
+    </p>
+    <span class="icon-text">
+      <span class="icon">
+        <i class="fa fa-subway"></i>
+      </span>
+      <span class="has-text-weight-semibold">지하철</span>
+    </span>
+    <p>
+      9호선 선유도역 7번 출구에서 도보로 3분 거리
+    </p>
+  </section>
+{% endblock %}

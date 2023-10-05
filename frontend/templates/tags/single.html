@@ -1,0 +1,15 @@
+{% extends "blog/section.html" %}
+
+{% block content %}
+  <div class="columns">
+    <div class="column is-one-quarter">
+      {{ macros_blog::side_menu(current_category_name="") }}
+    </div>
+    <div class="column">
+      <h6 class="title is-6">
+        Tag: {{ term.name }}
+      </h6>
+      {{ macros_pages::list(pages=term.pages) }}
+    </div>
+  </div>
+{% endblock %}

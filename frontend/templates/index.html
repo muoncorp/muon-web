@@ -1,0 +1,87 @@
+
+{% extends "base.html" %}
+
+{% block banner %}
+  {{ macros_banner::banner(title=section.extra.banner_title, background_class=section.extra.banner_background_class) }}
+{% endblock %}
+
+{% block content %}
+  {% for content in section.extra.contents %}
+    <section {% if content.id %}id="{{ content.id }}"{% endif %}>
+      {{ macros_title::title(title=content.title) }}
+      {{ content.text | safe }}
+      {% if content.cards %}
+        <div class="columns is-multiline">
+          {% for card in content.cards %}
+            <div class="column is-half-tablet is-one-quarter-desktop">
+              <div class="message{% if loop.index % 2 == 0 %}{{ ' is-primary' }}{% else %}{{ ' is-info' }}{% endif %}">
+                <div class="message-header">
+                  {{ card.title }}
+                </div>
+                <div class="message-body">
+                  <ul>
+                    {% for item in card.items %}
+                      <li>
+                        {{ item }}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+  {% endfor %}
+
+  <section id="products">
+    {{ macros_title::title(title=section.extra.products_title) }}
+    {% for product in section.extra.products %}
+      <h6 class="title is-6">
+        {{ product.title }}
+      </h6>
+      <div class="columns">
+        <div class="column is-6">
+          <section>
+            {% set carousel_id = "carousel_" ~ loop.index %}
+            <div class="carousel">
+              {% for asset in product.images %}
+                {% set img_url = "images/products/" ~ asset %}
+                {% set img_id = carousel_id ~ "_" ~ loop.index %}
+                <figure class="image is-5by3 js-modal-trigger" data-target="{{ img_id }}">
+                  {% set image = resize_image(path=img_url, width=1000, height=600, op="fill") %}
+                  <img src="{{ image.url }}" />
+                </figure>
+              {% endfor %}
+            </div>
+          </section>
+          {% for asset in product.images %}
+            {% set img_id = carousel_id ~ "_" ~ loop.index %}
+            <div id="{{ img_id }}" class="modal">
+              <div class="modal-background"></div>
+              <div class="modal-content">
+                {% set img_url = "images/products/" ~ asset %}
+                {% if img_url is ending_with(".mp4.jpg") %}
+                  <video controls autoplay>
+                    <source src="{{ img_url | replace(from='.jpg', to='') }}" type="video/mp4" />
+                  </video>
+                {% else %}
+                  <img src="{{ get_url(path=img_url) }}" />
+                {% endif %}
+              </div>
+              <button class="modal-close is-large" aria-label="close"></button>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="column is-6">
+          <ul>
+            {% for feature in product.features %}
+              <li>{{ feature }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% endfor %}
+  </section>
+{% endblock content %}

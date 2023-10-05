@@ -1,0 +1,9 @@
+{% macro title(title) %}
+  <div class="columns">
+    <div class="column title-border">
+      <h4 class="title is-4 mb-0">
+        {{ title | safe }}
+      </h4>
+    </div>
+  </div>
+{% endmacro %}

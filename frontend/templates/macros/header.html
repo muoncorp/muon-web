@@ -1,0 +1,63 @@
+{% macro header(current_section) %}
+<nav class="navbar is-fixed-top" role="navigation" aria-label="main dropdown navigation">
+  <div class="container is-max-desktop px-4">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="{{ get_url(path='#', trailing_slash=false) }}">
+        <img src="{{ get_url(path='/images/MUON-Logo-Color.png') }}" width="62">
+      </a>
+  
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navMenu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+  
+    <div id="navMenu" class="navbar-menu">
+      <div class="navbar-start">
+        {%- if config.extra.menu.nav -%}
+          {%- for item in config.extra.menu.nav -%}
+            {%- if item.subitems -%}
+              <div class="navbar-item has-dropdown is-hoverable">
+                <a class="navbar-item{% if current_section == item.section %}{{ ' has-text-white' }}{% else %}{{ ' has-text-grey-lighter' }}{% endif %}" href="{{ get_url(path=item.url, trailing_slash=false) | safe }}">
+                  {{ item.name }}
+                </a>
+                <div class="navbar-dropdown">
+                  {%- for subitem in item.subitems -%}
+                    <a class="navbar-item" href="{{get_url(path=subitem.href, trailing_slash=false)}}">
+                      {{ subitem.name }}
+                    </a>
+                  {%- endfor -%}
+                </div>
+              </div>
+            {% else %}
+              <a class="navbar-item{% if current_section == item.section %}{{ ' has-text-white' }}{% else %}{{ ' has-text-grey-lighter' }}{% endif %}" href="{{ get_url(path=item.url, trailing_slash=false) | safe }}">
+                {{ item.name }}
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+      <div class="navbar-end">
+        {% if config.build_search_index %}
+          <form class="navbar-item search-form" onsubmit="return goSearch(event)">
+            <p class="control has-icons-left">
+              <input class="input is-rounded is-small is-info" type="text" placeholder="{{config.extra.search}}" />
+              <span class="icon is-small is-left">
+                <i class="fa fa-search"></i>
+              </span>
+            </p>
+          </form>
+        {% endif %}
+        {%- if config.extra.menu.social %}
+          {%- for val in config.extra.menu.social %}
+            <a class="navbar-item has-text-white" href="{{ val.url }}">
+              <i class="{{ val.icon }}"></i>
+            </a>
+          {% endfor %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+{% endmacro %}
