@@ -24,7 +24,7 @@ $timeline-content-padding: 0 0 0 2em;
 @import "_vendor/fontawesome-free-6.4.2-web/scss/brands.scss";
 @import "_vendor/bulma-0.9.4/bulma.sass";
 @import "_vendor/bulma-carousel.sass";
-@import "_vendor/bulma-timeline-master/src/sass/index.sass";
+@import "_vendor/bulma-timeline-master/dist/css/bulma-timeline.sass";
 
 html {
   scroll-behavior: smooth;
