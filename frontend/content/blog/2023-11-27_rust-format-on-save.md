@@ -19,7 +19,7 @@ vscode의 'fromat document' 명령을 실행시켜서 정리를 할 수 있지�
 vscode로 rust를 코딩한다고 하면 거의 rust-analyzer를 사용하고 있을 것이다.
 그러면 rust 프로젝트 폴더의 .vscode/settings.json 파일에 아래처럼 만들어주면 된다.
 
-```toml
+```json
 {
     "rust-analyzer.linkedProjects": [
         "./Cargo.toml"
