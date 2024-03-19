@@ -50,5 +50,5 @@ jobs:
         host: ${{ secrets.MUON_WEB_HOST }}
         username: ${{ secrets.MUON_WEB_HOST_USERNAME }}
         key: ${{ secrets.MUON_WEB }}
-        script: ~/run-server.sh
+        script: ~/dist/run-server.sh
 
