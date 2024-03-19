@@ -1,6 +1,6 @@
 # The URL the site will be built for
-# base_url = "https://muon.co/"
-base_url = "http://127.0.0.1:1111/"
+base_url = "https://muon.co/"
+# base_url = "http://127.0.0.1:1111/"
 
 title = "뮤온"
 description = "뮤온 주식회사 웹사이트"
