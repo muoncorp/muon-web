@@ -17,6 +17,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - uses: dtolnay/rust-toolchain@nightly
+    - name: copy username secret
+      run: echo ${{ secrets.GMAIL_SMTP_USERNAME }} > backend/gmail-smtp-username.txt
+    - name: copy password secret
+      run: echo ${{ secrets.GMAIL_SMTP_PASSWORD }} > backend/gmail-smtp-password.txt
     - name: Build
       run: cargo build --release
     - name: Copy backend
@@ -25,7 +29,7 @@ jobs:
         host: muon.co
         username: ubuntu
         key: ${{ secrets.MUON_WEB }}
-        source: "backend/target/release/muon-website-server"
+        source: "target/release/muon-website-server"
         target: dist
     - name: Zola build
       uses: shalzz/zola-deploy-action@v0.18.0
