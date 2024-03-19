@@ -26,8 +26,8 @@ jobs:
     - name: Copy backend
       uses: appleboy/scp-action@v0.1.7
       with:
-        host: muon.co
-        username: ubuntu
+        host: ${{ secrets.MUON_WEB_HOST }}
+        username: ${{ secrets.MUON_WEB_HOST_USERNAME }}
         key: ${{ secrets.MUON_WEB }}
         source: "target/release/muon-website-server"
         target: dist/backend
@@ -39,9 +39,16 @@ jobs:
     - name: copy frontend
       uses: appleboy/scp-action@v0.1.7
       with:
-        host: muon.co
-        username: ubuntu
+        host: ${{ secrets.MUON_WEB_HOST }}
+        username: ${{ secrets.MUON_WEB_HOST_USERNAME }}
         key: ${{ secrets.MUON_WEB }}
         source: "frontend/public/*"
         target: dist
+    - name: restart server
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.MUON_WEB_HOST }}
+        username: ${{ secrets.MUON_WEB_HOST_USERNAME }}
+        key: ${{ secrets.MUON_WEB }}
+        script: ./run_server.sh
 
