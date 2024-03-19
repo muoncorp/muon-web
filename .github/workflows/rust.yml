@@ -16,6 +16,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: dtolnay/rust-toolchain@nightly
-    - name: Build
-      run: cargo build
+    # - uses: dtolnay/rust-toolchain@nightly
+    # - name: Build
+    #   run: cargo build
+    - name: Zola build
+      uses: shalzz/zola-deploy-action@v0.18.0
+      env:
+        BUILD_DIR: frontend
+        BUILD_ONLY: true
+    - name: copy frontend
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: muon.co
+        username: ubuntu
+        key: ${{ secrets.MUON_WEB }}
+        source: "frontend/public/*"
+        target: public
+
