@@ -7,7 +7,6 @@ use actix_session::SessionMiddleware;
 use actix_web::{cookie::Key, middleware, App, HttpResponse, HttpServer, Result};
 use actix_web::{get, http, post};
 use actix_web_validator::Json;
-use include_optional::include_str_optional;
 use lettre::message::{header::ContentType, Mailbox};
 use lettre::transport::smtp::authentication::Credentials;
 use lettre::{Message, SmtpTransport, Transport};
@@ -31,8 +30,8 @@ async fn favicon() -> Result<fs::NamedFile> {
 #[post("/api/contact/send-message")]
 async fn send_message(data: Json<ContactUsFormData>) -> HttpResponse {
     let smtp_address = "smtp.gmail.com";
-    let username = include_str_optional!("../gmail-smtp-username.txt").unwrap_or("USERNAME");
-    let password = include_str_optional!("../gmail-smtp-password.txt").unwrap_or("PASSWORD");
+    let username = include_str!("../gmail-smtp-username.txt");
+    let password = include_str!("../gmail-smtp-password.txt");
 
     match data.email.parse::<Mailbox>() {
         Ok(email_from) => {
