@@ -4,17 +4,15 @@ use actix_cors::Cors;
 use actix_files as fs;
 use actix_session::storage::CookieSessionStore;
 use actix_session::SessionMiddleware;
-use actix_web::{http, get, post};
-use actix_web::{
-    cookie::Key, middleware, App, HttpResponse, HttpServer, Result,
-};
+use actix_web::{cookie::Key, middleware, App, HttpResponse, HttpServer, Result};
+use actix_web::{get, http, post};
 use actix_web_validator::Json;
-use listenfd::ListenFd;
-use log;
-use serde::{Deserialize, Serialize};
+use include_optional::include_str_optional;
 use lettre::message::{header::ContentType, Mailbox};
 use lettre::transport::smtp::authentication::Credentials;
 use lettre::{Message, SmtpTransport, Transport};
+use listenfd::ListenFd;
+use serde::{Deserialize, Serialize};
 use validator::Validate;
 
 #[derive(Debug, Serialize, Deserialize, Validate)]
@@ -33,8 +31,8 @@ async fn favicon() -> Result<fs::NamedFile> {
 #[post("/api/contact/send-message")]
 async fn send_message(data: Json<ContactUsFormData>) -> HttpResponse {
     let smtp_address = "smtp.gmail.com";
-    let username = include_str!("../gmail-smtp-username.txt");
-    let password = include_str!("../gmail-smtp-password.txt");
+    let username = include_str_optional!("../gmail-smtp-username.txt").unwrap_or("USERNAME");
+    let password = include_str_optional!("../gmail-smtp-password.txt").unwrap_or("PASSWORD");
 
     match data.email.parse::<Mailbox>() {
         Ok(email_from) => {
@@ -59,10 +57,10 @@ async fn send_message(data: Json<ContactUsFormData>) -> HttpResponse {
                 Ok(_) => log::info!("Email sent successfully!"),
                 Err(e) => log::error!("Failed to send email: {}", e),
             }
-        },
+        }
         Err(e) => {
             log::error!("invalid email address: {}", e);
-        },
+        }
     }
 
     HttpResponse::Ok().json(data.0)
@@ -72,16 +70,16 @@ async fn send_message(data: Json<ContactUsFormData>) -> HttpResponse {
 async fn main() -> io::Result<()> {
     env::set_var("RUST_LOG", "actix_web=debug,actix_server=info");
     env_logger::init();
-    
+
     let mut listenfd = ListenFd::from_env();
     let mut server = HttpServer::new(|| {
-        let secret_key = Key::generate();   
+        let secret_key = Key::generate();
         let cors = Cors::default()
             .allowed_origin("http://127.0.0.1:1111")
             .allowed_origin_fn(|origin, _req_head| {
-                origin.as_bytes().starts_with(b"https://muon.co") ||
-                origin.as_bytes().starts_with(b"http://localhost") ||
-                origin.as_bytes().starts_with(b"http://127.0.0.1")
+                origin.as_bytes().starts_with(b"https://muon.co")
+                    || origin.as_bytes().starts_with(b"http://localhost")
+                    || origin.as_bytes().starts_with(b"http://127.0.0.1")
             })
             .allowed_methods(vec!["GET", "POST"])
             .allowed_headers(vec![http::header::AUTHORIZATION, http::header::ACCEPT])
@@ -89,7 +87,10 @@ async fn main() -> io::Result<()> {
             .max_age(3600);
         App::new()
             .wrap(cors)
-            .wrap(SessionMiddleware::new(CookieSessionStore::default(), secret_key.clone()))
+            .wrap(SessionMiddleware::new(
+                CookieSessionStore::default(),
+                secret_key.clone(),
+            ))
             .wrap(middleware::Logger::default())
             .service(favicon)
             .service(send_message)
