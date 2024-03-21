@@ -14,7 +14,6 @@ actix-utils = "3.0.1"
 futures = "0.3.30"
 env_logger = "0.11.3"
 bytes = "1.5.0"
-listenfd = "1.0.1"
 serde = { version = "1.0.197", features = ["derive"] }
 lettre = "0.11.4"
 log = "0.4.21"

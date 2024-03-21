@@ -10,7 +10,6 @@ use actix_web_validator::Json;
 use lettre::message::{header::ContentType, Mailbox};
 use lettre::transport::smtp::authentication::Credentials;
 use lettre::{Message, SmtpTransport, Transport};
-use listenfd::ListenFd;
 use serde::{Deserialize, Serialize};
 use validator::Validate;
 
@@ -70,8 +69,7 @@ async fn main() -> io::Result<()> {
     env::set_var("RUST_LOG", "actix_web=debug,actix_server=info");
     env_logger::init();
 
-    let mut listenfd = ListenFd::from_env();
-    let mut server = HttpServer::new(|| {
+    HttpServer::new(|| {
         let secret_key = Key::generate();
         let cors = Cors::default()
             .allowed_origin("http://127.0.0.1:1111")
@@ -94,13 +92,8 @@ async fn main() -> io::Result<()> {
             .service(favicon)
             .service(send_message)
             .service(fs::Files::new("/", "../frontend/public").index_file("index.html"))
-    });
-
-    server = if let Some(l) = listenfd.take_tcp_listener(0).unwrap() {
-        server.listen(l)?
-    } else {
-        server.bind("127.0.0.1:1111")?
-    };
-
-    server.run().await
+    })
+    .bind("127.0.0.1:1111")?
+    .run()
+    .await
 }
