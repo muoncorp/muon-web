@@ -1,4 +1,4 @@
-# Muon Webite
+# Muon Web
 
 This repository contains the source code for the [muon.co](https://muon.co) website.
 
