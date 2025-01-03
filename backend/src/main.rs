@@ -23,7 +23,7 @@ struct ContactUsFormData {
 
 #[get("/favicon")]
 async fn favicon() -> Result<fs::NamedFile> {
-    Ok(fs::NamedFile::open("../frontend/public/favicon.ico")?)
+    Ok(fs::NamedFile::open("./frontend/public/favicon.ico")?)
 }
 
 #[post("/api/contact/send-message")]
@@ -91,7 +91,7 @@ async fn main() -> io::Result<()> {
             .wrap(middleware::Logger::default())
             .service(favicon)
             .service(send_message)
-            .service(fs::Files::new("/", "../frontend/public").index_file("index.html"))
+            .service(fs::Files::new("/", "./frontend/public").index_file("index.html"))
     })
     .bind("127.0.0.1:1111")?
     .run()
