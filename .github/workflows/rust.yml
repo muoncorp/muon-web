@@ -29,6 +29,7 @@ jobs:
         host: ${{ secrets.MUON_WEB_HOST }}
         username: ${{ secrets.MUON_WEB_HOST_USERNAME }}
         key: ${{ secrets.MUON_WEB_KEY }}
+        strip_components: 2
         source: "target/release/muon-web-server"
         target: /opt/muon-web
     - name: Zola build
