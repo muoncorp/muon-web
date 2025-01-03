@@ -28,11 +28,11 @@ jobs:
       with:
         host: ${{ secrets.MUON_WEB_HOST }}
         username: ${{ secrets.MUON_WEB_HOST_USERNAME }}
-        key: ${{ secrets.MUON_WEB }}
-        source: "target/release/muon-website-server"
-        target: dist/backend
+        key: ${{ secrets.MUON_WEB_KEY }}
+        source: "target/release/muon-web-server"
+        target: /opt/muon-web
     - name: Zola build
-      uses: shalzz/zola-deploy-action@v0.18.0
+      uses: shalzz/zola-deploy-action@v0.19.2
       env:
         BUILD_DIR: frontend
         BUILD_ONLY: true
@@ -41,14 +41,14 @@ jobs:
       with:
         host: ${{ secrets.MUON_WEB_HOST }}
         username: ${{ secrets.MUON_WEB_HOST_USERNAME }}
-        key: ${{ secrets.MUON_WEB }}
-        source: "run-server.sh,frontend/public/*"
-        target: dist
+        key: ${{ secrets.MUON_WEB_KEY }}
+        source: "start-server.sh,stop-server.sh,cert-nginx-renew.sh,frontend/public/*"
+        target: /opt/muon-web
     - name: restart server
-      uses: appleboy/ssh-action@v1.0.3
+      uses: appleboy/ssh-action@v1.2.0
       with:
         host: ${{ secrets.MUON_WEB_HOST }}
         username: ${{ secrets.MUON_WEB_HOST_USERNAME }}
-        key: ${{ secrets.MUON_WEB }}
-        script: ~/dist/run-server.sh
+        key: ${{ secrets.MUON_WEB_KEY }}
+        script: /opt/muon-web/stop-server.sh && /opt/muon-web/start-server.sh
 
