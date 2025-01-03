@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# This script used for manual deployment only
+
 APPDIR=/opt/muon-web
 
 # Build server
