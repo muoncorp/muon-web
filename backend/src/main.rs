@@ -29,8 +29,8 @@ async fn favicon() -> Result<fs::NamedFile> {
 #[post("/api/contact/send-message")]
 async fn send_message(data: Json<ContactUsFormData>) -> HttpResponse {
     let smtp_address = "smtp.gmail.com";
-    let username = include_str!("../gmail-smtp-username.txt");
-    let password = include_str!("../gmail-smtp-password.txt");
+    let username = include_str!("../gmail-smtp-username.txt").trim();
+    let password = include_str!("../gmail-smtp-password.txt").trim();
 
     match data.email.parse::<Mailbox>() {
         Ok(email_from) => {
@@ -43,7 +43,9 @@ async fn send_message(data: Json<ContactUsFormData>) -> HttpResponse {
                 .body(data.message.clone())
                 .unwrap();
 
-            let credentials = Credentials::new(username.trim().to_owned(), password.trim().to_owned());
+            log::info!("username: '{}'", username);
+            log::info!("password: '{}'", password);
+            let credentials = Credentials::new(username.to_owned(), password.to_owned());
 
             let mailer = SmtpTransport::relay(smtp_address)
                 .unwrap()
