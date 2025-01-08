@@ -66,7 +66,7 @@ async fn send_message(data: Json<ContactUsFormData>) -> HttpResponse {
 
 #[actix_rt::main]
 async fn main() -> io::Result<()> {
-    env::set_var("RUST_LOG", "actix_web=debug,actix_server=info");
+    // env::set_var("RUST_LOG", "actix_web=debug,actix_server=info");
     env_logger::init();
 
     HttpServer::new(|| {

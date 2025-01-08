@@ -6,8 +6,8 @@ cd $APPDIR
 mkdir -p logs
 TIMESTR=$(date -Iseconds)
 RUST_LOG="debug" nohup $APPDIR/muon-web-server \
-	>> $APPDIR/logs/muon-web-server_$TIMESTR.stdout.log \
-	2>> $APPDIR/logs/muon-web-server_$TIMESTR.stderr.log \
-	< /dev/null &
+	< /dev/null \
+	> $APPDIR/logs/muon-web-server_$TIMESTR.log \
+	2>&1 &
 
 echo muon-web-server started.
