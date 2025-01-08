@@ -43,8 +43,6 @@ async fn send_message(data: Json<ContactUsFormData>) -> HttpResponse {
                 .body(data.message.clone())
                 .unwrap();
 
-            log::info!("username: '{}'", username);
-            log::info!("password: '{}'", password);
             let credentials = Credentials::new(username.to_owned(), password.to_owned());
 
             let mailer = SmtpTransport::relay(smtp_address)
