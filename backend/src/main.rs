@@ -1,4 +1,4 @@
-use std::{env, io};
+use std::io;
 
 use actix_cors::Cors;
 use actix_files as fs;
