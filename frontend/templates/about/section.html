@@ -29,10 +29,10 @@
     <script>
       const container = document.getElementById('map');
       const options = {
-        center: new kakao.maps.LatLng(37.515998, 126.886775),
+        center: new window.kakao.maps.LatLng(37.515998, 126.886775),
         level: 3
       };
-      const map = new kakao.maps.Map(container, options);
+      const map = new window.kakao.maps.Map(container, options);
       const markerPosition = new window.kakao.maps.LatLng(37.515998, 126.886775)
       const marker = new window.kakao.maps.Marker({
         map,
