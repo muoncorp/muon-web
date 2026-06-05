@@ -114,23 +114,12 @@ section {
   border-bottom: 1px solid black;
 }
 
-/* [한글 주석] 탑바 투명화 및 Glassmorphism 효과 적용 */
-.navbar {
-  background-color: transparent !important;
-  box-shadow: none !important;
-  /* 기본 섀도우 제거 */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  /* 미세한 하단 선 */
-  transition: background-color 0.3s;
-}
-
+/* [한글 주석] 기본 고정형 탑바: 스크롤 전에는 완전히 투명하고 경계선 없음 */
 .navbar.is-fixed-top {
   background-color: transparent !important;
   box-shadow: none !important;
-  /* 기본 섀도우 제거 */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  /* 미세한 하단 선 */
-  transition: background-color 0.3s, backdrop-filter 0.3s;
+  border-bottom: 1px solid transparent;
+  transition: background-color 0.3s ease, backdrop-filter 0.3s ease, border-bottom 0.3s ease;
 }
 
 /* 스크롤 시 배경색 적용을 위한 상태 클래스 */
