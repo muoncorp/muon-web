@@ -1,5 +1,6 @@
 +++
 title = "블로그 만들기"
+description = "프로젝트 개발 환경을 구성하고 가동하는 과정, 혹은 회사의 관심 기술분야와 활동내역등 을 다룹니다."
 draft = false
 
 [taxonomies]

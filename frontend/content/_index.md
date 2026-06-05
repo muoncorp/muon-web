@@ -1,5 +1,6 @@
 +++
 title = "Muon"
+description = "주식회사 뮤온 공식 웹사이트. 임베디드 하드웨어 설계, RTOS 및 리눅스/안드로이드 OS 포팅, 스마트 터치 컨트롤러 양산 등 하드웨어와 소프트웨어 기술력 모두 뛰어난 IoT 및 임베디드 ODM 제품개발 파트너입니다."
 
 [extra]
 banner_title = "The BEST IoT Solution"

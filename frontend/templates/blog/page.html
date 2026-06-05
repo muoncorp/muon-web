@@ -24,6 +24,37 @@
     </div>
     {{ page.content | safe }}
   </article>
+
+  <!-- ========================================== -->
+  <!-- [한글 주석] 블로그 개별 포스트 검색엔진 및 AI 최적화용 BlogPosting 스키마 마크업 추가 -->
+  <!-- ========================================== -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{ page.permalink | safe }}"
+    },
+    "headline": "{{ page.title }}",
+    "description": "{% if page.description %}{{ page.description }}{% else %}{{ page.summary | striptags | truncate(length=150) }}{% endif %}",
+    "image": "https://muon.co/favicon.ico",
+    "datePublished": "{{ page.date | date(format='%Y-%m-%dT%H:%M:%S+09:00') }}",
+    "dateModified": "{% if page.updated %}{{ page.updated | date(format='%Y-%m-%dT%H:%M:%S+09:00') }}{% else %}{{ page.date | date(format='%Y-%m-%dT%H:%M:%S+09:00') }}{% endif %}",
+    "author": {
+      "@type": "Organization",
+      "name": "뮤온(Muon)"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "주식회사 뮤온",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://muon.co/favicon.ico"
+      }
+    }
+  }
+  </script>
   <script src="https://utteranc.es/client.js"
         repo="muoncorp/muon-web"
         issue-term="pathname"

@@ -1,5 +1,6 @@
 +++
 title = "Flutter에서 Rinf 이용해서 비즈니스 로직을 Rust로 작성하기"
+description = "Flutter 크로스플랫폼 앱의 복잡한 비즈니스 로직을 Rust(Rinf)로 구성하고, axum 기반 웹 API 및 protobuf 데이터 모델 통신을 결합하는 강력한 네이티브 결합 아키텍처 실전 예제 가이드입니다."
 
 [taxonomies]
 categories = ["app", "web"]

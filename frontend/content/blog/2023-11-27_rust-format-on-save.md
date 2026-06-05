@@ -1,5 +1,6 @@
 +++
 title = "Visual Studio Code에서 Rust 소스 자동 포맷"
+description = "VSCode 에디터에서 rust-analyzer 설정을 활용하여 파일을 저장할 때 지저분한 use 구문과 소스 코드를 자동으로 정렬(Format on Save)하는 팁을 소개합니다."
 
 [taxonomies]
 categories = ["rust"]

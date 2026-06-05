@@ -1,5 +1,6 @@
 +++
 title = "Funtoo Linux 설치 문서 리뷰"
+description = "젠투 계열 리눅스인 Funtoo Linux의 최신 설치 과정을 UEFI/GPT 설정, XFS 파일시스템 최적화, fstab 내 UUID 정의, 한국어 환경 구성 팁과 함께 꼼꼼하게 정리했습니다."
 
 [taxonomies]
 categories = ["linux"]

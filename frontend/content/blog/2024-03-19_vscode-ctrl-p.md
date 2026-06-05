@@ -1,5 +1,6 @@
 +++
 title = "Visual Studio Code의 터미널에서 Ctrl-P 사용하기"
+description = "VSCode 내장 터미널 쉘에서 Ctrl-P 단축키가 퀵오픈 대신 쉘의 이전 명령어 히스토리 불러오기로 정상 동작하게 스킵 처리(commandsToSkipShell)하는 환경 설정 팁입니다."
 
 [taxonomies]
 categories = ["tips"]
