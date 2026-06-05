@@ -60,6 +60,11 @@ section = "blog"
 url = "/blog/"
 
 [[extra.menu.social]]
+name = "Youtube"
+icon = "fa-brands fa-youtube"
+url = "https://www.youtube.com/@muoncorp"
+
+[[extra.menu.social]]
 name = "Store"
 icon = "fa-solid fa-cart-shopping"
 url = "https://smartstore.naver.com/muonstore"
