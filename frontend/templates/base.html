@@ -6,39 +6,40 @@
 {%- import 'macros/tags.html' as macros_tags -%}
 {%- import 'macros/title.html' as macros_title -%}
 <!DOCTYPE html>
-<html lang="ko-KR" class="has-navbar-fixed-top">
+<html lang="ko-KR">
+<!-- <html lang="ko-KR" class="has-navbar-fixed-top"> -->
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+
   {# [한글 주석] 각 페이지나 세션에 개별 메타 설명(Description)이 정의되어 있으면 이를 사용하고, 없으면 공통 설명을 대안으로 사용합니다. #}
   {%- if page.description -%}
-    {%- set current_description = page.description -%}
+  {%- set current_description = page.description -%}
   {%- elif section.description -%}
-    {%- set current_description = section.description -%}
+  {%- set current_description = section.description -%}
   {%- else -%}
-    {%- set current_description = config.description -%}
+  {%- set current_description = config.description -%}
   {%- endif -%}
-  
+
   <meta name="description" content="{{ current_description }}">
-  
+
   {# [한글 주석] 검색엔진 중복 크롤링 방지를 위한 표준 주소(Canonical URL) 설정 #}
   {%- if page.permalink -%}
-    <link rel="canonical" href="{{ page.permalink }}">
+  <link rel="canonical" href="{{ page.permalink }}">
   {%- elif section.permalink -%}
-    <link rel="canonical" href="{{ section.permalink }}">
+  <link rel="canonical" href="{{ section.permalink }}">
   {%- else -%}
-    <link rel="canonical" href="{{ config.base_url }}">
+  <link rel="canonical" href="{{ config.base_url }}">
   {%- endif -%}
 
   <title>
     {%- if section.title -%}
-      {{ section.title }} | {{ config.title }}
+    {{ section.title }} | {{ config.title }}
     {%- elif page.title -%}
-      {{ page.title }} | {{ config.title }}
+    {{ page.title }} | {{ config.title }}
     {%- else -%}
-      {{ config.title }} | IoT & Embedded ODM Solutions
+    {{ config.title }} | IoT & Embedded ODM Solutions
     {%- endif -%}
   </title>
 
@@ -47,9 +48,11 @@
   {# ========================================== #}
   <meta property="og:site_name" content="{{ config.title }}">
   <meta property="og:type" content="{% if page %}article{% else %}website{% endif %}">
-  <meta property="og:title" content="{% if page %}{{ page.title }}{% elif section %}{{ section.title }}{% else %}{{ config.title }}{% endif %}">
+  <meta property="og:title"
+    content="{% if page %}{{ page.title }}{% elif section %}{{ section.title }}{% else %}{{ config.title }}{% endif %}">
   <meta property="og:description" content="{{ current_description }}">
-  <meta property="og:url" content="{% if page %}{{ page.permalink }}{% elif section %}{{ section.permalink }}{% else %}{{ config.base_url }}{% endif %}">
+  <meta property="og:url"
+    content="{% if page %}{{ page.permalink }}{% elif section %}{{ section.permalink }}{% else %}{{ config.base_url }}{% endif %}">
   {# [한글 주석] AI 요약 카드 및 공유용 대표 이미지 (favicon이나 로고를 대체 이미지로 우선 지정) #}
   <meta property="og:image" content="{{ get_url(path='favicon.ico') }}">
   <meta property="og:locale" content="ko_KR">
@@ -69,20 +72,20 @@
   <link rel="icon" type="image/x-icon" href="{{ get_url(path='favicon.ico') }}">
   <script src="{{ get_url(path='js/navbar.js') }}"></script>
   {%- if config.build_search_index %}
-    <script defer src="{{ get_url(path='elasticlunr.min.js') }}"></script>
-    <script defer src="{{ get_url(path='search_index.en.js') }}"></script>
+  <script defer src="{{ get_url(path='elasticlunr.min.js') }}"></script>
+  <script defer src="{{ get_url(path='search_index.en.js') }}"></script>
   {% endif %}
   <script src="{{ get_url(path='js/search.js') }}"></script>
   <script src="{{ get_url(path='js/bulma-carousel.min.js') }}"></script>
   <script src="{{ get_url(path='js/carousel.js') }}"></script>
   <script src="{{ get_url(path='js/axios.min.js') }}"></script>
-  
+
   {% if page and page.extra and page.extra.id == "company" %}
-    <meta http-equiv="Refresh" content="0; url='/'" />
+  <meta http-equiv="Refresh" content="0; url='/'" />
   {% elif page and page.extra and page.extra.id == "history"%}
-    <meta http-equiv="Refresh" content="0; url='/'" />
+  <meta http-equiv="Refresh" content="0; url='/'" />
   {% elif page and page.extra and page.extra.id == "products"%}
-    <meta http-equiv="Refresh" content="0; url='/'" />
+  <meta http-equiv="Refresh" content="0; url='/'" />
   {% endif %}
 
   {# ========================================== #}
@@ -143,9 +146,9 @@
 
 <body>
   {% block header %}
-    {{ macros_header::header(current_section="business") }}
+  {{ macros_header::header(current_section="business") }}
   {% endblock %}
-  
+
   {% block banner %}
   {% endblock %}
 
@@ -153,38 +156,38 @@
     <div class="content">
       {% block content %}{% endblock %}
     </div>
-    
+
     {# {% block toc %}
-      <main class="content">
-        {% if section.toc %}
-          {% set toc = section.toc %}
-        {% elif page.toc %}
-          {% set toc = page.toc %}
-        {% endif %}
-        {% if toc %}
-          <div class="toc">
-            <div class="toc-sticky">
-              {% for h in toc %}
-                <div class="toc-item">
-                  <a class="subtext" href="{{h.permalink | safe}}">{{ h.title }}</a>
-                </div>
-                {% if h.children %}
-                  {% for h2 in h.children %}
-                    <div class="toc-item-child">
-                      <a class="subtext" href="{{h2.permalink | safe}}"><small>- {{ h2.title }}</small></a>
-                    </div>
-                  {% endfor %}
-                {% endif %}
-              {% endfor %}
-            </div>
+    <main class="content">
+      {% if section.toc %}
+      {% set toc = section.toc %}
+      {% elif page.toc %}
+      {% set toc = page.toc %}
+      {% endif %}
+      {% if toc %}
+      <div class="toc">
+        <div class="toc-sticky">
+          {% for h in toc %}
+          <div class="toc-item">
+            <a class="subtext" href="{{h.permalink | safe}}">{{ h.title }}</a>
           </div>
-        {% endif %}
-      </main>
-    {% endblock %} #}
+          {% if h.children %}
+          {% for h2 in h.children %}
+          <div class="toc-item-child">
+            <a class="subtext" href="{{h2.permalink | safe}}"><small>- {{ h2.title }}</small></a>
+          </div>
+          {% endfor %}
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
     </main>
-  
+    {% endblock %} #}
+  </main>
+
   {% block footer %}
-    {{ macros_footer::footer() }}
+  {{ macros_footer::footer() }}
   {% endblock %}
 </body>
 

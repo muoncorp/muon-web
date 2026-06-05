@@ -71,6 +71,8 @@ section {
 
 .banner {
   background-size: cover !important;
+  padding-top: 80px;
+  /* 탑바 영역 확보 */
 }
 
 .about-banner {
@@ -80,7 +82,7 @@ section {
 .home-banner {
   background: transparent url("/images/muon_web_banner.webp") 0 50% /cover no-repeat;
   width: 100%;
-  height: 400px;
+  height: 450px;
 
 }
 
@@ -110,4 +112,38 @@ section {
 
 .title-border {
   border-bottom: 1px solid black;
+}
+
+/* [한글 주석] 탑바 투명화 및 Glassmorphism 효과 적용 */
+.navbar {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  /* 기본 섀도우 제거 */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  /* 미세한 하단 선 */
+  transition: background-color 0.3s;
+}
+
+.navbar.is-fixed-top {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  /* 기본 섀도우 제거 */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  /* 미세한 하단 선 */
+  transition: background-color 0.3s, backdrop-filter 0.3s;
+}
+
+/* 스크롤 시 배경색 적용을 위한 상태 클래스 */
+.navbar.is-fixed-top.is-scrolled {
+  background-color: rgba(2, 44, 76, 0.8) !important;
+  /* 스크롤을 내리면 반투명 네이비 색상으로 변경 */
+  /* 흐림 효과 */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: background-color 0.3s, backdrop-filter 0.3s;
+}
+
+/* [한글 주석] 배너가 없는 일반 페이지의 경우 본문이 가려지지 않도록 조절 */
+body:not(:has(.banner)) main {
+  margin-top: 80px;
 }
