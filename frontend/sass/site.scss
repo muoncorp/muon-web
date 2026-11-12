@@ -576,11 +576,16 @@ main {
   }
 
   .site-nav__sub {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
     position: static;
-    padding: 0 0 var(--space-xs);
+    padding: 0 0 var(--space-xs) var(--space-sm);
     background: none;
+  }
+
+  .site-nav__sub a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
   }
 
   .site-search {
