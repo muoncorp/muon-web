@@ -94,7 +94,7 @@ Web server is available at http://127.0.0.1:1111
 
 웹 브라우저로 접속을 해보면 아래 그림과 같이 보이게 된다.
 
-<img src="./zola-first.png" width="500" />
+<img src="./zola-first.png" width="500" alt="Zola를 처음 실행하면 나오는 Welcome to Zola! 화면" />
 
 ### 맺음말
 
