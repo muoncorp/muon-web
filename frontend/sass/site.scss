@@ -31,6 +31,7 @@
   --color-dark-2: color-mix(in oklab, var(--ci-paper) 10%, var(--ci-navy));
   --color-on-dark: var(--ci-paper);
   --color-on-dark-2: var(--ci-pale);
+  --color-scrim: color-mix(in oklab, var(--ci-navy) 75%, transparent);
 
   // Accent, yellow set (default). The blue set is further down.
   --color-accent: var(--ci-yellow);
@@ -77,6 +78,7 @@
   --radius: 4px;
   --rule-hair: 1px;
 
+  --z-raised: 10;
   --z-dropdown: 100;
   --z-sticky-nav: 300;
   --z-skip: 500;
@@ -932,10 +934,15 @@ main {
   grid-column: 1 / -1;
 }
 
-// A product with several photos scrolls sideways; the next photo shows at the edge.
+.product__gallery {
+  position: relative;
+}
+
+// A product with several photos shows one at a time. Swipe or use the arrows;
+// the dots under the photo say how many there are. Without scripting it is a
+// plain sideways scroll.
 .product__media {
   display: flex;
-  gap: var(--space-xs);
   overflow-x: auto;
   border-radius: var(--radius);
   scroll-snap-type: x mandatory;
@@ -943,13 +950,82 @@ main {
   scrollbar-color: var(--color-muted) transparent;
 }
 
+.js .product__media {
+  scrollbar-width: none;
+}
+
+.js .product__media::-webkit-scrollbar {
+  display: none;
+}
+
 .product__media > * {
   flex: 0 0 100%;
   scroll-snap-align: start;
 }
 
-.product__media[tabindex] > * {
-  flex-basis: 75%;
+// Arrows sit over the photo and show on hover or keyboard focus.
+.pager__arrow {
+  display: inline-flex;
+  position: absolute;
+  top: 50%;
+  z-index: var(--z-raised);
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--color-scrim);
+  color: var(--color-on-dark);
+  font-size: var(--text-lg);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-50%);
+  transition: opacity var(--dur-micro) var(--ease-out);
+}
+
+.pager__arrow--prev {
+  left: var(--space-sm);
+}
+
+.pager__arrow--next {
+  right: var(--space-sm);
+}
+
+.product__gallery:hover .pager__arrow,
+.pager__arrow:focus-visible {
+  opacity: 1;
+}
+
+.pager__arrow:disabled {
+  visibility: hidden;
+}
+
+// Touch screens swipe, so they get the dots only.
+@media (hover: none) {
+  .pager__arrow {
+    display: none;
+  }
+}
+
+.pager__dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin-block-start: calc(var(--space-sm) * -1);
+}
+
+.pager__dots span {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius);
+}
+
+.pager__dots .is-current {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
 }
 
 .product__media:focus-visible,
@@ -983,6 +1059,12 @@ main {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--gap-columns);
     overflow: visible;
+  }
+
+  // Both photos are on screen here, so no pager.
+  .product--lead .pager__arrow,
+  .product--lead .pager__dots {
+    display: none;
   }
 
   .product--lead .product__body {

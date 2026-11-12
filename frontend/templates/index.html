@@ -112,8 +112,10 @@
 
       <div class="products">
         {%- for product in section.extra.products %}
+          {%- set count = product.images | length %}
           <article class="product{% if loop.first %} product--lead{% endif %}">
-            <div class="product__media"{% if product.images | length > 1 %} tabindex="0" role="group" aria-label="{{ product.title }} 사진 {{ product.images | length }}장"{% endif %}>
+            <div class="product__gallery">
+            <div class="product__media"{% if count > 1 %} tabindex="0" role="group" aria-label="{{ product.title }} 사진 {{ count }}장"{% endif %}>
               {%- for asset in product.images %}
                 {%- set img_url = "images/products/" ~ asset %}
                 {%- set small = resize_image(path=img_url, width=640, height=384, op="fill", format="webp", quality=80) %}
@@ -132,6 +134,16 @@
                 {%- endif %}
               {%- endfor %}
             </div>
+            {%- if count > 1 %}
+              <button class="pager__arrow pager__arrow--prev" type="button" aria-label="이전 사진" hidden>{{ site_header::icon(fa="fa-solid fa-chevron-left") }}</button>
+              <button class="pager__arrow pager__arrow--next" type="button" aria-label="다음 사진" hidden>{{ site_header::icon(fa="fa-solid fa-chevron-right") }}</button>
+            {%- endif %}
+            </div>
+            {%- if count > 1 %}
+              <div class="pager__dots" aria-hidden="true" hidden>
+                {%- for asset in product.images %}<span></span>{% endfor -%}
+              </div>
+            {%- endif %}
 
             <div class="product__body">
               <h3>{{ product.title }}</h3>
@@ -146,4 +158,37 @@
       </div>
     </div>
   </section>
+
+  <script>
+    // Photo pager: one photo per page. The arrows and dots follow the scroll position.
+    document.querySelectorAll('.product').forEach(function (product) {
+      var dotsBox = product.querySelector('.pager__dots');
+      if (!dotsBox) return;
+      var track = product.querySelector('.product__media');
+      var prev = product.querySelector('.pager__arrow--prev');
+      var next = product.querySelector('.pager__arrow--next');
+      var dots = dotsBox.children;
+      var behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+      function show() {
+        var current = Math.round(track.scrollLeft / track.clientWidth);
+        for (var i = 0; i < dots.length; i++) {
+          dots[i].classList.toggle('is-current', i === current);
+        }
+        prev.disabled = current === 0;
+        next.disabled = current === dots.length - 1;
+      }
+
+      prev.addEventListener('click', function () {
+        track.scrollBy({ left: -track.clientWidth, behavior: behavior });
+      });
+      next.addEventListener('click', function () {
+        track.scrollBy({ left: track.clientWidth, behavior: behavior });
+      });
+      track.addEventListener('scroll', show, { passive: true });
+
+      prev.hidden = next.hidden = dotsBox.hidden = false;
+      show();
+    });
+  </script>
 {% endblock %}
