@@ -14,6 +14,7 @@
   {%- set seo_description = config.description -%}
   {%- if page -%}
     {%- set seo_title = page.title -%}
+    {%- set trail = page.ancestors -%}
     {%- if page.description -%}
       {%- set seo_description = page.description -%}
     {%- elif page.content -%}
@@ -23,6 +24,7 @@
     {%- endif -%}
   {%- elif section and section.path != "/" -%}
     {%- set seo_title = section.title -%}
+    {%- set trail = section.ancestors -%}
     {%- if section.description -%}
       {%- set seo_description = section.description -%}
     {%- endif -%}
@@ -48,8 +50,9 @@
   {%- if page and page.extra and page.extra.id and page.extra.id in ["company", "history", "products"] %}
     <meta http-equiv="Refresh" content="0; url='/'" />
   {%- elif current_url %}
-    <link rel="canonical" href="{{ current_url | safe }}">
-    <meta property="og:url" content="{{ current_url | safe }}">
+    {%- set page_url = current_url %}
+    <link rel="canonical" href="{{ page_url | safe }}">
+    <meta property="og:url" content="{{ page_url | safe }}">
   {%- else %}
     <meta name="robots" content="noindex">
   {%- endif %}
@@ -72,6 +75,78 @@
   {%- if config.extra.naver_site_verification %}
     <meta name="naver-site-verification" content="{{ config.extra.naver_site_verification }}">
   {%- endif %}
+
+  {#- The company and this page described for search engines (schema.org). The company
+      details are the same as in macros/site_footer.html; change both together. #}
+  {%- set home_url = get_url(path="/", trailing_slash=true) %}
+  {%- set org_id = home_url ~ "#organization" %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "{{ org_id | safe }}",
+        "name": "뮤온 주식회사",
+        "alternateName": ["뮤온", "Muon Corp.", "MUON"],
+        "url": "{{ home_url | safe }}",
+        "logo": "{{ get_url(path='images/MUON-Logo-Color.png') | safe }}",
+        "description": {{ config.description | json_encode() | safe }},
+        "foundingDate": "2019-10",
+        "telephone": "+82-2-2635-6789",
+        "email": "contact@muon.co",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "선유로3길 10, 608호",
+          "addressLocality": "영등포구",
+          "addressRegion": "서울특별시",
+          "addressCountry": "KR"
+        },
+        "sameAs": [
+          {%- for link in config.extra.menu.social %}
+          {{ link.url | json_encode() | safe }}{% if not loop.last %},{% endif %}
+          {%- endfor %}
+        ]
+      },
+      {
+        "@type": "WebSite",
+        "@id": "{{ home_url | safe }}#website",
+        "url": "{{ home_url | safe }}",
+        "name": {{ config.title | json_encode() | safe }},
+        "inLanguage": "ko-KR",
+        "publisher": { "@id": "{{ org_id | safe }}" }
+      }
+      {%- if page_url and page and page.date %},
+      {
+        "@type": "BlogPosting",
+        "@id": "{{ page_url | safe }}#article",
+        "mainEntityOfPage": "{{ page_url | safe }}",
+        "headline": {{ page.title | json_encode() | safe }},
+        "description": {{ seo_description | json_encode() | safe }},
+        "datePublished": "{{ page.date }}",
+        "dateModified": "{{ page.updated | default(value=page.date) }}",
+        "inLanguage": "ko-KR",
+        "image": "{{ get_url(path='images/og.jpg') | safe }}",
+        "author": { "@id": "{{ org_id | safe }}" },
+        "publisher": { "@id": "{{ org_id | safe }}" }
+      }
+      {%- endif %}
+      {%- if page_url and trail %},
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {%- for path in trail %}
+          {%- set parent = get_section(path=path) %}
+          { "@type": "ListItem", "position": {{ loop.index }}, "name": {% if loop.first %}{{ config.title | json_encode() | safe }}{% else %}{{ parent.title | json_encode() | safe }}{% endif %}, "item": "{{ parent.permalink | safe }}" },
+          {%- endfor %}
+          {%- set depth = trail | length %}
+          { "@type": "ListItem", "position": {{ depth + 1 }}, "name": {{ seo_title | json_encode() | safe }}, "item": "{{ page_url | safe }}" }
+        ]
+      }
+      {%- endif %}
+    ]
+  }
+  </script>
 
   <link rel="stylesheet" href="{{ get_url(path='site.css') }}">
   <link rel="icon" type="image/x-icon" href="{{ get_url(path='favicon.ico') }}">
