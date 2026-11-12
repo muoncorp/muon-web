@@ -496,9 +496,26 @@ main {
   cursor: pointer;
 }
 
+// Menu button for small screens: bars when closed, a cross when open.
 .nav-toggle {
   display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
   margin-inline-start: auto;
+  padding: 0;
+  border: 0;
+  font-size: var(--text-xl);
+}
+
+.nav-toggle__open,
+.nav-toggle[aria-expanded="true"] .nav-toggle__close {
+  display: inline-flex;
+}
+
+.nav-toggle__close,
+.nav-toggle[aria-expanded="true"] .nav-toggle__open {
+  display: none;
 }
 
 .theme-toggle {
@@ -526,11 +543,11 @@ main {
 }
 
 @media (max-width: 60rem) {
-  .nav-toggle {
-    display: block;
+  // Without scripting the menu stays open under the bar and needs no button.
+  .js .nav-toggle {
+    display: inline-flex;
   }
 
-  // Without scripting the menu stays open under the bar.
   .site-nav {
     flex: 0 0 100%;
     flex-direction: column;
