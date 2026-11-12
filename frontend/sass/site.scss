@@ -1,0 +1,591 @@
+@charset "utf-8";
+
+// Stylesheet for the redesigned pages. Pages that still extend base.html
+// keep using style.scss (Bulma).
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: local("Pretendard Regular"), url("/fonts/Pretendard-Regular.subset.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: local("Pretendard SemiBold"), url("/fonts/Pretendard-SemiBold.subset.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: local("Pretendard Bold"), url("/fonts/Pretendard-Bold.subset.woff2") format("woff2");
+}
+
+// ---------------------------------------------------------------------------
+// Tokens. Every color and font below this block goes through a variable.
+// ---------------------------------------------------------------------------
+
+:root {
+  // Brand colors: muon-ci colors/color.js, plus the blue of the logo mark.
+  --ci-navy: #022c4c;
+  --ci-paper: #fdfdfd;
+  --ci-pale: #b5c3d9;
+  --ci-yellow: #ffd012;
+  --ci-blue: #2c89f3;
+
+  --color-paper: var(--ci-paper);
+  --color-paper-2: color-mix(in oklab, var(--ci-pale) 15%, var(--ci-paper));
+  --color-paper-3: color-mix(in oklab, var(--ci-pale) 40%, var(--ci-paper));
+  --color-ink: var(--ci-navy);
+  --color-ink-2: color-mix(in oklab, var(--ci-navy) 85%, var(--ci-paper));
+  --color-muted: color-mix(in oklab, var(--ci-navy) 70%, var(--ci-paper));
+  --color-rule: var(--ci-pale);
+  --color-focus: var(--ci-navy);
+
+  // Navy surfaces: header, footer, the ODM panel.
+  --color-dark: var(--ci-navy);
+  --color-dark-2: color-mix(in oklab, var(--ci-paper) 10%, var(--ci-navy));
+  --color-on-dark: var(--ci-paper);
+  --color-on-dark-2: var(--ci-pale);
+
+  // Accent, yellow set (default). The blue set is further down.
+  --color-accent: var(--ci-yellow);
+  --color-accent-ink: var(--ci-navy);
+  --color-accent-edge: var(--ci-navy);
+  --color-accent-on-dark: var(--ci-yellow);
+
+  --font-body: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-display: var(--font-body);
+
+  --space-3xs: 2px;
+  --space-2xs: 4px;
+  --space-xs: 8px;
+  --space-sm: 12px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+  --space-4xl: 144px;
+
+  --text-sm: 0.875rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-display: clamp(2.75rem, 4vw + 1rem, 4.5rem);
+  --text-section: clamp(2rem, 2.5vw + 1rem, 3.5rem);
+  --text-title: clamp(1.25rem, 0.75vw + 0.875rem, 1.625rem);
+  --text-lead: clamp(1.125rem, 0.35vw + 1rem, 1.375rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 120ms;
+
+  --container: 1440px;
+  --gutter: 64px;
+  --gap-columns: 32px;
+  --section-gap-s: 120px;
+  --section-gap: 144px;
+  --section-gap-l: 176px;
+  --header-h: 72px;
+
+  --radius: 4px;
+  --rule-hair: 1px;
+
+  --z-dropdown: 100;
+  --z-sticky-nav: 300;
+  --z-skip: 500;
+}
+
+:root[data-accent="blue"] {
+  // The mark's blue is too light for text on paper, so fills use a darker mix.
+  --color-accent: color-mix(in oklab, var(--ci-blue) 78%, var(--ci-navy));
+  --color-accent-ink: var(--ci-paper);
+  --color-accent-edge: var(--color-accent);
+  --color-accent-on-dark: var(--ci-blue);
+}
+
+// Dark set. Defined for later, not applied by default and not verified yet.
+:root[data-theme="dark"] {
+  --color-paper: var(--ci-navy);
+  --color-paper-2: color-mix(in oklab, var(--ci-paper) 8%, var(--ci-navy));
+  --color-paper-3: color-mix(in oklab, var(--ci-paper) 16%, var(--ci-navy));
+  --color-ink: var(--ci-paper);
+  --color-ink-2: var(--ci-pale);
+  --color-muted: color-mix(in oklab, var(--ci-pale) 80%, var(--ci-navy));
+  --color-rule: color-mix(in oklab, var(--ci-pale) 35%, var(--ci-navy));
+  --color-focus: var(--ci-paper);
+  --color-dark: color-mix(in oklab, var(--ci-paper) 6%, var(--ci-navy));
+}
+
+@media (max-width: 60rem) {
+  :root {
+    --gutter: 24px;
+    --section-gap-s: 80px;
+    --section-gap: 96px;
+    --section-gap-l: 120px;
+    --header-h: 64px;
+  }
+}
+
+@media (max-width: 40rem) {
+  :root {
+    --gutter: 16px;
+    --gap-columns: 16px;
+    --section-gap-s: 56px;
+    --section-gap: 72px;
+    --section-gap-l: 96px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Base
+// ---------------------------------------------------------------------------
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--header-h) + var(--space-lg));
+  scrollbar-color: var(--color-muted) var(--color-paper);
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  caret-color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--color-paper-3);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  min-width: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-synthesis: none;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-display);
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: var(--text-section);
+}
+
+h3 {
+  font-size: var(--text-title);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.lead {
+  max-width: 34em;
+  color: var(--color-ink-2);
+  font-size: var(--text-lead);
+  line-height: 1.5;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--space-xs);
+  left: var(--space-xs);
+  z-index: var(--z-skip);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 var(--space-lg);
+  border: 2px solid var(--color-accent-edge);
+  border-radius: var(--radius);
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+}
+
+.button:hover {
+  border-color: var(--color-ink);
+  background: var(--color-ink);
+  color: var(--color-paper);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+// ---------------------------------------------------------------------------
+// Header
+// ---------------------------------------------------------------------------
+
+.site-header {
+  --color-focus: var(--color-on-dark);
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky-nav);
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+}
+
+.site-header__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--space-xl);
+  min-height: var(--header-h);
+}
+
+.site-logo {
+  display: block;
+  flex: none;
+}
+
+.site-logo img {
+  width: auto;
+  height: 40px;
+}
+
+.site-nav {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-xl);
+  min-width: 0;
+}
+
+.site-nav__list {
+  display: flex;
+  gap: var(--space-lg);
+}
+
+.site-nav__item {
+  position: relative;
+}
+
+.site-nav__link {
+  display: flex;
+  align-items: center;
+  min-height: var(--header-h);
+  padding-inline: var(--space-xs);
+  color: var(--color-on-dark-2);
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+.site-nav__link:hover,
+.site-nav__link[aria-current="page"] {
+  color: var(--color-on-dark);
+}
+
+.site-nav__link[aria-current="page"] {
+  box-shadow: inset 0 -3px 0 var(--color-accent-on-dark);
+}
+
+.site-nav__sub {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: calc(var(--space-xs) * -1);
+  z-index: var(--z-dropdown);
+  min-width: 11rem;
+  padding: var(--space-xs);
+  border-radius: 0 0 var(--radius) var(--radius);
+  background: var(--color-dark-2);
+}
+
+.site-nav__item:hover > .site-nav__sub,
+.site-nav__item:focus-within > .site-nav__sub {
+  display: block;
+}
+
+.site-nav__sub a {
+  display: block;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius);
+  color: var(--color-on-dark);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.site-nav__sub a:hover {
+  background: var(--color-dark);
+}
+
+.site-search {
+  margin-inline-start: auto;
+}
+
+.site-search input {
+  width: 12rem;
+  height: 44px;
+  padding: 0 var(--space-md);
+  border: 1px solid var(--color-on-dark-2);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--color-on-dark);
+}
+
+.site-search input::placeholder {
+  color: var(--color-on-dark-2);
+  opacity: 1;
+}
+
+.site-nav__social {
+  display: flex;
+  gap: var(--space-md);
+  font-size: var(--text-sm);
+}
+
+.site-nav__social a {
+  color: var(--color-on-dark-2);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+.site-nav__social a:hover {
+  color: var(--color-on-dark);
+}
+
+.nav-toggle {
+  display: none;
+  height: 44px;
+  margin-inline-start: auto;
+  padding: 0 var(--space-md);
+  border: 1px solid var(--color-on-dark-2);
+  border-radius: var(--radius);
+  background: transparent;
+  color: var(--color-on-dark);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 60rem) {
+  .nav-toggle {
+    display: block;
+  }
+
+  // Without scripting the menu stays open under the bar.
+  .site-nav {
+    flex: 0 0 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-md);
+    padding-block: var(--space-xs) var(--space-lg);
+  }
+
+  .js .nav-toggle[aria-expanded="false"] + .site-nav {
+    display: none;
+  }
+
+  .site-nav__list {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .site-nav__link {
+    min-height: 48px;
+    padding-inline: 0;
+  }
+
+  .site-nav__link[aria-current="page"] {
+    box-shadow: inset 3px 0 0 var(--color-accent-on-dark);
+    padding-inline-start: var(--space-sm);
+  }
+
+  .site-nav__sub {
+    display: flex;
+    flex-wrap: wrap;
+    position: static;
+    padding: 0 0 var(--space-xs);
+    background: none;
+  }
+
+  .site-search {
+    margin-inline-start: 0;
+  }
+
+  .site-search input {
+    width: 100%;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Footer
+// ---------------------------------------------------------------------------
+
+.site-footer {
+  --color-focus: var(--color-on-dark);
+  margin-block-start: var(--section-gap);
+  padding-block: var(--space-3xl) var(--space-2xl);
+  background: var(--color-dark);
+  color: var(--color-on-dark-2);
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: var(--space-2xl) var(--gap-columns);
+  align-items: start;
+}
+
+.site-footer__logo {
+  width: auto;
+  height: 72px;
+}
+
+.site-footer address {
+  display: grid;
+  gap: var(--space-2xs);
+  color: var(--color-on-dark);
+  font-style: normal;
+}
+
+.site-footer__legal {
+  grid-column: 1 / -1;
+  padding-block-start: var(--space-lg);
+  border-top: var(--rule-hair) solid var(--color-dark-2);
+  font-size: var(--text-sm);
+}
+
+@media (max-width: 60rem) {
+  .site-footer__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .site-footer__logo {
+    height: 56px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Search results (js/search.js writes them into <main>)
+// ---------------------------------------------------------------------------
+
+#main > .title,
+#main > .list-group {
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+#main > .title {
+  padding-block: var(--space-2xl) var(--space-lg);
+  font-size: var(--text-title);
+}
+
+.list-group-item {
+  padding-block: var(--space-md);
+  border-top: var(--rule-hair) solid var(--color-rule);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}

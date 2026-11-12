@@ -1,0 +1,57 @@
+{#- Base layout for the redesigned pages. Pages not migrated yet extend base.html. -#}
+{%- import 'macros/site_header.html' as site_header -%}
+{%- import 'macros/site_footer.html' as site_footer -%}
+<!DOCTYPE html>
+<html lang="ko-KR" data-accent="{{ config.extra.accent | default(value='yellow') }}">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{{ config.description }}">
+  <title>
+    {%- if section.title -%}
+      {{ section.title }} | {{ config.title }}
+    {%- elif page.title -%}
+      {{ page.title }} | {{ config.title }}
+    {%- else -%}
+      {{ config.title }}
+    {%- endif -%}
+  </title>
+  <link rel="stylesheet" href="{{ get_url(path='site.css') }}">
+  <link rel="icon" type="image/x-icon" href="{{ get_url(path='favicon.ico') }}">
+  <script>document.documentElement.classList.add('js')</script>
+  {%- if config.build_search_index %}
+    <script defer src="{{ get_url(path='elasticlunr.min.js') }}"></script>
+    <script defer src="{{ get_url(path='search_index.en.js') }}"></script>
+  {% endif %}
+  <script defer src="{{ get_url(path='js/search.js') }}"></script>
+</head>
+
+<body>
+  <a class="skip-link" href="#main">본문으로 건너뛰기</a>
+
+  {% block header %}
+    {{ site_header::header(current_section="business") }}
+  {% endblock %}
+
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% block footer %}
+    {{ site_footer::footer() }}
+  {% endblock %}
+
+  <script>
+    (function () {
+      var toggle = document.querySelector('.nav-toggle');
+      if (!toggle) return;
+      toggle.addEventListener('click', function () {
+        var open = toggle.getAttribute('aria-expanded') === 'true';
+        toggle.setAttribute('aria-expanded', String(!open));
+      });
+    })();
+  </script>
+</body>
+
+</html>

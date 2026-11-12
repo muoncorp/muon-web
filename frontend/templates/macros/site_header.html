@@ -1,0 +1,55 @@
+{% macro logo_url() -%}
+  {%- if config.extra.accent and config.extra.accent == "blue" -%}
+    {{ get_url(path='/images/muon-logo-color.svg') }}
+  {%- else -%}
+    {{ get_url(path='/images/muon-logo-white.svg') }}
+  {%- endif -%}
+{%- endmacro %}
+
+{% macro header(current_section) %}
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="site-logo" href="{{ get_url(path='#', trailing_slash=false) }}">
+      <img src="{{ self::logo_url() }}" alt="MUON" width="87" height="40">
+    </a>
+
+    <button class="nav-toggle" type="button" aria-controls="navMenu" aria-expanded="false">메뉴</button>
+
+    <nav id="navMenu" class="site-nav" aria-label="주 메뉴">
+      {%- if config.extra.menu.nav %}
+        <ul class="site-nav__list">
+          {%- for item in config.extra.menu.nav %}
+            <li class="site-nav__item">
+              <a class="site-nav__link" href="{{ get_url(path=item.url, trailing_slash=false) | safe }}"{% if current_section == item.section %} aria-current="page"{% endif %}>
+                {{- item.name -}}
+              </a>
+              {%- if item.subitems %}
+                <ul class="site-nav__sub">
+                  {%- for subitem in item.subitems %}
+                    <li><a href="{{ get_url(path=subitem.href, trailing_slash=false) }}">{{ subitem.name }}</a></li>
+                  {%- endfor %}
+                </ul>
+              {%- endif %}
+            </li>
+          {%- endfor %}
+        </ul>
+      {%- endif %}
+
+      {%- if config.build_search_index %}
+        <form class="site-search" role="search" onsubmit="return goSearch(event)">
+          <label class="visually-hidden" for="site-search-input">{{ config.extra.search }}</label>
+          <input id="site-search-input" type="text" placeholder="{{ config.extra.search }}">
+        </form>
+      {%- endif %}
+
+      {%- if config.extra.menu.social %}
+        <ul class="site-nav__social">
+          {%- for val in config.extra.menu.social %}
+            <li><a href="{{ val.url }}">{{ val.name }}</a></li>
+          {%- endfor %}
+        </ul>
+      {%- endif %}
+    </nav>
+  </div>
+</header>
+{% endmacro %}
