@@ -112,6 +112,15 @@
         var open = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!open));
       });
+
+      // On small screens the search field is inside the menu. Close the menu
+      // on submit so the results are not hidden behind it.
+      var search = document.querySelector('.site-search');
+      if (search) {
+        search.addEventListener('submit', function () {
+          toggle.setAttribute('aria-expanded', 'false');
+        });
+      }
     })();
 
     (function () {
