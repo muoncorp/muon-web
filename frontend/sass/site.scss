@@ -64,6 +64,7 @@
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-micro: 120ms;
+  --dur-short: 200ms;
 
   --container: 1440px;
   --gutter: 64px;
@@ -357,9 +358,12 @@ main {
   min-height: var(--header-h);
 }
 
+// As tall as the header, so the top row keeps its height when the menu wraps under it.
 .site-logo {
-  display: block;
+  display: flex;
   flex: none;
+  align-items: center;
+  height: var(--header-h);
 }
 
 .site-logo img {
@@ -556,6 +560,19 @@ main {
     padding-block: var(--space-xs) var(--space-lg);
   }
 
+  // With scripting the menu opens over the page, so nothing below it moves.
+  .js .site-nav {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    max-height: calc(100dvh - var(--header-h));
+    padding-inline: var(--gutter);
+    overflow-y: auto;
+    background: var(--color-dark);
+    animation: menu-in var(--dur-short) var(--ease-out);
+  }
+
   .js .nav-toggle[aria-expanded="false"] + .site-nav {
     display: none;
   }
@@ -671,6 +688,13 @@ main {
   border-top: var(--rule-hair) solid var(--color-rule);
 }
 
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(calc(var(--space-xs) * -1));
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -679,6 +703,7 @@ main {
   *,
   *::before,
   *::after {
+    animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
 }
