@@ -39,6 +39,7 @@
 
   --font-body: "Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
   --font-display: var(--font-body);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --space-3xs: 2px;
   --space-2xs: 4px;
@@ -54,6 +55,7 @@
   --text-sm: 0.875rem;
   --text-md: 1rem;
   --text-lg: 1.25rem;
+  --text-xl: 1.75rem;
   --text-display: clamp(2.75rem, 4vw + 1rem, 4.5rem);
   --text-section: clamp(2rem, 2.5vw + 1rem, 3.5rem);
   --text-title: clamp(1.25rem, 0.75vw + 0.875rem, 1.625rem);
@@ -923,5 +925,202 @@ input {
   .rows__row {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-xs);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Other pages: page head, text content
+// ---------------------------------------------------------------------------
+
+.page-head {
+  padding-block-start: var(--space-3xl);
+}
+
+.page-head + .section {
+  padding-block-start: var(--space-2xl);
+}
+
+// Section title on the left, content on the right.
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: var(--space-xl) var(--gap-columns);
+  align-items: start;
+}
+
+// Text that comes from markdown.
+.prose {
+  max-width: 46rem;
+}
+
+.prose > * + * {
+  margin-block-start: var(--space-md);
+}
+
+.prose h2 {
+  margin-block-start: var(--space-2xl);
+  font-size: var(--text-xl);
+}
+
+.prose h3 {
+  margin-block-start: var(--space-xl);
+}
+
+.prose h3:first-child {
+  margin-block-start: 0;
+}
+
+.prose h4 {
+  margin: var(--space-lg) 0 0;
+  font-size: var(--text-lg);
+}
+
+.prose small {
+  color: var(--color-ink-2);
+  font-size: var(--text-md);
+  font-weight: 400;
+}
+
+.prose ul,
+.prose ol {
+  padding-inline-start: var(--space-lg);
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li + li {
+  margin-block-start: var(--space-xs);
+}
+
+.prose blockquote {
+  margin-inline: 0;
+  padding-inline-start: var(--space-md);
+  border-inline-start: 2px solid var(--color-rule);
+  color: var(--color-ink-2);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+}
+
+.prose :not(pre) > code {
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius: var(--radius);
+  background: var(--color-paper-2);
+}
+
+.prose pre {
+  padding: var(--space-md);
+  overflow-x: auto;
+  border-radius: var(--radius);
+  background: var(--color-paper-2);
+  line-height: 1.5;
+  word-break: normal;
+}
+
+.prose img,
+.prose video {
+  border-radius: var(--radius);
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.prose th,
+.prose td {
+  padding: var(--space-xs) var(--space-sm);
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+  text-align: start;
+}
+
+// Label and value pairs: address, phone.
+.facts {
+  display: grid;
+  gap: var(--space-md);
+  margin: var(--space-lg) 0 0;
+}
+
+.facts > div {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: var(--space-md);
+  padding-block-start: var(--space-md);
+  border-top: var(--rule-hair) solid var(--color-rule);
+}
+
+.facts dt {
+  color: var(--color-muted);
+}
+
+.facts dd {
+  margin: 0;
+  font-size: var(--text-lg);
+}
+
+// ---------------------------------------------------------------------------
+// About
+// ---------------------------------------------------------------------------
+
+// The history page is written with Bulma timeline markup; these rules style
+// the same class names.
+.timeline {
+  display: grid;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 6rem minmax(0, 1fr);
+  gap: var(--space-md);
+  padding-block: var(--space-sm);
+  border-top: var(--rule-hair) solid var(--color-rule);
+}
+
+.timeline-marker {
+  display: none;
+}
+
+.timeline-content {
+  display: contents;
+}
+
+.timeline-content .heading {
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.timeline-header {
+  padding-block: var(--space-md) var(--space-xl);
+  border-top: 2px solid var(--color-ink);
+  font-size: var(--text-title);
+  font-weight: 700;
+}
+
+.location h3 {
+  margin-block-start: var(--space-xl);
+}
+
+.map {
+  width: 100%;
+  height: 400px;
+  border-radius: var(--radius);
+  background: var(--color-paper-2);
+}
+
+@media (max-width: 60rem) {
+  .page-head {
+    padding-block-start: var(--space-2xl);
+  }
+
+  .split {
+    grid-template-columns: minmax(0, 1fr);
   }
 }

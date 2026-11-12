@@ -1,65 +1,60 @@
-{% extends "base.html" %}
+{% extends "site.html" %}
 
 {% block header %}
-  {% set current_section = "about" %}
-  {{ macros_header::header(current_section=current_section) }}
-{% endblock %}
-
-{% block banner %}
-  {{ macros_banner::banner(title=section.extra.banner_title, background_class=section.extra.banner_background_class) }}
+  {{ site_header::header(current_section="about") }}
 {% endblock %}
 
 {% block content %}
-  {% for page in section.pages %}
-    <section {% if page.extra.id %}id="{{ page.extra.id }}"{% endif %} class="mb-4">
-      {{ macros_title::title(title=page.title)}}
-      <div class="message{% if loop.index % 2 == 0 %}{{ ' is-primary' }}{% else %}{{ ' is-info' }}{% endif %}">
-        <div class="message-body has-background-white">
+  <div class="page-head">
+    <div class="container">
+      <h1>{{ section.extra.banner_title }}</h1>
+    </div>
+  </div>
+
+  {%- for page in section.pages %}
+    <section {% if page.extra.id %}id="{{ page.extra.id }}" {% endif %}class="section">
+      <div class="container split">
+        <h2>{{ page.title }}</h2>
+        <div class="prose">
           {{ page.content | safe }}
         </div>
       </div>
     </section>
-  {% endfor %}
+  {%- endfor %}
 
-  <section id="location">
-    {{ macros_title::title(title='회사 위치')}}
-    <div id="map" style="width: 100%; height: 400px;">
+  <section id="location" class="section">
+    <div class="container split">
+      <h2>회사 위치</h2>
+      <div class="location">
+        <div id="map" class="map"></div>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eac01bf5a5df194022422e3e97fa2d93"></script>
+        <script>
+          const container = document.getElementById('map');
+          const options = {
+            center: new window.kakao.maps.LatLng(37.515998, 126.886775),
+            level: 3
+          };
+          const map = new window.kakao.maps.Map(container, options);
+          const markerPosition = new window.kakao.maps.LatLng(37.515998, 126.886775)
+          const marker = new window.kakao.maps.Marker({
+            map,
+            position: markerPosition,
+            title: "뮤온(주)"
+          })
+        </script>
+
+        <h3>찾아 오시는 길</h3>
+        <dl class="facts">
+          <div>
+            <dt>주소</dt>
+            <dd>서울특별시 영등포구 선유로3길 10, 608호 (문래동5가)</dd>
+          </div>
+          <div>
+            <dt>지하철</dt>
+            <dd>2호선 문래역 1번 출구에서 도보로 10분 거리</dd>
+          </div>
+        </dl>
+      </div>
     </div>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eac01bf5a5df194022422e3e97fa2d93"></script>
-    <script>
-      const container = document.getElementById('map');
-      const options = {
-        center: new window.kakao.maps.LatLng(37.515998, 126.886775),
-        level: 3
-      };
-      const map = new window.kakao.maps.Map(container, options);
-      const markerPosition = new window.kakao.maps.LatLng(37.515998, 126.886775)
-      const marker = new window.kakao.maps.Marker({
-        map,
-        position: markerPosition,
-        title: "뮤온(주)"
-      })
-    </script>
-    <h5 class="title is-5 mt-4">
-      찾아 오시는 길
-    </h5>
-    <span class="icon-text">
-      <span class="icon">
-        <i class="fa fa-map-marker"></i>
-      </span>
-      <span class="has-text-weight-semibold">주소</span>
-    </span>
-    <p>
-      서울특별시 영등포구 선유로3길 10, 608호 (문래동5가)
-    </p>
-    <span class="icon-text">
-      <span class="icon">
-        <i class="fa fa-subway"></i>
-      </span>
-      <span class="has-text-weight-semibold">지하철</span>
-    </span>
-    <p>
-      2호선 문래역 1번 출구에서 도보로 10분 거리
-    </p>
   </section>
 {% endblock %}
