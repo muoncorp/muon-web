@@ -865,7 +865,7 @@ main {
   font-size: var(--text-lg);
 }
 
-// Technology: head on the left, one row per group on the right.
+// Technology: head on the left, the four groups on the right.
 .rows {
   display: grid;
   grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
@@ -877,17 +877,19 @@ main {
   margin-block-end: 0;
 }
 
+// Four groups, two across. Each one is a name over a plain list.
 .rows__list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xl) var(--gap-columns);
   margin: 0;
-  border-bottom: var(--rule-hair) solid var(--color-rule);
 }
 
 .rows__row {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 5fr);
-  gap: var(--gap-columns);
-  align-items: baseline;
-  padding-block: var(--space-lg);
+  gap: var(--space-sm);
+  align-content: start;
+  padding-block-start: var(--space-md);
   border-top: var(--rule-hair) solid var(--color-rule);
 }
 
@@ -900,22 +902,11 @@ main {
   margin: 0;
 }
 
-// Items are parted by a hairline. The list is pulled left and clipped so
-// the first item on each line shows no line.
 .rows__row ul {
-  display: flex;
-  flex-wrap: wrap;
-  row-gap: var(--space-xs);
-  margin-inline-start: calc(var(--space-md) * -1);
-  overflow: hidden;
+  display: grid;
+  gap: var(--space-2xs);
   color: var(--color-ink-2);
   font-size: var(--text-lg);
-}
-
-.rows__row li {
-  margin-inline-start: calc(var(--rule-hair) * -1);
-  padding-inline: var(--space-md);
-  border-inline-start: var(--rule-hair) solid var(--color-muted);
 }
 
 // Products: the first one leads, the rest sit two across.
@@ -1050,9 +1041,16 @@ main {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .rows__row {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-xs);
+  .rows__list {
+    row-gap: var(--space-lg);
+  }
+
+  .rows__row dt {
+    font-size: var(--text-lg);
+  }
+
+  .rows__row ul {
+    font-size: var(--text-md);
   }
 }
 
