@@ -1,8 +1,6 @@
 # Design notes
 
-Notes for the redesigned pages. Home is done, the rest still use Bulma.
-
-Tokens live in `frontend/sass/site.scss`. If you change something there, update this file too.
+Every page uses this design now. Tokens live in `frontend/sass/site.scss`. If you change something there, update this file too.
 
 ## Colors
 
@@ -52,10 +50,8 @@ Sizes at 1440px: h1 72, h2 52, h3 25, lead 21, body 16.
 - Real product photos with alt text only.
 - Product photos link to the original file, the video plays in place.
 
-## Moving another page over
+## Old files
 
-1. `{% extends "base.html" %}` -> `{% extends "site.html" %}`
-2. Swap Bulma classes for the ones in `site.scss`. Add what's missing.
-3. Build and check the pages you didn't touch.
+`base.html`, `style.scss`, the old macros and the Bulma, Font Awesome and carousel files are still in the repo. No page loads them. Delete them once the new pages are live.
 
-Remove Bulma, Font Awesome and the carousel after all pages are moved.
+The history page content still has Bulma timeline class names. `site.scss` styles those names, so keep them if you edit the content.
