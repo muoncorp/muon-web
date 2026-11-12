@@ -121,6 +121,14 @@
           toggle.setAttribute('aria-expanded', 'false');
         });
       }
+
+      // A link to a section of the same page does not reload it, so close the menu by hand.
+      var menu = document.getElementById('navMenu');
+      if (menu) {
+        menu.addEventListener('click', function (event) {
+          if (event.target.closest('a')) toggle.setAttribute('aria-expanded', 'false');
+        });
+      }
     })();
 
     (function () {
