@@ -164,7 +164,12 @@ html {
   scrollbar-color: var(--color-muted) var(--color-paper);
 }
 
+// The page is at least one screen tall and <main> takes the spare room,
+// so the footer stays at the bottom on short pages such as search results.
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
   margin: 0;
   background: var(--color-paper);
   color: var(--color-ink);
@@ -244,6 +249,10 @@ video {
 button,
 input {
   font: inherit;
+}
+
+main {
+  flex: 1 0 auto;
 }
 
 .container {
