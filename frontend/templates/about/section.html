@@ -29,18 +29,21 @@
         <div id="map" class="map"></div>
         <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eac01bf5a5df194022422e3e97fa2d93"></script>
         <script>
-          const container = document.getElementById('map');
-          const options = {
-            center: new window.kakao.maps.LatLng(37.515998, 126.886775),
-            level: 3
-          };
-          const map = new window.kakao.maps.Map(container, options);
-          const markerPosition = new window.kakao.maps.LatLng(37.515998, 126.886775)
-          const marker = new window.kakao.maps.Marker({
-            map,
-            position: markerPosition,
-            title: "뮤온(주)"
-          })
+          // The SDK only loads on the registered domain, so skip the map when it is missing.
+          if (window.kakao && window.kakao.maps) {
+            const container = document.getElementById('map');
+            const options = {
+              center: new window.kakao.maps.LatLng(37.515998, 126.886775),
+              level: 3
+            };
+            const map = new window.kakao.maps.Map(container, options);
+            const markerPosition = new window.kakao.maps.LatLng(37.515998, 126.886775)
+            const marker = new window.kakao.maps.Marker({
+              map,
+              position: markerPosition,
+              title: "뮤온(주)"
+            })
+          }
         </script>
 
         <h3>찾아 오시는 길</h3>
