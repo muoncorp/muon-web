@@ -1098,6 +1098,17 @@ main {
   right: var(--space-sm);
 }
 
+// Which photo of how many, under the photo.
+.lightbox__count {
+  position: absolute;
+  bottom: var(--space-md);
+  left: 50%;
+  margin: 0;
+  color: var(--color-on-dark);
+  font-variant-numeric: tabular-nums;
+  transform: translateX(-50%);
+}
+
 .lightbox__close:hover,
 .lightbox__arrow:hover {
   color: var(--color-accent-on-dark);

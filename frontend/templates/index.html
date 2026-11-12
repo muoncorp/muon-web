@@ -166,6 +166,7 @@
     <button class="lightbox__arrow lightbox__arrow--prev" type="button" aria-label="이전 사진" hidden>{{ site_header::icon(fa="fa-solid fa-chevron-left") }}</button>
     <button class="lightbox__arrow lightbox__arrow--next" type="button" aria-label="다음 사진" hidden>{{ site_header::icon(fa="fa-solid fa-chevron-right") }}</button>
     <img alt="">
+    <p class="lightbox__count" aria-live="polite" hidden></p>
   </dialog>
 
   <script>
@@ -205,6 +206,7 @@
     if (lightbox.showModal) {
       var photo = lightbox.querySelector('img');
       var arrows = lightbox.querySelectorAll('.lightbox__arrow');
+      var count = lightbox.querySelector('.lightbox__count');
       var root = document.documentElement;
       var group = [];
       var index = 0;
@@ -214,6 +216,7 @@
         index = i;
         photo.src = group[i].dataset.full;
         photo.alt = group[i].querySelector('img').alt;
+        count.textContent = (i + 1) + ' / ' + group.length;
       }
 
       // Moves through the photos of the same product. After the last one comes the first.
@@ -226,7 +229,7 @@
           if (event.metaKey || event.ctrlKey || event.shiftKey) return;
           event.preventDefault();
           group = Array.prototype.slice.call(link.parentNode.querySelectorAll('a'));
-          arrows[0].hidden = arrows[1].hidden = group.length < 2;
+          arrows[0].hidden = arrows[1].hidden = count.hidden = group.length < 2;
           showPhoto(group.indexOf(link));
           // Stop the page behind from scrolling, and keep the scrollbar's width so nothing moves.
           root.style.paddingRight = (window.innerWidth - root.clientWidth) + 'px';
