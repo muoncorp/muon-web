@@ -17,8 +17,8 @@
 
       {#- Three product photos in the shape of the logo mark. -#}
       <div class="hero__mark">
-        {%- set shots = ["MUON-SBC-7.jpg", "io-board.jpg", "ai-camera.jpg"] -%}
-        {%- set shot_alts = ["Smart Touch Controller", "Arcade Game Machine IO Board", "AI Camera Board"] -%}
+        {%- set shots = ["io-board.jpg", "ai-camera.jpg", "MUON-SBC-7.jpg"] -%}
+        {%- set shot_alts = ["Arcade Game Machine IO Board", "AI Camera Board", "Smart Touch Controller"] -%}
         {%- for shot in shots %}
           {%- set tiny = resize_image(path="images/products/" ~ shot, height=380, op="fit_height", format="webp", quality=80) %}
           {%- set small = resize_image(path="images/products/" ~ shot, height=600, op="fit_height", format="webp", quality=80) %}

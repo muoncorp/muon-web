@@ -236,6 +236,10 @@ input {
   line-height: 1.5;
 }
 
+.nowrap {
+  white-space: nowrap;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -621,7 +625,7 @@ input {
 }
 
 // The camera photo holds two boards side by side; show the right one.
-.hero__mark img:nth-child(3) {
+.hero__mark img:nth-child(2) {
   object-position: 78% 50%;
 }
 
@@ -671,10 +675,16 @@ input {
   grid-template-columns: minmax(0, 2fr) minmax(0, 10fr);
   gap: var(--gap-columns);
   align-items: start;
-  padding: var(--space-xl);
+  padding: var(--space-2xl) var(--space-xl);
   border-radius: var(--radius);
   background: var(--color-dark);
   color: var(--color-on-dark);
+}
+
+.process h3 {
+  font-size: var(--text-section);
+  font-weight: 700;
+  line-height: 1.1;
 }
 
 .process__steps {
@@ -689,7 +699,7 @@ input {
   padding-block-start: var(--space-md);
   padding-inline-end: var(--space-md);
   border-top: 2px solid var(--color-on-dark-2);
-  font-size: var(--text-lg);
+  font-size: var(--text-title);
   font-weight: 600;
   counter-increment: step;
 }
@@ -697,10 +707,10 @@ input {
 .process__steps li::before {
   content: counter(step);
   color: var(--color-accent-on-dark);
-  font-size: var(--text-title);
+  font-size: var(--text-section);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-  line-height: 1.2;
+  line-height: 1.1;
 }
 
 .fields {
@@ -760,12 +770,22 @@ input {
   margin: 0;
 }
 
+// Items are parted by a hairline. The list is pulled left and clipped so
+// the first item on each line shows no line.
 .rows__row ul {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs) var(--space-lg);
+  row-gap: var(--space-xs);
+  margin-inline-start: calc(var(--space-md) * -1);
+  overflow: hidden;
   color: var(--color-ink-2);
   font-size: var(--text-lg);
+}
+
+.rows__row li {
+  margin-inline-start: calc(var(--rule-hair) * -1);
+  padding-inline: var(--space-md);
+  border-inline-start: var(--rule-hair) solid var(--color-muted);
 }
 
 // Products: the first one leads, the rest sit two across.
@@ -783,9 +803,6 @@ input {
 
 .product--lead {
   grid-column: 1 / -1;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: var(--gap-columns);
-  align-items: center;
 }
 
 // A product with several photos scrolls sideways; the next photo shows at the edge.
@@ -805,7 +822,7 @@ input {
 }
 
 .product__media[tabindex] > * {
-  flex-basis: 88%;
+  flex-basis: 75%;
 }
 
 .product__media:focus-visible,
@@ -832,8 +849,24 @@ input {
   align-content: start;
 }
 
-.product--lead .product__body {
-  padding-inline-start: var(--space-xl);
+// On wide screens the first product shows its photos side by side.
+@media (min-width: 60rem) {
+  .product--lead .product__media {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap-columns);
+    overflow: visible;
+  }
+
+  .product--lead .product__body {
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--gap-columns);
+  }
+
+  .product--lead .product__features {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--gap-columns);
+  }
 }
 
 .product__features {
@@ -880,14 +913,6 @@ input {
     gap: var(--space-2xl);
   }
 
-  .product--lead {
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-lg);
-  }
-
-  .product--lead .product__body {
-    padding-inline-start: 0;
-  }
 }
 
 @media (max-width: 40rem) {
