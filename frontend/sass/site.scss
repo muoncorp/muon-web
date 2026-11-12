@@ -9,6 +9,8 @@
 
 :root {
   // Brand colors: muon-ci colors/color.js, plus the blue of the logo mark.
+  color-scheme: light;
+
   --ci-navy: #022c4c;
   --ci-paper: #fdfdfd;
   --ci-pale: #b5c3d9;
@@ -87,7 +89,7 @@
   --color-accent-on-dark: var(--ci-blue);
 }
 
-// Dark set. Off by default; extra.theme in config.toml turns it on.
+// Dark set. Used when the theme is "dark", or "auto" on a dark OS setting.
 @mixin dark-tokens {
   color-scheme: dark;
 
@@ -253,6 +255,10 @@ input {
   white-space: nowrap;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -306,6 +312,7 @@ input {
 
 .button[aria-disabled="true"],
 .nav-toggle:disabled,
+.theme-toggle:disabled,
 .site-search input:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -446,17 +453,31 @@ input {
   color: var(--color-on-dark);
 }
 
-.nav-toggle {
-  display: none;
+.nav-toggle,
+.theme-toggle {
   height: 44px;
-  margin-inline-start: auto;
   padding: 0 var(--space-md);
   border: 1px solid var(--color-on-dark-2);
   border-radius: var(--radius);
   background: transparent;
   color: var(--color-on-dark);
   font-weight: 600;
+  white-space: nowrap;
   cursor: pointer;
+}
+
+.nav-toggle {
+  display: none;
+  margin-inline-start: auto;
+}
+
+.theme-toggle {
+  font-size: var(--text-sm);
+  transition: border-color var(--dur-micro) var(--ease-out);
+}
+
+.theme-toggle:hover {
+  border-color: var(--color-on-dark);
 }
 
 @media (max-width: 60rem) {
@@ -502,6 +523,10 @@ input {
 
   .site-search {
     margin-inline-start: 0;
+  }
+
+  .theme-toggle {
+    align-self: start;
   }
 
   .site-search input {

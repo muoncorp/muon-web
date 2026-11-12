@@ -3,7 +3,7 @@
 {%- import 'macros/site_footer.html' as site_footer -%}
 {%- import 'macros/site_blog.html' as site_blog -%}
 <!DOCTYPE html>
-<html lang="ko-KR" data-accent="{{ config.extra.accent | default(value='yellow') }}" data-theme="{{ config.extra.theme | default(value='light') }}">
+<html lang="ko-KR" data-accent="{{ config.extra.accent | default(value='yellow') }}" data-theme="{{ config.extra.theme | default(value='auto') }}">
 
 <head>
   <meta charset="utf-8">
@@ -25,6 +25,14 @@
   <link rel="icon" type="image/x-icon" href="{{ get_url(path='favicon.ico') }}">
   <script>
     document.documentElement.classList.add('js');
+
+    // A theme picked with the header button wins over the site default.
+    try {
+      var savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light' || savedTheme === 'dark') {
+        document.documentElement.dataset.theme = savedTheme;
+      }
+    } catch (e) {}
 
     // Until js/search.js is in, a submitted search does nothing instead of reloading the page.
     function goSearch(ev) {
@@ -104,6 +112,50 @@
         var open = toggle.getAttribute('aria-expanded') === 'true';
         toggle.setAttribute('aria-expanded', String(!open));
       });
+    })();
+
+    (function () {
+      var root = document.documentElement;
+      var button = document.querySelector('.theme-toggle');
+      if (!button) return;
+      var media = window.matchMedia('(prefers-color-scheme: dark)');
+      var commentsReady = false;
+      var commentsTheme = null;
+
+      function current() {
+        var theme = root.dataset.theme;
+        if (theme === 'dark' || theme === 'light') return theme;
+        return media.matches ? 'dark' : 'light';
+      }
+
+      function show() {
+        var dark = current() === 'dark';
+        button.textContent = dark ? '라이트 모드' : '다크 모드';
+
+        // The blog comment box is an iframe from utteranc.es and takes its theme by message.
+        var frame = document.querySelector('.utterances-frame');
+        var theme = dark ? 'github-dark' : 'github-light';
+        if (frame && commentsReady && commentsTheme !== theme) {
+          commentsTheme = theme;
+          frame.contentWindow.postMessage({ type: 'set-theme', theme: theme }, 'https://utteranc.es');
+        }
+      }
+
+      button.addEventListener('click', function () {
+        var next = current() === 'dark' ? 'light' : 'dark';
+        root.dataset.theme = next;
+        try { localStorage.setItem('theme', next); } catch (e) {}
+        show();
+      });
+      media.addEventListener('change', show);
+      window.addEventListener('message', function (event) {
+        if (event.origin !== 'https://utteranc.es') return;
+        commentsReady = true;
+        show();
+      });
+
+      button.hidden = false;
+      show();
     })();
   </script>
 </body>

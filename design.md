@@ -23,7 +23,7 @@ Accent is set with `extra.accent` in `config.toml`, `yellow` or `blue`. We haven
 
 Logo: white one for yellow, blue mark for blue.
 
-Dark theme: set `extra.theme` in `config.toml` to `dark`, or `auto` to follow the OS. Default is `light`. Text contrast was checked on every page type, nothing else. The blog comment box (utterances) stays light.
+Light and dark: the default follows the OS setting (`extra.theme = "auto"` in `config.toml`). The button in the header switches and keeps the choice in localStorage (`theme`). Set `extra.theme` to `light` or `dark` to fix the default. The blog comment box (utterances) gets the same theme by message.
 
 ## Fonts
 
