@@ -20,8 +20,14 @@
         {%- set shots = ["MUON-SBC-7.jpg", "io-board.jpg", "ai-camera.jpg"] -%}
         {%- set shot_alts = ["Smart Touch Controller", "Arcade Game Machine IO Board", "AI Camera Board"] -%}
         {%- for shot in shots %}
+          {%- set small = resize_image(path="images/products/" ~ shot, height=450, op="fit_height", format="webp", quality=80) %}
           {%- set image = resize_image(path="images/products/" ~ shot, height=900, op="fit_height", format="webp", quality=80) %}
-          <img src="{{ image.url }}" alt="{{ shot_alts[loop.index0] }}" width="{{ image.width }}" height="{{ image.height }}"{% if loop.first %} fetchpriority="high"{% endif %}>
+          {#- The photo is cropped to a tall block, so the width it needs follows its own ratio:
+              the block is about 52vw tall on small screens and 550px tall on wide ones. -#}
+          {%- set ratio = image.width / image.height %}
+          {%- set need_vw = ratio * 52 %}
+          {%- set need_px = ratio * 550 %}
+          <img src="{{ image.url }}" srcset="{{ small.url }} {{ small.width }}w, {{ image.url }} {{ image.width }}w" sizes="(max-width: 60rem) {{ need_vw | round }}vw, {{ need_px | round }}px" alt="{{ shot_alts[loop.index0] }}" width="{{ image.width }}" height="{{ image.height }}"{% if loop.first %} fetchpriority="high"{% endif %}>
         {%- endfor %}
       </div>
     </div>
@@ -101,14 +107,15 @@
               {%- for asset in product.images %}
                 {%- set img_url = "images/products/" ~ asset %}
                 {%- set small = resize_image(path=img_url, width=640, height=384, op="fill", format="webp", quality=80) %}
+                {%- set medium = resize_image(path=img_url, width=960, height=576, op="fill", format="webp", quality=80) %}
                 {%- set large = resize_image(path=img_url, width=1280, height=768, op="fill", format="webp", quality=80) %}
                 {%- if img_url is ending_with(".mp4.jpg") %}
-                  <video controls preload="none" playsinline poster="{{ large.url }}" width="1280" height="768" aria-label="{{ product.title }} 영상">
+                  <video controls preload="none" playsinline poster="{{ small.url }}" width="1280" height="768" aria-label="{{ product.title }} 영상">
                     <source src="{{ get_url(path=img_url | replace(from='.jpg', to='')) }}" type="video/mp4">
                   </video>
                 {%- else %}
                   <a href="{{ get_url(path=img_url) }}">
-                    <img src="{{ large.url }}" srcset="{{ small.url }} 640w, {{ large.url }} 1280w" sizes="(min-width: 60rem) 50vw, 100vw" alt="{{ product.title }}{% if product.images | length > 1 %} {{ loop.index }}{% endif %}" width="1280" height="768" loading="lazy">
+                    <img src="{{ large.url }}" srcset="{{ small.url }} 640w, {{ medium.url }} 960w, {{ large.url }} 1280w" sizes="(min-width: 60rem) 50vw, 100vw" alt="{{ product.title }}{% if product.images | length > 1 %} {{ loop.index }}{% endif %}" width="1280" height="768" loading="lazy">
                   </a>
                 {%- endif %}
               {%- endfor %}

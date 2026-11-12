@@ -310,6 +310,13 @@ input {
   transform: translateY(1px);
 }
 
+.button[aria-disabled="true"],
+.nav-toggle:disabled,
+.site-search input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 // ---------------------------------------------------------------------------
 // Header
 // ---------------------------------------------------------------------------
