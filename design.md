@@ -58,4 +58,4 @@ Sizes at 1440px: h1 72, h2 52, h3 25, lead 21, body 16.
 
 Font Awesome: the header icons are inline svg read from `sass/_vendor/fontawesome-free-6.4.2-web/svgs`, picked by the `icon` value in `config.toml`. Keep that folder. Its css and the webfonts are not used.
 
-The history page content still has Bulma timeline class names. `site.scss` styles those names, so keep them if you edit the content.
+The history page content still has Bulma timeline class names. `site.scss` styles those names, so keep them if you edit the content. Put each year header before the entries of that year.

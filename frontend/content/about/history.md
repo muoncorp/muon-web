@@ -6,6 +6,9 @@ weight = 20
 id = "history"
 +++
 <div class="timeline is-centered">
+  <header class="timeline-header">
+    <span class="tag is-primary">2023</span>
+  </header>
   <div class="timeline-item">
     <div class="timeline-marker"></div>
     <div class="timeline-content">
@@ -21,7 +24,7 @@ id = "history"
     </div>
   </div>
   <header class="timeline-header">
-    <span class="tag is-primary">2023</span>
+    <span class="tag is-info">2022</span>
   </header>
   <div class="timeline-item has-text-info">
     <div class="timeline-marker"></div>
@@ -52,7 +55,7 @@ id = "history"
     </div>
   </div>
   <header class="timeline-header">
-    <span class="tag is-info">2022</span>
+    <span class="tag is-primary">2021</span>
   </header>
   <div class="timeline-item">
     <div class="timeline-marker"></div>
@@ -62,7 +65,7 @@ id = "history"
     </div>
   </div>
   <header class="timeline-header">
-    <span class="tag is-primary">2021</span>
+    <span class="tag is-info">2020</span>
   </header>
   <div class="timeline-item has-text-info">
     <div class="timeline-marker"></div>
@@ -86,7 +89,7 @@ id = "history"
     </div>
   </div>
   <header class="timeline-header">
-    <span class="tag is-info">2020</span>
+    <span class="tag is-primary">2019</span>
   </header>
   <div class="timeline-item">
     <div class="timeline-marker"></div>
@@ -95,7 +98,4 @@ id = "history"
       <p>뮤온(주) 법인 설립</p>
     </div>
   </div>
-  <header class="timeline-header">
-    <span class="tag is-primary">2019</span>
-  </header>
 </div>

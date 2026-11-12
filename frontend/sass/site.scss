@@ -1295,17 +1295,38 @@ main {
 // ---------------------------------------------------------------------------
 
 // The history page is written with Bulma timeline markup; these rules style
-// the same class names.
+// the same class names. A year header comes first, then that year's entries.
 .timeline {
   display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr);
+}
+
+// The year sits in the left column, on the row of its first entry.
+.timeline-header {
+  grid-column: 1;
+  padding-block: var(--space-sm);
+  border-top: 2px solid var(--color-ink);
+  font-size: var(--text-title);
+  font-weight: 700;
+  line-height: 1.6rem;
 }
 
 .timeline-item {
   display: grid;
+  grid-column: 2;
   grid-template-columns: 6rem minmax(0, 1fr);
   gap: var(--space-md);
   padding-block: var(--space-sm);
   border-top: var(--rule-hair) solid var(--color-rule);
+}
+
+.timeline-header + .timeline-item {
+  border-top: 2px solid var(--color-ink);
+}
+
+.timeline-header:not(:first-child),
+.timeline-header:not(:first-child) + .timeline-item {
+  margin-block-start: var(--space-xl);
 }
 
 .timeline-marker {
@@ -1321,11 +1342,22 @@ main {
   font-variant-numeric: tabular-nums;
 }
 
-.timeline-header {
-  padding-block: var(--space-md) var(--space-xl);
-  border-top: 2px solid var(--color-ink);
-  font-size: var(--text-title);
-  font-weight: 700;
+// On a phone the year goes above its entries.
+@media (max-width: 40rem) {
+  .timeline {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .timeline-header,
+  .timeline-item {
+    grid-column: 1;
+  }
+
+  .timeline-header:not(:first-child) + .timeline-item,
+  .timeline-header + .timeline-item {
+    margin-block-start: 0;
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
 }
 
 .location h3 {
