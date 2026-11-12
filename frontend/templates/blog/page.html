@@ -1,35 +1,28 @@
-{% extends "base.html" %}
+{% extends "site.html" %}
 
 {% block header %}
-  {% set current_section = "blog" %}
-  {{ macros_header::header(current_section=current_section) }}
+  {{ site_header::header(current_section="blog") }}
 {% endblock %}
 
 {% block content %}
-  <article class="content">
-    <div class="has-text-centered mb-5">
-      <h1 class="title mb-2">
-        {{ page.title }}
-      </h1>
-      <div class="columns">
-        <div class="column">
-        </div>
-        <div class="column">
-          {{ macros_blog::metadata(page=page) }}
-        </div>
-        <div class="column">
-          {{ macros_blog::list_tags(page=page) }}
-        </div>
-      </div>
+  <article class="container post">
+    <header class="post__head">
+      <h1>{{ page.title }}</h1>
+      {{ site_blog::metadata(page=page) }}
+      {{ site_blog::tags(page=page) }}
+    </header>
+
+    <div class="prose">
+      {{ page.content | safe }}
     </div>
-    {{ page.content | safe }}
+
+    <script src="https://utteranc.es/client.js"
+          repo="muoncorp/muon-web"
+          issue-term="pathname"
+          label="blog comments"
+          theme="github-light"
+          crossorigin="anonymous"
+          async>
+    </script>
   </article>
-  <script src="https://utteranc.es/client.js"
-        repo="muoncorp/muon-web"
-        issue-term="pathname"
-        label="blog comments"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
-  </script>
 {% endblock %}

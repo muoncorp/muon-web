@@ -1,15 +1,17 @@
 {% extends "blog/section.html" %}
 
 {% block content %}
-<div class="columns">
-  <div class="column is-3">
-    {{ macros_blog::side_menu(current_category_name=term.name) }}
+  <div class="page-head">
+    <div class="container">
+      <h1>Blog</h1>
+    </div>
   </div>
-  <div class="column is-rest">
-    <h6 class="title is-6">
-      작성자: {{ term.name }}
-    </h6>
-    {{ macros_pages::list(pages=term.pages) }}
+
+  <div class="container blog">
+    {{ site_blog::side_menu(current_category_name=term.name) }}
+    <div>
+      <h2>작성자: {{ term.name }}</h2>
+      {{ site_blog::list(pages=term.pages) }}
+    </div>
   </div>
-</div>
 {% endblock %}

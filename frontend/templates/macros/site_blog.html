@@ -1,0 +1,77 @@
+{% macro side_menu(current_category_name) %}
+<aside class="blog__side">
+  <nav aria-label="카테고리">
+    <h2>카테고리</h2>
+    {%- set blog_section = get_section(path="blog/_index.md") %}
+    {%- set categories = get_taxonomy(kind="categories") %}
+    <ul class="term-list">
+      <li>
+        <a href="/blog"{% if current_category_name == '' %} aria-current="true"{% endif %}>전체보기 ({{ blog_section.pages | length }})</a>
+      </li>
+      {%- for category in categories.items %}
+        <li>
+          <a href="{{ category.permalink | safe }}"{% if current_category_name == category.name %} aria-current="true"{% endif %}>{{ category.name }} ({{ category.page_count }})</a>
+        </li>
+      {%- endfor %}
+    </ul>
+  </nav>
+  <nav aria-label="태그">
+    <h2>태그</h2>
+    {{ site_blog::tags_with_count() }}
+  </nav>
+</aside>
+{% endmacro %}
+
+{% macro metadata(page) %}
+<p class="post-meta">
+  <span>
+    Posted {{ page.date | date(format=config.extra.timeformat | default(value="%Y-%m-%d"), timezone=config.extra.timezone | default(value="America/New_York")) }}
+    {%- if page.taxonomies.authors and config.taxonomies %}
+      by
+      {%- for author in page.taxonomies.authors %}
+        {%- if author_flag %}
+          and
+        {%- endif %}
+        <a href="{{ get_taxonomy_url(kind='authors', name=author) | safe }}">{{ author }}</a>
+        {%- set_global author_flag = true %}
+      {%- endfor %}
+    {%- endif %}
+  </span>
+  <span>{{ page.reading_time }} minute read</span>
+</p>
+{% endmacro %}
+
+{% macro tags(page) %}
+  {%- if page.taxonomies.tags and config.taxonomies %}
+    <ul class="tags">
+      {%- for tag in page.taxonomies.tags %}
+        <li><a href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">{{ tag }}</a></li>
+      {%- endfor %}
+    </ul>
+  {%- endif %}
+{% endmacro %}
+
+{% macro tags_with_count() %}
+  {%- set tags = get_taxonomy(kind="tags") %}
+  <ul class="tags">
+    {%- for tag in tags.items %}
+      <li><a href="{{ tag.permalink | safe }}">{{ tag.name }} ({{ tag.page_count }})</a></li>
+    {%- endfor %}
+  </ul>
+{% endmacro %}
+
+{% macro list(pages) %}
+<ul class="post-list">
+  {%- for page in pages %}
+    <li>
+      <h3><a href="{{ page.permalink | safe }}">{{ page.title | safe }}</a></h3>
+      {{ site_blog::metadata(page=page) }}
+      {%- if page.summary %}
+        <div class="prose">{{ page.summary | safe }}</div>
+        <p><a href="{{ page.permalink }}#continue-reading">계속 읽기</a></p>
+        {{ site_blog::tags(page=page) }}
+      {%- endif %}
+    </li>
+  {%- endfor %}
+</ul>
+{% endmacro %}
