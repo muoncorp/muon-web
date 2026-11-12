@@ -19,12 +19,62 @@
   </title>
   <link rel="stylesheet" href="{{ get_url(path='site.css') }}">
   <link rel="icon" type="image/x-icon" href="{{ get_url(path='favicon.ico') }}">
-  <script>document.documentElement.classList.add('js')</script>
-  {%- if config.build_search_index %}
-    <script defer src="{{ get_url(path='elasticlunr.min.js') }}"></script>
-    <script defer src="{{ get_url(path='search_index.en.js') }}"></script>
-  {% endif %}
-  <script defer src="{{ get_url(path='js/search.js') }}"></script>
+  <script>
+    document.documentElement.classList.add('js');
+
+    // Until js/search.js is in, a submitted search does nothing instead of reloading the page.
+    function goSearch(ev) {
+      ev.preventDefault();
+      return false;
+    }
+
+    // Web fonts and the search index are not needed for the first paint, so they
+    // are fetched once the main content is on screen. The fonts are cached after
+    // the first visit and load straight away from then on.
+    (function () {
+      var fonts = "{{ get_url(path='fonts/pretendard.css') }}";
+      var scripts = [
+        {%- if config.build_search_index %}
+        "{{ get_url(path='elasticlunr.min.js') }}",
+        "{{ get_url(path='search_index.en.js') }}",
+        {%- endif %}
+        "{{ get_url(path='js/search.js') }}"
+      ];
+      var fontsAdded = false;
+      var started = false;
+
+      function addFonts() {
+        if (fontsAdded) return;
+        fontsAdded = true;
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = fonts;
+        document.head.appendChild(link);
+        try { localStorage.setItem('fonts', '1'); } catch (e) {}
+      }
+
+      function start() {
+        if (started) return;
+        started = true;
+        addFonts();
+        scripts.forEach(function (src) {
+          var script = document.createElement('script');
+          script.src = src;
+          script.async = false;
+          document.head.appendChild(script);
+        });
+      }
+
+      try {
+        if (localStorage.getItem('fonts')) addFonts();
+      } catch (e) {}
+      try {
+        new PerformanceObserver(start).observe({ type: 'largest-contentful-paint', buffered: true });
+      } catch (e) {}
+      window.addEventListener('load', function () { setTimeout(start, 1000); });
+    })();
+  </script>
+  <noscript><link rel="stylesheet" href="{{ get_url(path='fonts/pretendard.css') }}"></noscript>
 </head>
 
 <body>

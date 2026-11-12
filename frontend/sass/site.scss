@@ -2,30 +2,7 @@
 
 // Stylesheet for the redesigned pages. Pages that still extend base.html
 // keep using style.scss (Bulma).
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-  src: local("Pretendard Regular"), url("/fonts/Pretendard-Regular.subset.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 600;
-  font-style: normal;
-  font-display: swap;
-  src: local("Pretendard SemiBold"), url("/fonts/Pretendard-SemiBold.subset.woff2") format("woff2");
-}
-
-@font-face {
-  font-family: "Pretendard";
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-  src: local("Pretendard Bold"), url("/fonts/Pretendard-Bold.subset.woff2") format("woff2");
-}
+// Web fonts are declared in static/fonts/pretendard.css, loaded by site.html.
 
 // ---------------------------------------------------------------------------
 // Tokens. Every color and font below this block goes through a variable.
