@@ -14,7 +14,7 @@ From the brand package (muon-ci `colors/color.js`) and the logo.
 | `--ci-yellow` | `#ffd012` | accent (yellow set) |
 | `--ci-blue` | `#2c89f3` | accent (blue set), same blue as the logo mark |
 
-Other colors are mixed from these in the token block. Don't write color values anywhere else.
+Other colors are mixed from these in the token block. Don't write color values anywhere else. The only other color is the black dim behind the large photo (`--color-dim`).
 
 Accent is set with `extra.accent` in `config.toml`, `yellow` or `blue`. We haven't picked one yet.
 
@@ -49,7 +49,7 @@ Sizes at 1440px: h1 72, h2 52, h3 25, lead 21, body 16.
 - Keep the section ids (`business-field`, `company-tech`, `products`) and URLs.
 - Product photos are real, each with alt text.
 - The business field pictures are in `static/images/fields`, 1024px square. The file name is the field title in lower case with dashes (`embedded.jpg`, `iot.jpg`, `os-porting.jpg`). A field without a file shows no picture.
-- A product photo opens in a large view over the page (a `dialog`), closed with the X, Esc or a click outside the photo. Without JS it links to the original file. The video plays in place.
+- A product photo opens in a large view over the page (a `dialog`), closed with the X, Esc or a click outside the photo. When the product has several photos, the arrows, the arrow keys or a swipe change the photo. Without JS it links to the original file. The video plays in place.
 - A product with several photos shows one at a time: dots under the photo, arrows on hover, swipe on touch.
 
 ## Old files

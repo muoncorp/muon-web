@@ -32,7 +32,7 @@
   --color-on-dark: var(--ci-paper);
   --color-on-dark-2: var(--ci-pale);
   --color-scrim: color-mix(in oklab, var(--ci-navy) 75%, transparent);
-  --color-dim: color-mix(in oklab, var(--ci-navy) 90%, transparent);
+  --color-dim: color-mix(in oklab, black 85%, transparent);
 
   // Accent, yellow set (default). The blue set is further down.
   --color-accent: var(--ci-yellow);
@@ -1060,11 +1060,10 @@ main {
   object-fit: contain;
 }
 
-.lightbox__close {
+.lightbox__close,
+.lightbox__arrow {
   display: inline-flex;
   position: absolute;
-  top: var(--space-sm);
-  right: var(--space-sm);
   align-items: center;
   justify-content: center;
   width: 44px;
@@ -1079,11 +1078,33 @@ main {
   transition: color var(--dur-micro) var(--ease-out);
 }
 
-.lightbox__close:hover {
+.lightbox__close {
+  top: var(--space-sm);
+  right: var(--space-sm);
+}
+
+// On a narrow screen the arrows sit on the photo, so they have their own dark patch.
+.lightbox__arrow {
+  top: 50%;
+  background: var(--color-dim);
+  transform: translateY(-50%);
+}
+
+.lightbox__arrow--prev {
+  left: var(--space-sm);
+}
+
+.lightbox__arrow--next {
+  right: var(--space-sm);
+}
+
+.lightbox__close:hover,
+.lightbox__arrow:hover {
   color: var(--color-accent-on-dark);
 }
 
-.lightbox__close:focus-visible {
+.lightbox__close:focus-visible,
+.lightbox__arrow:focus-visible {
   outline-color: var(--color-on-dark);
 }
 
