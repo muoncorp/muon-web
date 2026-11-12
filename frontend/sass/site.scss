@@ -1041,7 +1041,7 @@ main {
   height: 100%;
   max-height: none;
   margin: 0;
-  padding: var(--space-2xl) var(--space-lg);
+  padding: 0;
   border: 0;
   background: var(--color-dim);
   // Fast clicks on the arrows or a long press would select the photo, and the
@@ -1051,14 +1051,33 @@ main {
   -webkit-tap-highlight-color: transparent;
 }
 
-.lightbox[open] {
-  display: grid;
-  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
-  place-items: center;
-}
-
 .lightbox::backdrop {
   background: none;
+}
+
+// The product's photos in a row, one per screen. The row scrolls sideways and
+// stops on each photo, which gives the finger drag and the slide.
+.lightbox__photos {
+  display: flex;
+  height: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.lightbox__photos::-webkit-scrollbar {
+  display: none;
+}
+
+.lightbox__photo {
+  display: grid;
+  flex: 0 0 100%;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  place-items: center;
+  padding: var(--space-2xl) var(--space-lg);
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
 }
 
 .lightbox img {
@@ -1106,7 +1125,7 @@ main {
   right: var(--space-sm);
 }
 
-// A touch screen drags the photo instead, so it has no arrows.
+// A touch screen drags the row instead, so it has no arrows.
 @media (hover: none) {
   .lightbox__arrow {
     display: none;

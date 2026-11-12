@@ -165,7 +165,7 @@
     <button class="lightbox__close" type="button" aria-label="닫기">{{ site_header::icon(fa="fa-solid fa-xmark") }}</button>
     <button class="lightbox__arrow lightbox__arrow--prev" type="button" aria-label="이전 사진" hidden>{{ site_header::icon(fa="fa-solid fa-chevron-left") }}</button>
     <button class="lightbox__arrow lightbox__arrow--next" type="button" aria-label="다음 사진" hidden>{{ site_header::icon(fa="fa-solid fa-chevron-right") }}</button>
-    <img alt="" draggable="false">
+    <div class="lightbox__photos"></div>
     <p class="lightbox__count" aria-live="polite" hidden></p>
   </dialog>
 
@@ -201,43 +201,59 @@
       show();
     });
 
-    // A product photo opens in the large view instead of leaving the page.
+    // A product photo opens in the large view instead of leaving the page. The view
+    // holds that product's photos in a row that scrolls sideways, one photo per screen,
+    // so a finger drags it and the arrows slide it.
     var lightbox = document.querySelector('.lightbox');
     if (lightbox.showModal) {
-      var photo = lightbox.querySelector('img');
+      var photos = lightbox.querySelector('.lightbox__photos');
       var arrows = lightbox.querySelectorAll('.lightbox__arrow');
       var count = lightbox.querySelector('.lightbox__count');
       var root = document.documentElement;
-      var group = [];
-      var index = 0;
-      var touchX = null;
+      var slide = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
 
-      function showPhoto(i) {
-        index = i;
-        photo.src = group[i].dataset.full;
-        photo.alt = group[i].querySelector('img').alt;
-        count.textContent = (i + 1) + ' / ' + group.length;
+      function current() {
+        return Math.round(photos.scrollLeft / photos.clientWidth);
       }
 
-      // Moves through the photos of the same product. After the last one comes the first.
+      function showCount() {
+        count.textContent = (current() + 1) + ' / ' + photos.children.length;
+      }
+
+      // Slides to the next or previous photo. After the last one comes the first.
       function step(by) {
-        if (group.length > 1) showPhoto((index + by + group.length) % group.length);
+        var total = photos.children.length;
+        photos.scrollTo({ left: ((current() + by + total) % total) * photos.clientWidth, behavior: slide });
       }
 
       document.querySelectorAll('.product__media a').forEach(function (link) {
         link.addEventListener('click', function (event) {
           if (event.metaKey || event.ctrlKey || event.shiftKey) return;
           event.preventDefault();
-          group = Array.prototype.slice.call(link.parentNode.querySelectorAll('a'));
-          arrows[0].hidden = arrows[1].hidden = count.hidden = group.length < 2;
-          showPhoto(group.indexOf(link));
+          var links = link.parentNode.querySelectorAll('a');
+          var first = 0;
+          for (var i = 0; i < links.length; i++) {
+            var page = document.createElement('div');
+            var photo = document.createElement('img');
+            photo.src = links[i].dataset.full;
+            photo.alt = links[i].querySelector('img').alt;
+            photo.draggable = false;
+            page.className = 'lightbox__photo';
+            page.appendChild(photo);
+            photos.appendChild(page);
+            if (links[i] === link) first = i;
+          }
+          arrows[0].hidden = arrows[1].hidden = count.hidden = links.length < 2;
           // Stop the page behind from scrolling, and keep the scrollbar's width so nothing moves.
           root.style.paddingRight = (window.innerWidth - root.clientWidth) + 'px';
           root.style.overflow = 'hidden';
           lightbox.showModal();
+          photos.scrollLeft = first * photos.clientWidth;
+          showCount();
         });
       });
 
+      photos.addEventListener('scroll', showCount, { passive: true });
       arrows[0].addEventListener('click', function () {
         step(-1);
       });
@@ -245,43 +261,17 @@
         step(1);
       });
       lightbox.addEventListener('keydown', function (event) {
-        if (event.key === 'ArrowLeft') step(-1);
-        if (event.key === 'ArrowRight') step(1);
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        step(event.key === 'ArrowLeft' ? -1 : 1);
       });
-
-      // On a touch screen the photo follows one finger sideways. Letting go far enough
-      // changes the photo. Nothing happens while the page is zoomed in, so it can be panned.
-      function zoomed() {
-        return window.visualViewport && window.visualViewport.scale > 1;
-      }
-
-      function dropPhoto() {
-        touchX = null;
-        photo.style.transform = '';
-      }
-
-      lightbox.addEventListener('touchstart', function (event) {
-        dropPhoto();
-        if (event.touches.length === 1 && group.length > 1) touchX = event.touches[0].clientX;
-      }, { passive: true });
-      lightbox.addEventListener('touchmove', function (event) {
-        if (touchX === null || zoomed()) return;
-        photo.style.transform = 'translateX(' + (event.touches[0].clientX - touchX) + 'px)';
-      }, { passive: true });
-      lightbox.addEventListener('touchend', function (event) {
-        if (touchX === null) return;
-        var moved = event.changedTouches[0].clientX - touchX;
-        dropPhoto();
-        if (!zoomed() && Math.abs(moved) > 40) step(moved < 0 ? 1 : -1);
-      }, { passive: true });
-      lightbox.addEventListener('touchcancel', dropPhoto);
 
       // The close button and the dimmed area around the photo both close it.
       lightbox.addEventListener('click', function (event) {
-        if (event.target === lightbox || event.target.closest('.lightbox__close')) lightbox.close();
+        if (!event.target.closest('img, .lightbox__arrow, .lightbox__count')) lightbox.close();
       });
       lightbox.addEventListener('close', function () {
-        photo.removeAttribute('src');
+        photos.replaceChildren();
         root.style.paddingRight = root.style.overflow = '';
       });
     }

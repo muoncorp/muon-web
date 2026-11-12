@@ -49,7 +49,7 @@ Sizes at 1440px: h1 72, h2 52, h3 25, lead 21, body 16.
 - Keep the section ids (`business-field`, `company-tech`, `products`) and URLs.
 - Product photos are real, each with alt text.
 - The business field pictures are in `static/images/fields`, 1024px square. The file name is the field title in lower case with dashes (`embedded.jpg`, `iot.jpg`, `os-porting.jpg`). A field without a file shows no picture.
-- A product photo opens in a large view over the page (a `dialog`), closed with the X, Esc or a click outside the photo. When the product has several photos, the arrows or the arrow keys change the photo (on a touch screen there are no arrows, the photo is dragged sideways), and a count such as "1 / 2" shows under it. Without JS it links to the original file. The video plays in place.
+- A product photo opens in a large view over the page (a `dialog`), closed with the X, Esc or a click outside the photo. When the product has several photos, its photos sit in a row that slides sideways: arrows and arrow keys with a mouse, a finger drag on a touch screen (no arrows there), and a count such as "1 / 2" shows under it. Without JS it links to the original file. The video plays in place.
 - A product with several photos shows one at a time: dots under the photo, arrows on hover, swipe on touch.
 
 ## Old files
