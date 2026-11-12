@@ -128,7 +128,8 @@
                     <source src="{{ get_url(path=img_url | replace(from='.jpg', to='')) }}" type="video/mp4">
                   </video>
                 {%- else %}
-                  <a href="{{ get_url(path=img_url) }}">
+                  {%- set full = resize_image(path=img_url, width=1920, height=1920, op="fit", format="webp", quality=85) %}
+                  <a href="{{ get_url(path=img_url) }}" data-full="{{ full.url }}">
                     <img src="{{ large.url }}" srcset="{{ small.url }} 640w, {{ medium.url }} 960w, {{ large.url }} 1280w" sizes="(min-width: 60rem) 50vw, 100vw" alt="{{ product.title }}{% if product.images | length > 1 %} {{ loop.index }}{% endif %}" width="1280" height="768" loading="lazy">
                   </a>
                 {%- endif %}
@@ -158,6 +159,12 @@
       </div>
     </div>
   </section>
+
+  {#- Large photo view, opened from the product photos by the script below. -#}
+  <dialog class="lightbox" aria-label="사진 크게 보기">
+    <button class="lightbox__close" type="button" aria-label="닫기">{{ site_header::icon(fa="fa-solid fa-xmark") }}</button>
+    <img alt="">
+  </dialog>
 
   <script>
     // Photo pager: one photo per page. The arrows and dots follow the scroll position.
@@ -190,5 +197,32 @@
       prev.hidden = next.hidden = dotsBox.hidden = false;
       show();
     });
+
+    // A product photo opens in the large view instead of leaving the page.
+    var lightbox = document.querySelector('.lightbox');
+    if (lightbox.showModal) {
+      var photo = lightbox.querySelector('img');
+      var root = document.documentElement;
+      document.querySelectorAll('.product__media a').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+          event.preventDefault();
+          photo.src = link.dataset.full;
+          photo.alt = link.querySelector('img').alt;
+          // Stop the page behind from scrolling, and keep the scrollbar's width so nothing moves.
+          root.style.paddingRight = (window.innerWidth - root.clientWidth) + 'px';
+          root.style.overflow = 'hidden';
+          lightbox.showModal();
+        });
+      });
+      // The close button and the dimmed area around the photo both close it.
+      lightbox.addEventListener('click', function (event) {
+        if (event.target !== photo) lightbox.close();
+      });
+      lightbox.addEventListener('close', function () {
+        photo.removeAttribute('src');
+        root.style.paddingRight = root.style.overflow = '';
+      });
+    }
   </script>
 {% endblock %}

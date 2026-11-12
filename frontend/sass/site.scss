@@ -32,6 +32,7 @@
   --color-on-dark: var(--ci-paper);
   --color-on-dark-2: var(--ci-pale);
   --color-scrim: color-mix(in oklab, var(--ci-navy) 75%, transparent);
+  --color-dim: color-mix(in oklab, var(--ci-navy) 90%, transparent);
 
   // Accent, yellow set (default). The blue set is further down.
   --color-accent: var(--ci-yellow);
@@ -1029,6 +1030,63 @@ main {
 }
 
 .product__media:focus-visible,
+// Large photo view: a dimmed layer over the page with the whole photo in it.
+.lightbox {
+  inset: 0;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: var(--space-2xl) var(--space-lg);
+  border: 0;
+  background: var(--color-dim);
+}
+
+.lightbox[open] {
+  display: grid;
+  grid-template: minmax(0, 1fr) / minmax(0, 1fr);
+  place-items: center;
+}
+
+.lightbox::backdrop {
+  background: none;
+}
+
+.lightbox img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: var(--radius);
+  object-fit: contain;
+}
+
+.lightbox__close {
+  display: inline-flex;
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--color-on-dark);
+  font-size: var(--text-xl);
+  cursor: pointer;
+  transition: color var(--dur-micro) var(--ease-out);
+}
+
+.lightbox__close:hover {
+  color: var(--color-accent-on-dark);
+}
+
+.lightbox__close:focus-visible {
+  outline-color: var(--color-on-dark);
+}
+
 .product__media a:focus-visible {
   outline-offset: -2px;
 }
