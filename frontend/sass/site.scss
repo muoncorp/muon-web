@@ -1052,37 +1052,24 @@ main {
   align-content: start;
 }
 
-// On wide screens the first product shows its photos side by side.
+// On wide screens the first product is wider: photo pager on the left,
+// name and specs beside it.
 @media (min-width: 60rem) {
-  .product--lead .product__media {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--gap-columns);
-    overflow: visible;
-  }
-
-  // Both photos are on screen here, so no pager.
-  .product--lead .pager__arrow,
-  .product--lead .pager__dots {
-    display: none;
-  }
-
-  .product--lead .product__body {
-    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-    gap: var(--gap-columns);
-    align-items: baseline;
-  }
-
-  // Two columns read top to bottom; one column when there is no room for two.
-  .product--lead .product__features {
-    display: block;
-    columns: 2 20rem;
+  .product--lead {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     column-gap: var(--gap-columns);
   }
 
-  .product--lead .product__features li {
-    margin-block-end: var(--space-xs);
-    break-inside: avoid;
+  .product--lead .product__gallery,
+  .product--lead .pager__dots {
+    grid-column: 1;
+  }
+
+  .product--lead .product__body {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    align-self: center;
+    padding-inline-start: var(--space-xl);
   }
 }
 

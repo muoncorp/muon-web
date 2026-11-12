@@ -50,7 +50,7 @@ Sizes at 1440px: h1 72, h2 52, h3 25, lead 21, body 16.
 - Product photos are real, each with alt text.
 - The business field pictures are in `static/images/fields`, 1024px square. The file name is the field title in lower case with dashes (`embedded.jpg`, `iot.jpg`, `os-porting.jpg`). A field without a file shows no picture.
 - Product photos link to the original file, the video plays in place.
-- A product with several photos shows one at a time: dots under the photo, arrows on hover, swipe on touch. The first product shows both photos side by side on wide screens.
+- A product with several photos shows one at a time: dots under the photo, arrows on hover, swipe on touch.
 
 ## Old files
 
