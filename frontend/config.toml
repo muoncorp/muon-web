@@ -26,6 +26,8 @@ taxonomies = [
 search = "Search"
 # Accent color set for the redesigned pages: "yellow" or "blue"
 accent = "yellow"
+# Color theme: "light", "dark" or "auto" (follows the OS setting)
+theme = "light"
 
 [[extra.menu.nav]]
 name = "Business"

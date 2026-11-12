@@ -23,7 +23,7 @@ Accent is set with `extra.accent` in `config.toml`, `yellow` or `blue`. We haven
 
 Logo: white one for yellow, blue mark for blue.
 
-`data-theme="dark"` tokens exist but nothing turns them on. Only contrast was checked.
+Dark theme: set `extra.theme` in `config.toml` to `dark`, or `auto` to follow the OS. Default is `light`. Text contrast was checked on every page type, nothing else. The blog comment box (utterances) stays light.
 
 ## Fonts
 

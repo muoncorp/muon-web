@@ -87,8 +87,10 @@
   --color-accent-on-dark: var(--ci-blue);
 }
 
-// Dark set. Not applied anywhere yet.
-:root[data-theme="dark"] {
+// Dark set. Off by default; extra.theme in config.toml turns it on.
+@mixin dark-tokens {
+  color-scheme: dark;
+
   --color-paper: var(--ci-navy);
   --color-paper-2: color-mix(in oklab, var(--ci-paper) 8%, var(--ci-navy));
   --color-paper-3: color-mix(in oklab, var(--ci-paper) 16%, var(--ci-navy));
@@ -98,6 +100,16 @@
   --color-rule: color-mix(in oklab, var(--ci-pale) 35%, var(--ci-navy));
   --color-focus: var(--ci-paper);
   --color-dark: color-mix(in oklab, var(--ci-paper) 6%, var(--ci-navy));
+}
+
+:root[data-theme="dark"] {
+  @include dark-tokens;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="auto"] {
+    @include dark-tokens;
+  }
 }
 
 @media (max-width: 60rem) {
