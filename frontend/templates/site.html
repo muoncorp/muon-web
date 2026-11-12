@@ -130,7 +130,9 @@
 
       function show() {
         var dark = current() === 'dark';
-        button.textContent = dark ? '라이트 모드' : '다크 모드';
+        var label = dark ? '라이트 모드로 전환' : '다크 모드로 전환';
+        button.setAttribute('aria-label', label);
+        button.title = label;
 
         // The blog comment box is an iframe from utteranc.es and takes its theme by message.
         var frame = document.querySelector('.utterances-frame');
