@@ -589,3 +589,74 @@ input {
     transition-duration: 0.01ms !important;
   }
 }
+
+// ---------------------------------------------------------------------------
+// Home: hero
+// ---------------------------------------------------------------------------
+
+.hero {
+  display: grid;
+  align-items: center;
+  min-height: calc(100svh - var(--header-h));
+  padding-block: var(--space-2xl);
+}
+
+.hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--space-3xl);
+  align-items: center;
+}
+
+.hero__text {
+  display: grid;
+  gap: var(--space-lg);
+  justify-items: start;
+}
+
+.hero__actions {
+  margin-block-start: var(--space-md);
+}
+
+// The logo mark: three blocks, the second and third rounded at the top right.
+.hero__mark {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-lg);
+}
+
+.hero__mark img {
+  width: 100%;
+  aspect-ratio: 2 / 5;
+  object-fit: cover;
+  background: var(--color-paper-3);
+}
+
+.hero__mark img + img {
+  border-top-right-radius: 84% 36%;
+}
+
+// The camera photo holds two boards side by side; show the right one.
+.hero__mark img:nth-child(3) {
+  object-position: 78% 50%;
+}
+
+@media (max-width: 60rem) {
+  .hero {
+    min-height: 0;
+    padding-block: var(--space-xl) 0;
+  }
+
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .hero__mark {
+    gap: var(--space-sm);
+  }
+
+  .hero__mark img {
+    aspect-ratio: 3 / 5;
+  }
+}
