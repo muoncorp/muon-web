@@ -988,11 +988,19 @@ main {
   .product--lead .product__body {
     grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
     gap: var(--gap-columns);
+    align-items: baseline;
   }
 
+  // Two columns read top to bottom; one column when there is no room for two.
   .product--lead .product__features {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: block;
+    columns: 2 20rem;
     column-gap: var(--gap-columns);
+  }
+
+  .product--lead .product__features li {
+    margin-block-end: var(--space-xs);
+    break-inside: avoid;
   }
 }
 
