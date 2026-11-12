@@ -86,7 +86,7 @@
   --color-accent-on-dark: var(--ci-blue);
 }
 
-// Dark set. Defined for later, not applied by default and not verified yet.
+// Dark set. Not applied anywhere yet.
 :root[data-theme="dark"] {
   --color-paper: var(--ci-navy);
   --color-paper-2: color-mix(in oklab, var(--ci-paper) 8%, var(--ci-navy));
@@ -611,7 +611,7 @@ input {
 
 .hero__mark img {
   width: 100%;
-  aspect-ratio: 2 / 5;
+  aspect-ratio: 5 / 14;
   object-fit: cover;
   background: var(--color-paper-3);
 }
