@@ -937,6 +937,9 @@ main {
 
 .product__gallery {
   position: relative;
+  // Same as in the large photo view: fast clicks on the arrows must not select the photo.
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 // A product with several photos shows one at a time. Swipe or use the arrows;
@@ -1041,6 +1044,11 @@ main {
   padding: var(--space-2xl) var(--space-lg);
   border: 0;
   background: var(--color-dim);
+  // Fast clicks on the arrows or a long press would select the photo, and the
+  // browser then paints its pale selection color over it.
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .lightbox[open] {
