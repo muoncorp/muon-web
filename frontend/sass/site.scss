@@ -498,8 +498,10 @@ input {
   justify-content: center;
   width: 44px;
   padding: 0;
+  border: 0;
+  color: var(--color-on-dark-2);
   font-size: var(--text-lg);
-  transition: border-color var(--dur-micro) var(--ease-out);
+  transition: color var(--dur-micro) var(--ease-out);
 }
 
 .theme-toggle__moon {
@@ -511,7 +513,7 @@ input {
 }
 
 .theme-toggle:hover {
-  border-color: var(--color-on-dark);
+  color: var(--color-on-dark);
 }
 
 @media (max-width: 60rem) {
