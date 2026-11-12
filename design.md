@@ -47,7 +47,8 @@ Sizes at 1440px: h1 72, h2 52, h3 25, lead 21, body 16.
 - Radius is 4px. Only the hero photos use the logo mark shape, don't reuse it.
 - Hover only changes color (120ms). Nothing animates on scroll.
 - Keep the section ids (`business-field`, `company-tech`, `products`) and URLs.
-- Real product photos with alt text only.
+- Product photos are real, each with alt text.
+- The business field pictures are in `static/images/fields`, 1024px square. The file name is the field title in lower case with dashes (`embedded.jpg`, `iot.jpg`, `os-porting.jpg`). A field without a file shows no picture.
 - Product photos link to the original file, the video plays in place.
 
 ## Old files

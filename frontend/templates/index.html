@@ -56,7 +56,16 @@
 
           <div class="fields">
             {%- for card in content.cards | slice(start=1) %}
+              {#- A field gets a picture when static/images/fields has a jpg named after its title, e.g. os-porting.jpg. -#}
+              {%- set slug = card.title | slugify %}
+              {%- set photo = "images/fields/" ~ slug ~ ".jpg" %}
+              {%- set found = get_image_metadata(path=photo, allow_missing=true) %}
               <div class="field">
+                {%- if found %}
+                  {%- set small = resize_image(path=photo, width=480, height=480, op="fill", format="webp", quality=80) %}
+                  {%- set large = resize_image(path=photo, width=960, height=960, op="fill", format="webp", quality=80) %}
+                  <img src="{{ large.url }}" srcset="{{ small.url }} 480w, {{ large.url }} 960w" sizes="(min-width: 60rem) 30vw, 40vw" alt="" width="960" height="960" loading="lazy">
+                {%- endif %}
                 <h3>{{ card.title }}</h3>
                 <ul>
                   {%- for item in card.items %}
