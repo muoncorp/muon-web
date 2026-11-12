@@ -1091,7 +1091,7 @@ main {
   right: var(--space-sm);
 }
 
-// On a narrow screen the arrows sit on the photo, so they have their own dark patch.
+// In a narrow window the arrows sit on the photo, so they have their own dark patch.
 .lightbox__arrow {
   top: 50%;
   background: var(--color-dim);
@@ -1104,6 +1104,13 @@ main {
 
 .lightbox__arrow--next {
   right: var(--space-sm);
+}
+
+// A touch screen drags the photo instead, so it has no arrows.
+@media (hover: none) {
+  .lightbox__arrow {
+    display: none;
+  }
 }
 
 // Which photo of how many, under the photo.

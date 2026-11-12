@@ -249,15 +249,32 @@
         if (event.key === 'ArrowRight') step(1);
       });
 
-      // A one-finger swipe to the side also changes the photo, unless the page is zoomed in.
+      // On a touch screen the photo follows one finger sideways. Letting go far enough
+      // changes the photo. Nothing happens while the page is zoomed in, so it can be panned.
+      function zoomed() {
+        return window.visualViewport && window.visualViewport.scale > 1;
+      }
+
+      function dropPhoto() {
+        touchX = null;
+        photo.style.transform = '';
+      }
+
       lightbox.addEventListener('touchstart', function (event) {
-        touchX = event.touches.length === 1 ? event.touches[0].clientX : null;
+        dropPhoto();
+        if (event.touches.length === 1 && group.length > 1) touchX = event.touches[0].clientX;
+      }, { passive: true });
+      lightbox.addEventListener('touchmove', function (event) {
+        if (touchX === null || zoomed()) return;
+        photo.style.transform = 'translateX(' + (event.touches[0].clientX - touchX) + 'px)';
       }, { passive: true });
       lightbox.addEventListener('touchend', function (event) {
-        if (touchX === null || (window.visualViewport && window.visualViewport.scale > 1)) return;
+        if (touchX === null) return;
         var moved = event.changedTouches[0].clientX - touchX;
-        if (Math.abs(moved) > 40) step(moved < 0 ? 1 : -1);
+        dropPhoto();
+        if (!zoomed() && Math.abs(moved) > 40) step(moved < 0 ? 1 : -1);
       }, { passive: true });
+      lightbox.addEventListener('touchcancel', dropPhoto);
 
       // The close button and the dimmed area around the photo both close it.
       lightbox.addEventListener('click', function (event) {
