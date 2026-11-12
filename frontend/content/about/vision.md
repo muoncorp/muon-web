@@ -19,4 +19,4 @@ id = "company"
 
 감사합니다.
 
-<div style="text-align: right"><strong>뮤온(주) 대표이사 박 흥 준</strong></div>
+<div style="text-align: right; font-size: var(--text-lg)"><strong>뮤온(주) 대표이사 박 흥 준</strong></div>
