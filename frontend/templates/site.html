@@ -8,19 +8,71 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="{{ config.description }}">
+
+  {#- Title and description for search results and shared links. A page or section
+      uses its own `description`; a blog post without one uses the start of its text. -#}
+  {%- set seo_description = config.description -%}
+  {%- if page -%}
+    {%- set seo_title = page.title -%}
+    {%- if page.description -%}
+      {%- set seo_description = page.description -%}
+    {%- elif page.content -%}
+      {#- The text still holds the entities of the rendered page; turn them back so they are not escaped twice. -#}
+      {%- set seo_description = page.content | striptags | replace(from="
+", to=" ") | replace(from="&lt;", to="<") | replace(from="&gt;", to=">") | replace(from="&quot;", to='"') | replace(from="&amp;", to="&") | trim | truncate(length=150) -%}
+    {%- endif -%}
+  {%- elif section and section.path != "/" -%}
+    {%- set seo_title = section.title -%}
+    {%- if section.description -%}
+      {%- set seo_description = section.description -%}
+    {%- endif -%}
+  {%- elif term -%}
+    {%- set seo_title = term.name -%}
+    {%- set seo_description = "뮤온 블로그에서 " ~ term.name ~ " 항목으로 분류된 글 목록입니다." -%}
+  {%- elif taxonomy -%}
+    {%- set seo_title = taxonomy.name | title -%}
+    {%- set seo_description = "뮤온 블로그의 " ~ taxonomy.name ~ " 전체 목록입니다." -%}
+  {%- elif not current_url -%}
+    {%- set seo_title = "페이지를 찾을 수 없습니다" -%}
+  {%- endif -%}
+  {%- if seo_title -%}
+    {%- set full_title = seo_title ~ " | " ~ config.title -%}
+  {%- else -%}
+    {%- set full_title = config.title ~ " | " ~ config.extra.tagline -%}
+  {%- endif %}
+  <title>{{ full_title }}</title>
+  <meta name="description" content="{{ seo_description }}">
+
+  {#- Pages that only exist inside another page send visitors on and get no address of their own.
+      The 404 page has no address either and stays out of search results. #}
   {%- if page and page.extra and page.extra.id and page.extra.id in ["company", "history", "products"] %}
     <meta http-equiv="Refresh" content="0; url='/'" />
+  {%- elif current_url %}
+    <link rel="canonical" href="{{ current_url | safe }}">
+    <meta property="og:url" content="{{ current_url | safe }}">
+  {%- else %}
+    <meta name="robots" content="noindex">
   {%- endif %}
-  <title>
-    {%- if section.title -%}
-      {{ section.title }} | {{ config.title }}
-    {%- elif page.title -%}
-      {{ page.title }} | {{ config.title }}
-    {%- else -%}
-      {{ config.title }}
-    {%- endif -%}
-  </title>
+
+  {#- Preview shown when a link to the site is shared. #}
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:locale" content="ko_KR">
+  <meta property="og:type" content="{% if page and page.date %}article{% else %}website{% endif %}">
+  <meta property="og:title" content="{{ full_title }}">
+  <meta property="og:description" content="{{ seo_description }}">
+  <meta property="og:image" content="{{ get_url(path='images/og.jpg') | safe }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+
+  {#- Ownership codes for Google Search Console and Naver Search Advisor, set in config.toml. #}
+  {%- if config.extra.google_site_verification %}
+    <meta name="google-site-verification" content="{{ config.extra.google_site_verification }}">
+  {%- endif %}
+  {%- if config.extra.naver_site_verification %}
+    <meta name="naver-site-verification" content="{{ config.extra.naver_site_verification }}">
+  {%- endif %}
+
   <link rel="stylesheet" href="{{ get_url(path='site.css') }}">
   <link rel="icon" type="image/x-icon" href="{{ get_url(path='favicon.ico') }}">
   <script>

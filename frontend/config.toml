@@ -3,7 +3,8 @@ base_url = "https://muon.co/"
 # base_url = "http://127.0.0.1:1111/"
 
 title = "뮤온"
-description = "뮤온 주식회사 웹사이트"
+# Shown under the site name in search results, and on pages that set no description of their own
+description = "뮤온은 임베디드·IoT 제품을 설계부터 양산, 납품까지 맡는 ODM 회사입니다. Single Board Computer와 MCU 기반 하드웨어·펌웨어 개발, RTOS·Linux·Android 포팅, KC·CE·FCC·UL 인증을 지원합니다."
 
 # Whether to automatically compile all Sass files in the sass directory
 compile_sass = true
@@ -24,6 +25,11 @@ taxonomies = [
 
 [extra]
 search = "Search"
+# Follows the site name in the title of the home page
+tagline = "IoT & Embedded ODM Solutions"
+# Site ownership codes from Google Search Console and Naver Search Advisor. Empty until issued.
+google_site_verification = ""
+naver_site_verification = ""
 # Accent color set for the redesigned pages: "yellow" or "blue"
 accent = "yellow"
 # Default color theme: "auto" follows the OS setting, or fix it to "light" or "dark".
