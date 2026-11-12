@@ -26,4 +26,105 @@
       </div>
     </div>
   </section>
+
+  {%- for content in section.extra.contents %}
+    {%- if loop.first %}
+      {#- Business fields: the first card (ODM) is a process, the rest are fields. -#}
+      {%- set process = content.cards | first %}
+      <section id="{{ content.id }}" class="section">
+        <div class="container">
+          <div class="section__head">
+            <h2>{{ content.title }}</h2>
+            <p class="lead">{{ intro_lines | first | trim }}</p>
+          </div>
+
+          <div class="process">
+            <h3>{{ process.title }}</h3>
+            <ol class="process__steps">
+              {%- for item in process.items %}
+                <li>{{ item }}</li>
+              {%- endfor %}
+            </ol>
+          </div>
+
+          <div class="fields">
+            {%- for card in content.cards | slice(start=1) %}
+              <div class="field">
+                <h3>{{ card.title }}</h3>
+                <ul>
+                  {%- for item in card.items %}
+                    <li>{{ item }}</li>
+                  {%- endfor %}
+                </ul>
+              </div>
+            {%- endfor %}
+          </div>
+        </div>
+      </section>
+    {%- else %}
+      <section {% if content.id %}id="{{ content.id }}" {% endif %}class="section section--band">
+        <div class="container rows">
+          <div class="section__head">
+            <h2>{{ content.title }}</h2>
+            <p class="lead">{{ content.text | striptags | trim | replace(from="\n", to=" ") }}</p>
+          </div>
+
+          <dl class="rows__list">
+            {%- for card in content.cards %}
+              <div class="rows__row">
+                <dt>{{ card.title }}</dt>
+                <dd>
+                  <ul>
+                    {%- for item in card.items %}
+                      <li>{{ item }}</li>
+                    {%- endfor %}
+                  </ul>
+                </dd>
+              </div>
+            {%- endfor %}
+          </dl>
+        </div>
+      </section>
+    {%- endif %}
+  {%- endfor %}
+
+  <section id="products" class="section">
+    <div class="container">
+      <div class="section__head">
+        <h2>{{ section.extra.products_title }}</h2>
+      </div>
+
+      <div class="products">
+        {%- for product in section.extra.products %}
+          <article class="product{% if loop.first %} product--lead{% endif %}">
+            <div class="product__media"{% if product.images | length > 1 %} tabindex="0" role="group" aria-label="{{ product.title }} 사진 {{ product.images | length }}장"{% endif %}>
+              {%- for asset in product.images %}
+                {%- set img_url = "images/products/" ~ asset %}
+                {%- set small = resize_image(path=img_url, width=640, height=384, op="fill", format="webp", quality=80) %}
+                {%- set large = resize_image(path=img_url, width=1280, height=768, op="fill", format="webp", quality=80) %}
+                {%- if img_url is ending_with(".mp4.jpg") %}
+                  <video controls preload="none" playsinline poster="{{ large.url }}" width="1280" height="768" aria-label="{{ product.title }} 영상">
+                    <source src="{{ get_url(path=img_url | replace(from='.jpg', to='')) }}" type="video/mp4">
+                  </video>
+                {%- else %}
+                  <a href="{{ get_url(path=img_url) }}">
+                    <img src="{{ large.url }}" srcset="{{ small.url }} 640w, {{ large.url }} 1280w" sizes="(min-width: 60rem) 50vw, 100vw" alt="{{ product.title }}{% if product.images | length > 1 %} {{ loop.index }}{% endif %}" width="1280" height="768" loading="lazy">
+                  </a>
+                {%- endif %}
+              {%- endfor %}
+            </div>
+
+            <div class="product__body">
+              <h3>{{ product.title }}</h3>
+              <ul class="product__features">
+                {%- for feature in product.features %}
+                  <li>{{ feature }}</li>
+                {%- endfor %}
+              </ul>
+            </div>
+          </article>
+        {%- endfor %}
+      </div>
+    </div>
+  </section>
 {% endblock %}

@@ -660,3 +660,259 @@ input {
     aspect-ratio: 3 / 5;
   }
 }
+
+// ---------------------------------------------------------------------------
+// Home: sections
+// ---------------------------------------------------------------------------
+
+.section {
+  padding-block-start: var(--section-gap);
+}
+
+.section--band {
+  margin-block-start: var(--section-gap);
+  padding-block: var(--section-gap-s);
+  background: var(--color-paper-2);
+}
+
+.section__head {
+  display: grid;
+  gap: var(--space-lg);
+  margin-block-end: var(--space-2xl);
+}
+
+// Business fields: the ODM process on a navy panel, the other fields beneath.
+.process {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 10fr);
+  gap: var(--gap-columns);
+  align-items: start;
+  padding: var(--space-xl);
+  border-radius: var(--radius);
+  background: var(--color-dark);
+  color: var(--color-on-dark);
+}
+
+.process__steps {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  counter-reset: step;
+}
+
+.process__steps li {
+  display: grid;
+  gap: var(--space-xs);
+  padding-block-start: var(--space-md);
+  padding-inline-end: var(--space-md);
+  border-top: 2px solid var(--color-on-dark-2);
+  font-size: var(--text-lg);
+  font-weight: 600;
+  counter-increment: step;
+}
+
+.process__steps li::before {
+  content: counter(step);
+  color: var(--color-accent-on-dark);
+  font-size: var(--text-title);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.fields {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 4fr) minmax(0, 3fr);
+  gap: var(--gap-columns);
+  margin-block-start: var(--space-2xl);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+  padding-block-start: var(--space-lg);
+  border-top: 2px solid var(--color-ink);
+}
+
+.field ul {
+  display: grid;
+  gap: var(--space-xs);
+  color: var(--color-ink-2);
+  font-size: var(--text-lg);
+}
+
+// Technology: head on the left, one row per group on the right.
+.rows {
+  display: grid;
+  grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+  gap: var(--gap-columns);
+  align-items: start;
+}
+
+.rows .section__head {
+  margin-block-end: 0;
+}
+
+.rows__list {
+  margin: 0;
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+}
+
+.rows__row {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 5fr);
+  gap: var(--gap-columns);
+  align-items: baseline;
+  padding-block: var(--space-lg);
+  border-top: var(--rule-hair) solid var(--color-rule);
+}
+
+.rows__row dt {
+  font-size: var(--text-title);
+  font-weight: 600;
+}
+
+.rows__row dd {
+  margin: 0;
+}
+
+.rows__row ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-lg);
+  color: var(--color-ink-2);
+  font-size: var(--text-lg);
+}
+
+// Products: the first one leads, the rest sit two across.
+.products {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3xl) var(--gap-columns);
+}
+
+.product {
+  display: grid;
+  gap: var(--space-lg);
+  align-content: start;
+}
+
+.product--lead {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--gap-columns);
+  align-items: center;
+}
+
+// A product with several photos scrolls sideways; the next photo shows at the edge.
+.product__media {
+  display: flex;
+  gap: var(--space-xs);
+  overflow-x: auto;
+  border-radius: var(--radius);
+  scroll-snap-type: x mandatory;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-muted) transparent;
+}
+
+.product__media > * {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+}
+
+.product__media[tabindex] > * {
+  flex-basis: 88%;
+}
+
+.product__media:focus-visible,
+.product__media a:focus-visible {
+  outline-offset: -2px;
+}
+
+.product__media img,
+.product__media video {
+  width: 100%;
+  aspect-ratio: 5 / 3;
+  object-fit: cover;
+  background: var(--color-paper-3);
+}
+
+.product__media video {
+  object-fit: contain;
+  background: var(--color-dark);
+}
+
+.product__body {
+  display: grid;
+  gap: var(--space-md);
+  align-content: start;
+}
+
+.product--lead .product__body {
+  padding-inline-start: var(--space-xl);
+}
+
+.product__features {
+  display: grid;
+  gap: var(--space-xs);
+  color: var(--color-ink-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.product__features li {
+  position: relative;
+  padding-inline-start: var(--space-md);
+}
+
+.product__features li::before {
+  content: "";
+  position: absolute;
+  top: 0.75em;
+  left: 0;
+  width: 6px;
+  height: 2px;
+  background: var(--color-muted);
+}
+
+@media (max-width: 60rem) {
+  .process {
+    grid-template-columns: minmax(0, 1fr);
+    padding: var(--space-lg);
+  }
+
+  .process__steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    row-gap: var(--space-lg);
+  }
+
+  .fields,
+  .rows {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xl);
+  }
+
+  .products {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2xl);
+  }
+
+  .product--lead {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-lg);
+  }
+
+  .product--lead .product__body {
+    padding-inline-start: 0;
+  }
+}
+
+@media (max-width: 40rem) {
+  .process__steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .rows__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-xs);
+  }
+}
