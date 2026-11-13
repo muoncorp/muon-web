@@ -1482,6 +1482,23 @@ main {
   font-weight: 400;
 }
 
+// Who signs a letter: the title, then the name larger under it, set to the right
+// with room above.
+.prose .signature {
+  display: grid;
+  gap: var(--space-2xs);
+  justify-items: end;
+  margin-block-start: var(--space-2xl);
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.signature strong {
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
 .prose ul,
 .prose ol {
   padding-inline-start: var(--space-lg);
