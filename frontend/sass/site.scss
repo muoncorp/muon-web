@@ -107,6 +107,16 @@
   --color-accent-on-dark: var(--ci-blue);
 }
 
+// Pictures of the recruitment steps on the contact page: one file per step, in
+// static/images/recruit/<accent>/<theme>. The step's place in the list picks the file.
+@mixin recruit-art($accent, $theme) {
+  @for $step from 1 through 4 {
+    li:nth-child(#{$step})::before {
+      background-image: url("/images/recruit/#{$accent}/#{$theme}/#{$step}.svg");
+    }
+  }
+}
+
 // Dark set. Used when the theme is "dark", or "auto" on a dark OS setting.
 @mixin dark-tokens {
   color-scheme: dark;
@@ -138,6 +148,14 @@
 
   .site-logo__dark {
     display: block;
+  }
+
+  .prose--recruit-process {
+    @include recruit-art("yellow", "dark");
+  }
+
+  &[data-accent="blue"] .prose--recruit-process {
+    @include recruit-art("blue", "dark");
   }
 
   // The header button shows the sun in dark, the moon in light.
@@ -1668,6 +1686,111 @@ main {
 .recruit {
   display: grid;
   gap: var(--space-2xl);
+}
+
+// Recruitment steps. The numbered list from the page text is laid out like the ODM
+// steps: a picture, the number and the name on one line, the notes under them, and
+// an arrow to the next step.
+.prose--recruit-process {
+  @include recruit-art("yellow", "light");
+}
+
+:root[data-accent="blue"] .prose--recruit-process {
+  @include recruit-art("blue", "light");
+}
+
+.prose--recruit-process ol {
+  --step-gap: var(--space-lg);
+  --step-row: var(--space-xl);
+
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--step-row) var(--step-gap);
+  margin-block-start: var(--space-lg);
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+}
+
+// The arrow sits at half the height of the picture, which is 0.9 times as tall as
+// the step is wide.
+.prose--recruit-process ol > li {
+  @include step-next-right;
+
+  --next-top: 45cqw;
+
+  position: relative;
+  margin: 0;
+  container-type: inline-size;
+  counter-increment: step;
+}
+
+.prose--recruit-process li::before {
+  content: "";
+  display: block;
+  aspect-ratio: 240 / 216;
+  margin-block-end: var(--space-sm);
+  background: center / contain no-repeat;
+}
+
+.prose--recruit-process li::after {
+  content: "";
+  position: absolute;
+  top: var(--next-top);
+  left: var(--next-left);
+  width: 14px;
+  height: 14px;
+  border-top: 3px solid var(--color-rule);
+  border-right: 3px solid var(--color-rule);
+  transform: translate(-50%, -50%) rotate(var(--next-turn)) translate(-25%, 25%);
+}
+
+.prose--recruit-process li:last-child::after {
+  content: none;
+}
+
+.prose--recruit-process li > p:first-child {
+  font-size: var(--text-lg);
+  font-weight: 600;
+}
+
+.prose--recruit-process li > p:first-child::before {
+  content: counter(step);
+  margin-inline-end: var(--space-xs);
+  color: var(--color-muted);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.prose--recruit-process blockquote {
+  margin: var(--space-xs) 0 0;
+  padding: 0;
+  border: 0;
+  font-size: var(--text-sm);
+}
+
+// Two steps across, as a switchback: 1 2, then 4 3 under them.
+@media (max-width: 75rem) {
+  .prose--recruit-process ol {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 34rem;
+  }
+
+  .prose--recruit-process li:nth-child(2) {
+    @include step-next-down;
+  }
+
+  .prose--recruit-process li:nth-child(3) {
+    @include step-next-left;
+
+    --next-top: 45cqw;
+
+    grid-area: 2 / 2;
+  }
+
+  .prose--recruit-process li:nth-child(4) {
+    grid-area: 2 / 1;
+  }
 }
 
 // ---------------------------------------------------------------------------

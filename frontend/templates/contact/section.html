@@ -121,7 +121,8 @@
       <h2>입사 지원</h2>
       <div class="recruit">
         {%- for page in section.pages %}
-          <div class="prose">
+          {#- The page name becomes a class, so site.scss can lay out the recruitment steps. -#}
+          <div class="prose prose--{{ page.slug }}">
             <h3>{{ page.title }}</h3>
             {{ page.content | safe }}
           </div>
