@@ -48,6 +48,7 @@ Sizes at 1440px: h1 72, h2 52, h3 25, lead 21, body 16.
 - Hover only changes color (120ms). Nothing animates on scroll.
 - Keep the section ids (`business-field`, `company-tech`, `products`) and URLs.
 - Product photos are real, each with alt text.
+- The ODM steps run in one row on a wide screen. On a tablet (three across) and a phone (two across) the rows turn back on themselves, 1 2 3 then 6 5 4, and an arrow leads from each step to the next.
 - The ODM steps each have a picture, `static/images/odm/<accent>/<step number>.svg` (240x216). The colors are fixed inside the files, so there is one set for each accent.
 - The business field pictures are in `static/images/fields`, 1024px square. The file name is the field title in lower case with dashes (`embedded.jpg`, `iot.jpg`, `os-porting.jpg`). A field without a file shows no picture.
 - A product photo opens in a large view over the page (a `dialog`), closed with the X, Esc or a click outside the photo. When the product has several photos, its photos sit in a row that slides sideways: arrows and arrow keys with a mouse, a finger drag on a touch screen (no arrows there), and a count such as "1 / 2" shows under it. Without JS it links to the original file. The video plays in place.
