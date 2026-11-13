@@ -1,5 +1,7 @@
 # Muon Web
 
+한국어: [README.ko.md](README.ko.md)
+
 This repository contains the source code for the [muon.co](https://muon.co) website.
 
 
@@ -163,5 +165,7 @@ Then update the business listings from step 4 as well.
 User-agent: GPTBot
 Disallow: /
 ```
+
+### Share image
 
 To replace the share image, keep the file name `og.jpg` and the size 1200x630.
