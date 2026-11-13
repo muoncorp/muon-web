@@ -822,7 +822,8 @@ main {
 
 // The steps of the process. The gaps between them hold the arrows.
 .process__steps {
-  --step-gap: var(--space-lg);
+  // Wider on a wide screen, where the single row has room to spare.
+  --step-gap: clamp(var(--space-lg), 2.6vw, var(--space-xl));
   --step-row: var(--space-xl);
 
   display: grid;
