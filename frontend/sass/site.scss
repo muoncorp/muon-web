@@ -826,22 +826,52 @@ main {
   counter-reset: step;
 }
 
+// One step: its picture with a chevron pointing to the next step, and under
+// them the number and the name on one line.
 .process__steps li {
   display: grid;
-  gap: var(--space-xs);
+  grid-template-columns: minmax(0, 1fr) var(--space-md);
+  row-gap: var(--space-sm);
+  align-items: center;
   padding-block-start: var(--space-md);
-  padding-inline-end: var(--space-md);
   border-top: 2px solid var(--color-on-dark-2);
   font-size: var(--text-title);
   font-weight: 600;
   counter-increment: step;
 }
 
-// The picture of a step sits above its number.
 .process__steps img {
-  order: -1;
+  grid-area: 1 / 1;
   width: 100%;
   height: auto;
+}
+
+.process__steps span {
+  grid-area: 2 / 1 / auto / -1;
+}
+
+.process__steps span::before {
+  content: counter(step);
+  margin-inline-end: var(--space-xs);
+  color: var(--color-accent-on-dark);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+// The chevron keeps its column on the last step too, so every picture has the same width.
+.process__steps li::after {
+  content: "";
+  grid-area: 1 / 2;
+  justify-self: center;
+  width: 9px;
+  height: 9px;
+  border-top: 2px solid var(--color-on-dark-2);
+  border-right: 2px solid var(--color-on-dark-2);
+  transform: rotate(45deg);
+}
+
+.process__steps li:last-child::after {
+  visibility: hidden;
 }
 
 // Below 1200px the title moves above the steps, so the pictures keep a readable size.
@@ -849,15 +879,6 @@ main {
   .process {
     grid-template-columns: minmax(0, 1fr);
   }
-}
-
-.process__steps li::before {
-  content: counter(step);
-  color: var(--color-accent-on-dark);
-  font-size: var(--text-section);
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.1;
 }
 
 .fields {
@@ -1244,6 +1265,11 @@ main {
     row-gap: var(--space-lg);
   }
 
+  // No chevron at the end of a row.
+  .process__steps li:nth-child(3n)::after {
+    visibility: hidden;
+  }
+
   .fields,
   .rows {
     grid-template-columns: minmax(0, 1fr);
@@ -1271,6 +1297,14 @@ main {
 @media (max-width: 40rem) {
   .process__steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .process__steps li:nth-child(odd)::after {
+    visibility: visible;
+  }
+
+  .process__steps li:nth-child(even)::after {
+    visibility: hidden;
   }
 
   .field ul {
