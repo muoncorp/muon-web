@@ -32,6 +32,14 @@
   --color-on-dark: var(--ci-paper);
   --color-on-dark-2: var(--ci-pale);
   --color-scrim: color-mix(in oklab, var(--ci-navy) 75%, transparent);
+
+  // Header: paper with the navy logo here, navy with the white logo in the dark set.
+  --header-bg: var(--color-paper);
+  --header-bg-2: var(--color-paper-2);
+  --header-ink: var(--color-ink);
+  --header-ink-2: var(--color-muted);
+  --header-mark: var(--color-ink);
+  --header-rule: var(--color-rule);
   --color-dim: color-mix(in oklab, black 85%, transparent);
 
   // Accent, yellow set (default). The blue set is further down.
@@ -106,6 +114,21 @@
   --color-rule: color-mix(in oklab, var(--ci-pale) 35%, var(--ci-navy));
   --color-focus: var(--ci-paper);
   --color-dark: color-mix(in oklab, var(--ci-paper) 6%, var(--ci-navy));
+  --header-bg: var(--color-dark);
+  --header-bg-2: var(--color-dark-2);
+  --header-ink: var(--color-on-dark);
+  --header-ink-2: var(--color-on-dark-2);
+  --header-mark: var(--color-accent-on-dark);
+  --header-rule: transparent;
+
+  // The header shows the white logo on navy.
+  .site-logo__light {
+    display: none;
+  }
+
+  .site-logo__dark {
+    display: block;
+  }
 
   // The header button shows the sun in dark, the moon in light.
   .theme-toggle__sun {
@@ -345,12 +368,14 @@ main {
 // ---------------------------------------------------------------------------
 
 .site-header {
-  --color-focus: var(--color-on-dark);
+  --color-focus: var(--header-ink);
   position: sticky;
   top: 0;
   z-index: var(--z-sticky-nav);
-  background: var(--color-dark);
-  color: var(--color-on-dark);
+  background: var(--header-bg);
+  // A hairline under the paper header; it takes no room, so the header keeps its height.
+  box-shadow: 0 var(--rule-hair) 0 var(--header-rule);
+  color: var(--header-ink);
 }
 
 .site-header__bar {
@@ -372,6 +397,11 @@ main {
 .site-logo img {
   width: auto;
   height: 40px;
+}
+
+// Two logos sit in the header; the dark set swaps which one shows.
+.site-logo__dark {
+  display: none;
 }
 
 .site-nav {
@@ -396,7 +426,7 @@ main {
   align-items: center;
   min-height: var(--header-h);
   padding-inline: var(--space-xs);
-  color: var(--color-on-dark-2);
+  color: var(--header-ink-2);
   font-weight: 600;
   text-decoration: none;
   white-space: nowrap;
@@ -405,11 +435,11 @@ main {
 
 .site-nav__link:hover,
 .site-nav__link[aria-current="page"] {
-  color: var(--color-on-dark);
+  color: var(--header-ink);
 }
 
 .site-nav__link[aria-current="page"] {
-  box-shadow: inset 0 -3px 0 var(--color-accent-on-dark);
+  box-shadow: inset 0 -3px 0 var(--header-mark);
 }
 
 .site-nav__sub {
@@ -421,7 +451,8 @@ main {
   min-width: 11rem;
   padding: var(--space-xs);
   border-radius: 0 0 var(--radius) var(--radius);
-  background: var(--color-dark-2);
+  background: var(--header-bg-2);
+  box-shadow: 0 0 0 var(--rule-hair) var(--header-rule);
 }
 
 .site-nav__item:hover > .site-nav__sub,
@@ -433,13 +464,13 @@ main {
   display: block;
   padding: var(--space-xs) var(--space-sm);
   border-radius: var(--radius);
-  color: var(--color-on-dark);
+  color: var(--header-ink);
   text-decoration: none;
   white-space: nowrap;
 }
 
 .site-nav__sub a:hover {
-  background: var(--color-dark);
+  background: var(--header-bg);
 }
 
 .site-search {
@@ -450,14 +481,14 @@ main {
   width: 12rem;
   height: 44px;
   padding: 0 var(--space-md);
-  border: 1px solid var(--color-on-dark-2);
+  border: 1px solid var(--header-ink-2);
   border-radius: var(--radius);
   background: transparent;
-  color: var(--color-on-dark);
+  color: var(--header-ink);
 }
 
 .site-search input::placeholder {
-  color: var(--color-on-dark-2);
+  color: var(--header-ink-2);
   opacity: 1;
 }
 
@@ -482,22 +513,22 @@ main {
   justify-content: center;
   width: 44px;
   height: 44px;
-  color: var(--color-on-dark-2);
+  color: var(--header-ink-2);
   transition: color var(--dur-micro) var(--ease-out);
 }
 
 .site-nav__social a:hover {
-  color: var(--color-on-dark);
+  color: var(--header-ink);
 }
 
 .nav-toggle,
 .theme-toggle {
   height: 44px;
   padding: 0 var(--space-md);
-  border: 1px solid var(--color-on-dark-2);
+  border: 1px solid var(--header-ink-2);
   border-radius: var(--radius);
   background: transparent;
-  color: var(--color-on-dark);
+  color: var(--header-ink);
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
@@ -534,7 +565,7 @@ main {
   width: 44px;
   padding: 0;
   border: 0;
-  color: var(--color-on-dark-2);
+  color: var(--header-ink-2);
   font-size: var(--text-lg);
   transition: color var(--dur-micro) var(--ease-out);
 }
@@ -548,7 +579,7 @@ main {
 }
 
 .theme-toggle:hover {
-  color: var(--color-on-dark);
+  color: var(--header-ink);
 }
 
 @media (max-width: 60rem) {
@@ -574,7 +605,8 @@ main {
     max-height: calc(100dvh - var(--header-h));
     padding-inline: var(--gutter);
     overflow-y: auto;
-    background: var(--color-dark);
+    background: var(--header-bg);
+    box-shadow: 0 var(--rule-hair) 0 var(--header-rule);
     animation: menu-in var(--dur-short) var(--ease-out);
   }
 
@@ -593,7 +625,7 @@ main {
   }
 
   .site-nav__link[aria-current="page"] {
-    box-shadow: inset 3px 0 0 var(--color-accent-on-dark);
+    box-shadow: inset 3px 0 0 var(--header-mark);
     padding-inline-start: var(--space-sm);
   }
 
@@ -602,6 +634,7 @@ main {
     position: static;
     padding: 0 0 var(--space-xs) var(--space-sm);
     background: none;
+    box-shadow: none;
   }
 
   .site-nav__sub a {

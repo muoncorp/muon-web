@@ -1,3 +1,4 @@
+{#- Logo for a navy surface: the footer, and the header in dark mode. -#}
 {% macro logo_url() -%}
   {%- if config.extra.accent and config.extra.accent == "blue" -%}
     {{ get_url(path='/images/muon-logo-color.svg') }}
@@ -19,7 +20,9 @@
 <header class="site-header">
   <div class="container site-header__bar">
     <a class="site-logo" href="{{ get_url(path='#', trailing_slash=false) }}">
-      <img src="{{ site_header::logo_url() }}" alt="MUON" width="87" height="40">
+      {#- Light mode shows the navy logo on paper, dark mode the logo for navy. site.scss swaps them. -#}
+      <img class="site-logo__light" src="{{ get_url(path='/images/muon-logo-navy.svg') }}" alt="MUON" width="87" height="40">
+      <img class="site-logo__dark" src="{{ site_header::logo_url() }}" alt="MUON" width="87" height="40">
     </a>
 
     <button class="nav-toggle" type="button" aria-controls="navMenu" aria-expanded="false" aria-label="메뉴">
