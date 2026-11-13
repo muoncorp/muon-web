@@ -1769,6 +1769,21 @@ main {
   font-size: var(--text-sm);
 }
 
+// Notes of a step: a bold name such as 신입 on its own line, one item per line
+// under it, and room between two such groups.
+.prose--recruit-process blockquote p {
+  text-wrap: balance;
+}
+
+.prose--recruit-process blockquote p + p {
+  margin-block-start: var(--space-sm);
+}
+
+.prose--recruit-process blockquote strong {
+  color: var(--color-ink);
+  font-weight: 600;
+}
+
 // Two steps across, as a switchback: 1 2, then 4 3 under them.
 @media (max-width: 75rem) {
   .prose--recruit-process ol {
