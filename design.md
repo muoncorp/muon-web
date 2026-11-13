@@ -8,9 +8,9 @@ From the brand package (muon-ci `colors/color.js`) and the logo.
 
 | Token | Value | Used for |
 | --- | --- | --- |
-| `--ci-navy` | `#022c4c` | text, footer, ODM panel, header in dark mode |
+| `--ci-navy` | `#022c4c` | text, ODM panel, header and footer in dark mode |
 | `--ci-paper` | `#fdfdfd` | background, text on navy |
-| `--ci-pale` | `#b5c3d9` | lines, tinted band, secondary text on navy |
+| `--ci-pale` | `#b5c3d9` | lines, tinted band, footer in light mode (40% mix), secondary text on navy |
 | `--ci-yellow` | `#ffd012` | accent (yellow set) |
 | `--ci-blue` | `#2c89f3` | accent (blue set), same blue as the logo mark |
 
@@ -21,7 +21,7 @@ Accent is set with `extra.accent` in `config.toml`, `yellow` or `blue`. We haven
 - yellow: yellow button, navy text, navy border. Yellow on white is 1.45:1 so never use it for text on white.
 - blue: the logo blue is 3.45:1 on white, not enough for button text. Buttons use a darker mix (78% blue + 22% navy, about 4.7:1). The original blue is only used on navy.
 
-Logo on navy (footer, header in dark mode): white one for yellow, blue mark for blue. The header in light mode is paper-colored and shows the navy logo (muon-ci `logos/basic/03`) for both accents. The header takes its colors from the `--header-*` tokens.
+Logo on navy (header and footer in dark mode): white one for yellow, blue mark for blue. In light mode the header is paper-colored and the footer a pale tint (`--color-paper-3`), and both show the navy logo (muon-ci `logos/basic/03`) for either accent. They take their colors from the `--header-*` and `--footer-*` tokens.
 
 Light and dark: the default follows the OS setting (`extra.theme = "auto"` in `config.toml`). The button in the header switches and keeps the choice in localStorage (`theme`). Set `extra.theme` to `light` or `dark` to fix the default. The blog comment box (utterances) gets the same theme by message.
 

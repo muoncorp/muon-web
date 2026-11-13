@@ -40,6 +40,12 @@
   --header-ink-2: var(--color-muted);
   --header-mark: var(--color-ink);
   --header-rule: var(--color-rule);
+
+  // Footer: a pale tint with the navy logo here, navy with the white logo in the dark set.
+  --footer-bg: var(--color-paper-3);
+  --footer-ink: var(--color-ink);
+  --footer-ink-2: var(--color-ink-2);
+  --footer-rule: var(--color-rule);
   --color-dim: color-mix(in oklab, black 85%, transparent);
 
   // Accent, yellow set (default). The blue set is further down.
@@ -120,8 +126,12 @@
   --header-ink-2: var(--color-on-dark-2);
   --header-mark: var(--color-accent-on-dark);
   --header-rule: transparent;
+  --footer-bg: var(--color-dark);
+  --footer-ink: var(--color-on-dark);
+  --footer-ink-2: var(--color-on-dark-2);
+  --footer-rule: var(--color-dark-2);
 
-  // The header shows the white logo on navy.
+  // The header and the footer show the white logo on navy.
   .site-logo__light {
     display: none;
   }
@@ -399,7 +409,7 @@ main {
   height: 40px;
 }
 
-// Two logos sit in the header; the dark set swaps which one shows.
+// Two logos sit in the header and in the footer; the dark set swaps which one shows.
 .site-logo__dark {
   display: none;
 }
@@ -661,11 +671,11 @@ main {
 // ---------------------------------------------------------------------------
 
 .site-footer {
-  --color-focus: var(--color-on-dark);
+  --color-focus: var(--footer-ink);
   margin-block-start: var(--section-gap);
   padding-block: var(--space-3xl) var(--space-2xl);
-  background: var(--color-dark);
-  color: var(--color-on-dark-2);
+  background: var(--footer-bg);
+  color: var(--footer-ink-2);
 }
 
 .site-footer__grid {
@@ -683,14 +693,14 @@ main {
 .site-footer address {
   display: grid;
   gap: var(--space-2xs);
-  color: var(--color-on-dark);
+  color: var(--footer-ink);
   font-style: normal;
 }
 
 .site-footer__legal {
   grid-column: 1 / -1;
   padding-block-start: var(--space-lg);
-  border-top: var(--rule-hair) solid var(--color-dark-2);
+  border-top: var(--rule-hair) solid var(--footer-rule);
   font-size: var(--text-sm);
 }
 

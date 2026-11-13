@@ -3,7 +3,9 @@
 {% macro footer() %}
 <footer class="site-footer">
   <div class="container site-footer__grid">
-    <img class="site-footer__logo" src="{{ site_header::logo_url() }}" alt="MUON" width="157" height="72" loading="lazy">
+    {#- Light mode shows the navy logo, dark mode the logo for navy. site.scss swaps them. -#}
+    <img class="site-footer__logo site-logo__light" src="{{ get_url(path='/images/muon-logo-navy.svg') }}" alt="MUON" width="157" height="72" loading="lazy">
+    <img class="site-footer__logo site-logo__dark" src="{{ site_header::logo_url() }}" alt="MUON" width="157" height="72" loading="lazy">
 
     <address>
       <span>뮤온 주식회사 (Muon Corp.) | 대표이사(CEO): 박흥준 (HEUNGJOON PARK)</span>
