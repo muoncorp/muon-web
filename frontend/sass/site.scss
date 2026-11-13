@@ -501,6 +501,8 @@ main {
   font-weight: 600;
   white-space: nowrap;
   cursor: pointer;
+  // Phones flash a pale blue box over a tapped button; these two change their icon instead.
+  -webkit-tap-highlight-color: transparent;
 }
 
 // Menu button for small screens: bars when closed, a cross when open.
