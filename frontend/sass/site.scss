@@ -1001,6 +1001,8 @@ main {
   // Same as in the large photo view: fast clicks on the arrows must not select the photo.
   -webkit-user-select: none;
   user-select: none;
+  // A tapped photo opens the large view straight away, so it needs no blue flash on a phone.
+  -webkit-tap-highlight-color: transparent;
 }
 
 // A product with several photos shows one at a time. Swipe or use the arrows;
