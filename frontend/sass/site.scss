@@ -1713,15 +1713,17 @@ main {
 }
 
 // The arrow sits at half the height of the picture, which is 0.9 times as tall as
-// the step is wide.
+// the step is wide. A margin in percent is measured against that width, so the
+// arrow is pushed down by 45%. (A size container on the step would allow 45cqw,
+// but Safari then restarts the step counter inside it and every number reads 0.)
 .prose--recruit-process ol > li {
   @include step-next-right;
 
-  --next-top: 45cqw;
+  --next-top: 0;
+  --next-shift: 45%;
 
   position: relative;
   margin: 0;
-  container-type: inline-size;
   counter-increment: step;
 }
 
@@ -1738,6 +1740,7 @@ main {
   position: absolute;
   top: var(--next-top);
   left: var(--next-left);
+  margin-block-start: var(--next-shift);
   width: 14px;
   height: 14px;
   border-top: 3px solid var(--color-rule);
@@ -1811,12 +1814,15 @@ main {
 
   .prose--recruit-process ol > li:nth-child(2) {
     @include step-next-down;
+
+    --next-shift: 0;
   }
 
   .prose--recruit-process ol > li:nth-child(3) {
     @include step-next-left;
 
-    --next-top: 45cqw;
+    --next-top: 0;
+    --next-shift: 45%;
 
     grid-area: 2 / 2;
   }
