@@ -111,7 +111,7 @@
 // static/images/recruit/<accent>/<theme>. The step's place in the list picks the file.
 @mixin recruit-art($accent, $theme) {
   @for $step from 1 through 4 {
-    li:nth-child(#{$step})::before {
+    ol > li:nth-child(#{$step})::before {
       background-image: url("/images/recruit/#{$accent}/#{$theme}/#{$step}.svg");
     }
   }
@@ -1725,7 +1725,7 @@ main {
   counter-increment: step;
 }
 
-.prose--recruit-process li::before {
+.prose--recruit-process ol > li::before {
   content: "";
   display: block;
   aspect-ratio: 240 / 216;
@@ -1733,7 +1733,7 @@ main {
   background: center / contain no-repeat;
 }
 
-.prose--recruit-process li::after {
+.prose--recruit-process ol > li::after {
   content: "";
   position: absolute;
   top: var(--next-top);
@@ -1745,16 +1745,16 @@ main {
   transform: translate(-50%, -50%) rotate(var(--next-turn)) translate(-25%, 25%);
 }
 
-.prose--recruit-process li:last-child::after {
+.prose--recruit-process ol > li:last-child::after {
   content: none;
 }
 
-.prose--recruit-process li > p:first-child {
+.prose--recruit-process ol > li > p:first-child {
   font-size: var(--text-lg);
   font-weight: 600;
 }
 
-.prose--recruit-process li > p:first-child::before {
+.prose--recruit-process ol > li > p:first-child::before {
   content: counter(step);
   margin-inline-end: var(--space-xs);
   color: var(--color-muted);
@@ -1762,25 +1762,43 @@ main {
   font-variant-numeric: tabular-nums;
 }
 
-.prose--recruit-process blockquote {
-  margin: var(--space-xs) 0 0;
-  padding: 0;
-  border: 0;
-  font-size: var(--text-sm);
+// Under the steps, what each kind of applicant goes through: a block for new
+// graduates and one for experienced hires, side by side.
+.prose--recruit-process {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: var(--gap-columns);
 }
 
-// Notes of a step: a bold name such as 신입 on its own line, one item per line
-// under it, and room between two such groups.
-.prose--recruit-process blockquote p {
-  text-wrap: balance;
+.prose--recruit-process > h3,
+.prose--recruit-process > ol {
+  grid-column: 1 / -1;
 }
 
-.prose--recruit-process blockquote p + p {
+.prose--recruit-process > h4 {
+  grid-row: 3;
+  margin-block-start: var(--space-xl);
+}
+
+.prose--recruit-process > ul {
+  grid-row: 4;
   margin-block-start: var(--space-sm);
+  padding: 0;
+  border-top: var(--rule-hair) solid var(--color-rule);
+  list-style: none;
 }
 
-.prose--recruit-process blockquote strong {
-  color: var(--color-ink);
+// One line per step: the step name, then what it asks for.
+.prose--recruit-process > ul li {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  gap: var(--space-sm);
+  margin: 0;
+  padding-block: var(--space-sm);
+  border-bottom: var(--rule-hair) solid var(--color-rule);
+}
+
+.prose--recruit-process > ul strong {
   font-weight: 600;
 }
 
@@ -1791,11 +1809,11 @@ main {
     max-width: 34rem;
   }
 
-  .prose--recruit-process li:nth-child(2) {
+  .prose--recruit-process ol > li:nth-child(2) {
     @include step-next-down;
   }
 
-  .prose--recruit-process li:nth-child(3) {
+  .prose--recruit-process ol > li:nth-child(3) {
     @include step-next-left;
 
     --next-top: 45cqw;
@@ -1803,8 +1821,20 @@ main {
     grid-area: 2 / 2;
   }
 
-  .prose--recruit-process li:nth-child(4) {
+  .prose--recruit-process ol > li:nth-child(4) {
     grid-area: 2 / 1;
+  }
+}
+
+// On a phone the two blocks go one under the other.
+@media (max-width: 40rem) {
+  .prose--recruit-process {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .prose--recruit-process > h4,
+  .prose--recruit-process > ul {
+    grid-row: auto;
   }
 }
 
