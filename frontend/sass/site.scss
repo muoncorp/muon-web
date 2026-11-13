@@ -837,6 +837,20 @@ main {
   counter-increment: step;
 }
 
+// The picture of a step sits above its number.
+.process__steps img {
+  order: -1;
+  width: 100%;
+  height: auto;
+}
+
+// Below 1200px the title moves above the steps, so the pictures keep a readable size.
+@media (max-width: 75rem) {
+  .process {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 .process__steps li::before {
   content: counter(step);
   color: var(--color-accent-on-dark);
