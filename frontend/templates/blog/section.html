@@ -1,7 +1,7 @@
 {% extends "site.html" %}
 
 {% block header %}
-  {{ site_header::header(current_section="blog") }}
+  {{<header config={config} current_section="blog" />}}
 {% endblock %}
 
 {% block content %}
@@ -12,10 +12,10 @@
   </div>
 
   <div class="container blog">
-    {{ site_blog::side_menu(current_category_name="") }}
+    {{<blog_side_menu current_category_name="" />}}
     <div>
       <h2>최신글</h2>
-      {{ site_blog::list(pages=section.pages) }}
+      {{<blog_list config={config} pages={section.pages} />}}
     </div>
   </div>
 {% endblock %}

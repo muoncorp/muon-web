@@ -1,7 +1,4 @@
-{#- Base layout. base.html is the old Bulma layout, no page uses it now. -#}
-{%- import 'macros/site_header.html' as site_header -%}
-{%- import 'macros/site_footer.html' as site_footer -%}
-{%- import 'macros/site_blog.html' as site_blog -%}
+{#- Base layout. The header, footer and blog pieces are components in templates/components. -#}
 <!DOCTYPE html>
 <html lang="ko-KR" data-accent="{{ config.extra.accent | default(value='yellow') }}" data-theme="{{ config.extra.theme | default(value='auto') }}">
 
@@ -77,7 +74,7 @@
   {%- endif %}
 
   {#- The company and this page described for search engines (schema.org). The company
-      details are the same as in macros/site_footer.html; change both together. #}
+      details are the same as in components/site_footer.html; change both together. #}
   {%- set home_url = get_url(path="/", trailing_slash=true) %}
   {%- set org_id = home_url ~ "#organization" %}
   <script type="application/ld+json">
@@ -124,7 +121,7 @@
         "headline": {{ page.title | json_encode() | safe }},
         "description": {{ seo_description | json_encode() | safe }},
         "datePublished": "{{ page.date }}",
-        "dateModified": "{{ page.updated | default(value=page.date) }}",
+        "dateModified": "{{ page.updated or page.date }}",
         "inLanguage": "ko-KR",
         "image": "{{ get_url(path='images/og.jpg') | safe }}",
         "author": { "@id": "{{ org_id | safe }}" },
@@ -221,7 +218,7 @@
   <a class="skip-link" href="#main">본문으로 건너뛰기</a>
 
   {% block header %}
-    {{ site_header::header(current_section="business") }}
+    {{<header config={config} current_section="business" />}}
   {% endblock %}
 
   <main id="main">
@@ -229,7 +226,7 @@
   </main>
 
   {% block footer %}
-    {{ site_footer::footer() }}
+    {{<footer config={config} />}}
   {% endblock %}
 
   <script>

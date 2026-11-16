@@ -1,5 +1,5 @@
 {% extends "site.html" %}
 
 {% block header %}
-  {{ site_header::header(current_section="about") }}
+  {{<header config={config} current_section="about" />}}
 {% endblock %}

@@ -1,4 +1,4 @@
-{% macro side_menu(current_category_name) %}
+{% component blog_side_menu(current_category_name) %}
 <aside class="blog__side">
   <nav aria-label="카테고리">
     <h2>카테고리</h2>
@@ -17,31 +17,30 @@
   </nav>
   <nav aria-label="태그">
     <h2>태그</h2>
-    {{ site_blog::tags_with_count() }}
+    {{<blog_tags_with_count />}}
   </nav>
 </aside>
-{% endmacro %}
+{% endcomponent blog_side_menu %}
 
-{% macro metadata(page) %}
+{% component blog_metadata(config, page) %}
 <p class="post-meta">
   <span>
     Posted {{ page.date | date(format=config.extra.timeformat | default(value="%Y-%m-%d"), timezone=config.extra.timezone | default(value="America/New_York")) }}
     {%- if page.taxonomies.authors and config.taxonomies %}
       by
       {%- for author in page.taxonomies.authors %}
-        {%- if author_flag %}
+        {%- if not loop.first %}
           and
         {%- endif %}
         <a href="{{ get_taxonomy_url(kind='authors', name=author) | safe }}">{{ author }}</a>
-        {%- set_global author_flag = true %}
       {%- endfor %}
     {%- endif %}
   </span>
   <span>{{ page.reading_time }} minute read</span>
 </p>
-{% endmacro %}
+{% endcomponent blog_metadata %}
 
-{% macro tags(page) %}
+{% component blog_tags(config, page) %}
   {%- if page.taxonomies.tags and config.taxonomies %}
     <ul class="tags">
       {%- for tag in page.taxonomies.tags %}
@@ -49,29 +48,29 @@
       {%- endfor %}
     </ul>
   {%- endif %}
-{% endmacro %}
+{% endcomponent blog_tags %}
 
-{% macro tags_with_count() %}
+{% component blog_tags_with_count() %}
   {%- set tags = get_taxonomy(kind="tags") %}
   <ul class="tags">
     {%- for tag in tags.items %}
       <li><a href="{{ tag.permalink | safe }}">{{ tag.name }} ({{ tag.page_count }})</a></li>
     {%- endfor %}
   </ul>
-{% endmacro %}
+{% endcomponent blog_tags_with_count %}
 
-{% macro list(pages) %}
+{% component blog_list(config, pages) %}
 <ul class="post-list">
   {%- for page in pages %}
     <li>
       <h3><a href="{{ page.permalink | safe }}">{{ page.title | safe }}</a></h3>
-      {{ site_blog::metadata(page=page) }}
+      {{<blog_metadata config={config} page={page} />}}
       {%- if page.summary %}
         <div class="prose">{{ page.summary | safe }}</div>
         <p><a href="{{ page.permalink }}#continue-reading">계속 읽기</a></p>
-        {{ site_blog::tags(page=page) }}
+        {{<blog_tags config={config} page={page} />}}
       {%- endif %}
     </li>
   {%- endfor %}
 </ul>
-{% endmacro %}
+{% endcomponent blog_list %}

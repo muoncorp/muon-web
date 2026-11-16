@@ -1,33 +1,35 @@
+{#- Components only see the arguments they are given, so pass `config` where it is needed. -#}
+
 {#- Logo for a navy surface: the header and the footer in dark mode. -#}
-{% macro logo_url() -%}
+{% component logo_url(config) -%}
   {%- if config.extra.accent and config.extra.accent == "blue" -%}
     {{ get_url(path='/images/muon-logo-color.svg') }}
   {%- else -%}
     {{ get_url(path='/images/muon-logo-white.svg') }}
   {%- endif -%}
-{%- endmacro %}
+{%- endcomponent logo_url %}
 
 {#- Inline svg for a Font Awesome class pair such as "fa-brands fa-youtube",
     read from the Font Awesome package under sass/_vendor. -#}
-{% macro icon(fa) -%}
+{% component icon(fa) -%}
   {%- set parts = fa | split(pat=" ") -%}
   {%- set style = parts | first | replace(from="fa-", to="") -%}
   {%- set name = parts | last | replace(from="fa-", to="") -%}
   <span class="icon" aria-hidden="true">{{ load_data(path="sass/_vendor/fontawesome-free-6.4.2-web/svgs/" ~ style ~ "/" ~ name ~ ".svg", format="plain") | safe }}</span>
-{%- endmacro %}
+{%- endcomponent icon %}
 
-{% macro header(current_section) %}
+{% component header(config, current_section) %}
 <header class="site-header">
   <div class="container site-header__bar">
     <a class="site-logo" href="{{ get_url(path='#', trailing_slash=false) }}">
       {#- Light mode shows the navy logo on paper, dark mode the logo for navy. site.scss swaps them. -#}
       <img class="site-logo__light" src="{{ get_url(path='/images/muon-logo-navy.svg') }}" alt="MUON" width="87" height="40">
-      <img class="site-logo__dark" src="{{ site_header::logo_url() }}" alt="MUON" width="87" height="40">
+      <img class="site-logo__dark" src="{{<logo_url config={config} />}}" alt="MUON" width="87" height="40">
     </a>
 
     <button class="nav-toggle" type="button" aria-controls="navMenu" aria-expanded="false" aria-label="메뉴">
-      <span class="nav-toggle__open">{{ site_header::icon(fa="fa-solid fa-bars") }}</span>
-      <span class="nav-toggle__close">{{ site_header::icon(fa="fa-solid fa-xmark") }}</span>
+      <span class="nav-toggle__open">{{<icon fa="fa-solid fa-bars" />}}</span>
+      <span class="nav-toggle__close">{{<icon fa="fa-solid fa-xmark" />}}</span>
     </button>
 
     <nav id="navMenu" class="site-nav" aria-label="주 메뉴">
@@ -60,16 +62,16 @@
       {%- if config.extra.menu.social %}
         <ul class="site-nav__social">
           {%- for val in config.extra.menu.social %}
-            <li><a href="{{ val.url }}" aria-label="{{ val.name }}" title="{{ val.name }}">{{ site_header::icon(fa=val.icon) }}</a></li>
+            <li><a href="{{ val.url }}" aria-label="{{ val.name }}" title="{{ val.name }}">{{<icon fa={val.icon} />}}</a></li>
           {%- endfor %}
         </ul>
       {%- endif %}
 
       <button class="theme-toggle" type="button" aria-label="다크 모드로 전환" hidden>
-        <span class="theme-toggle__moon">{{ site_header::icon(fa="fa-solid fa-moon") }}</span>
-        <span class="theme-toggle__sun">{{ site_header::icon(fa="fa-solid fa-sun") }}</span>
+        <span class="theme-toggle__moon">{{<icon fa="fa-solid fa-moon" />}}</span>
+        <span class="theme-toggle__sun">{{<icon fa="fa-solid fa-sun" />}}</span>
       </button>
     </nav>
   </div>
 </header>
-{% endmacro %}
+{% endcomponent header %}

@@ -8,10 +8,10 @@
   </div>
 
   <div class="container blog">
-    {{ site_blog::side_menu(current_category_name="") }}
+    {{<blog_side_menu current_category_name="" />}}
     <div>
       <h2>Tag: {{ term.name }}</h2>
-      {{ site_blog::list(pages=term.pages) }}
+      {{<blog_list config={config} pages={term.pages} />}}
     </div>
   </div>
 {% endblock %}

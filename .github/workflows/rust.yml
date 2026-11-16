@@ -33,7 +33,7 @@ jobs:
         source: "target/release/muon-web-server"
         target: /opt/muon-web
     - name: Zola build
-      uses: shalzz/zola-deploy-action@v0.19.2
+      uses: shalzz/zola-deploy-action@v0.23.6
       env:
         BUILD_DIR: frontend
         BUILD_ONLY: true

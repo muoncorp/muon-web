@@ -1,7 +1,7 @@
 {% extends "site.html" %}
 
 {% block header %}
-  {{ site_header::header(current_section="contact") }}
+  {{<header config={config} current_section="contact" />}}
 {% endblock %}
 
 {% block content %}

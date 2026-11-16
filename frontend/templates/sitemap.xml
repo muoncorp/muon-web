@@ -3,7 +3,7 @@
     Their own address only sends visitors on, so it is left out of the sitemap. -#}
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     {%- for sitemap_entry in entries %}
-    {%- if sitemap_entry.permalink is not matching("/(about|contact)/[^/]+/$") %}
+    {%- if sitemap_entry.permalink is not matching(pat="/(about|contact)/[^/]+/$") %}
     <url>
         <loc>{{ sitemap_entry.permalink | escape_xml | safe }}</loc>
         {%- if sitemap_entry.updated %}

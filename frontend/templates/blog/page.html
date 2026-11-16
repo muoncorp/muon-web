@@ -1,15 +1,15 @@
 {% extends "site.html" %}
 
 {% block header %}
-  {{ site_header::header(current_section="blog") }}
+  {{<header config={config} current_section="blog" />}}
 {% endblock %}
 
 {% block content %}
   <article class="container post">
     <header class="post__head">
       <h1>{{ page.title }}</h1>
-      {{ site_blog::metadata(page=page) }}
-      {{ site_blog::tags(page=page) }}
+      {{<blog_metadata config={config} page={page} />}}
+      {{<blog_tags config={config} page={page} />}}
     </header>
 
     <div class="prose">
