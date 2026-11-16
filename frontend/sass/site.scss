@@ -883,51 +883,24 @@ main {
   line-height: 1.1;
 }
 
-// The steps of the process. The gaps between them hold the arrows.
+// What the ODM work covers. The items stand side by side as equals, with no
+// numbers and no arrows, so they do not read as a sequence.
 .process__steps {
-  // Wider on a wide screen, where the single row has room to spare.
-  --step-gap: clamp(var(--space-lg), 2.6vw, var(--space-xl));
-  --step-row: var(--space-xl);
-
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: var(--step-row) var(--step-gap);
+  // Wider on a wide screen, where the single row has room to spare.
+  gap: var(--space-xl) clamp(var(--space-lg), 2.6vw, var(--space-xl));
   padding-block-start: var(--space-md);
   border-top: 2px solid var(--color-on-dark-2);
-  counter-reset: step;
 }
 
-// Where the arrow to the next step goes: in the gap on the right, in the gap on
-// the left, or under the step when the next one is on the row below.
-@mixin step-next-right {
-  --next-top: 50%;
-  --next-left: calc(100% + var(--step-gap) / 2);
-  --next-turn: 45deg;
-}
-
-@mixin step-next-down {
-  --next-top: calc(100% + var(--step-row) / 2);
-  --next-left: 50%;
-  --next-turn: 135deg;
-}
-
-@mixin step-next-left {
-  --next-top: 50%;
-  --next-left: calc(var(--step-gap) / -2);
-  --next-turn: 225deg;
-}
-
-// One step: its picture, and under it the number and the name on one line.
+// One item: its picture, and under it a small accent mark and the name.
 .process__steps li {
-  @include step-next-right;
-
   display: grid;
-  position: relative;
   row-gap: var(--space-sm);
   align-content: start;
   font-size: var(--text-title);
   font-weight: 600;
-  counter-increment: step;
 }
 
 .process__steps img {
@@ -936,32 +909,16 @@ main {
 }
 
 .process__steps span::before {
-  content: counter(step);
-  margin-inline-end: var(--space-xs);
-  color: var(--color-accent-on-dark);
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-// The arrow is centered on the picture and the name taken together.
-.process__steps li::after {
   content: "";
-  position: absolute;
-  top: var(--next-top);
-  left: var(--next-left);
-  width: 14px;
-  height: 14px;
-  border-top: 3px solid var(--color-on-dark-2);
-  border-right: 3px solid var(--color-on-dark-2);
-  // The last move puts the middle of the chevron, not of its box, on the spot.
-  transform: translate(-50%, -50%) rotate(var(--next-turn)) translate(-25%, 25%);
+  display: inline-block;
+  width: 0.45em;
+  height: 0.45em;
+  margin-inline-end: var(--space-xs);
+  background: var(--color-accent-on-dark);
+  vertical-align: 0.12em;
 }
 
-.process__steps li:last-child::after {
-  content: none;
-}
-
-// Below 1200px the title moves above the steps, so the pictures keep a readable size.
+// Below 1200px the title moves above the items, so the pictures keep a readable size.
 @media (max-width: 75rem) {
   .process {
     grid-template-columns: minmax(0, 1fr);
@@ -1349,29 +1306,8 @@ main {
     padding: var(--space-lg);
   }
 
-  // Three steps across, as a switchback: 1 2 3, then 6 5 4 under them.
   .process__steps {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .process__steps li:nth-child(3) {
-    @include step-next-down;
-  }
-
-  .process__steps li:nth-child(4) {
-    @include step-next-left;
-
-    grid-area: 2 / 3;
-  }
-
-  .process__steps li:nth-child(5) {
-    @include step-next-left;
-
-    grid-area: 2 / 2;
-  }
-
-  .process__steps li:nth-child(6) {
-    grid-area: 2 / 1;
   }
 
   .fields,
@@ -1399,35 +1335,8 @@ main {
 }
 
 @media (max-width: 40rem) {
-  // Two steps across: 1 2, then 4 3, then 5 6.
   .process__steps {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .process__steps li:nth-child(2) {
-    @include step-next-down;
-  }
-
-  .process__steps li:nth-child(3) {
-    @include step-next-left;
-
-    grid-area: 2 / 2;
-  }
-
-  .process__steps li:nth-child(4) {
-    @include step-next-down;
-
-    grid-area: 2 / 1;
-  }
-
-  .process__steps li:nth-child(5) {
-    @include step-next-right;
-
-    grid-area: 3 / 1;
-  }
-
-  .process__steps li:nth-child(6) {
-    grid-area: 3 / 2;
   }
 
   .field ul {
@@ -1697,6 +1606,26 @@ main {
 
 :root[data-accent="blue"] .prose--recruit-process {
   @include recruit-art("blue", "light");
+}
+
+// Where the arrow to the next step goes: in the gap on the right, in the gap on
+// the left, or under the step when the next one is on the row below.
+@mixin step-next-right {
+  --next-top: 50%;
+  --next-left: calc(100% + var(--step-gap) / 2);
+  --next-turn: 45deg;
+}
+
+@mixin step-next-down {
+  --next-top: calc(100% + var(--step-row) / 2);
+  --next-left: 50%;
+  --next-turn: 135deg;
+}
+
+@mixin step-next-left {
+  --next-top: 50%;
+  --next-left: calc(var(--step-gap) / -2);
+  --next-turn: 225deg;
 }
 
 .prose--recruit-process ol {

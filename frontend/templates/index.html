@@ -47,20 +47,20 @@
 
           <div class="process">
             <h3>{{ process.title }}</h3>
-            {#- Each step has a picture, static/images/odm/<accent>/<step number>.svg.
+            {#- Each item has a picture, static/images/odm/<accent>/<place in the list>.svg.
                 The colors are fixed inside the files, so there is one set per accent. -#}
             {%- set art = "yellow" %}
             {%- if config.extra.accent and config.extra.accent == "blue" %}
               {%- set art = "blue" %}
             {%- endif %}
-            <ol class="process__steps">
+            <ul class="process__steps">
               {%- for item in process.items %}
                 <li>
                   <img src="{{ get_url(path='images/odm/' ~ art ~ '/' ~ loop.index ~ '.svg') }}" alt="" width="240" height="216" loading="lazy" decoding="async">
                   <span>{{ item }}</span>
                 </li>
               {%- endfor %}
-            </ol>
+            </ul>
           </div>
 
           <div class="fields">
