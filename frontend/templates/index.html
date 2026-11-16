@@ -64,16 +64,15 @@
           </div>
 
           <div class="fields">
-            {%- for card in content.cards[1:] %}
-              {#- A field gets a picture when static/images/fields has a jpg named after its title, e.g. os-porting.jpg. -#}
+            {%- for card in content.cards | slice(start=1) %}
+              {#- A field gets a picture when static/images/fields/<accent> has an svg named after
+                  its title, e.g. os-porting.svg. They are drawn like the ODM pictures above. -#}
               {%- set slug = card.title | slugify %}
-              {%- set photo = "images/fields/" ~ slug ~ ".jpg" %}
-              {%- set found = get_image_metadata(path=photo, allow_missing=true) %}
+              {%- set picture = "images/fields/" ~ art ~ "/" ~ slug ~ ".svg" %}
+              {%- set found = get_image_metadata(path=picture, allow_missing=true) %}
               <div class="field">
                 {%- if found %}
-                  {%- set small = resize_image(path=photo, width=480, height=480, op="fill", format="webp", quality=80) %}
-                  {%- set large = resize_image(path=photo, width=960, height=960, op="fill", format="webp", quality=80) %}
-                  <img src="{{ large.url }}" srcset="{{ small.url }} 480w, {{ large.url }} 960w" sizes="(min-width: 60rem) 30vw, 40vw" alt="" width="960" height="960" loading="lazy">
+                  <img src="{{ get_url(path=picture) }}" alt="" width="240" height="216" loading="lazy" decoding="async">
                 {%- endif %}
                 <h3>{{ card.title }}</h3>
                 <ul>
