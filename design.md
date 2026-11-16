@@ -48,7 +48,7 @@ Sizes at 1440px: h1 72, h2 52, h3 25, lead 21, body 16.
 - Hover only changes color (120ms). Nothing animates on scroll.
 - Keep the section ids (`business-field`, `company-tech`, `products`) and URLs.
 - Product photos are real, each with alt text.
-- The ODM items run in one row on a wide screen, three across on a tablet and two across on a phone, in plain reading order. They are shown as equal parts of the work and not as a sequence, so they carry no numbers and no arrows, only a small accent square before each name.
+- The ODM items sit three across in two rows, and two across on a phone, in plain reading order. Three across keeps each picture large enough for its details to read. They are shown as equal parts of the work and not as a sequence, so they carry no numbers and no arrows, only a small accent square before each name.
 - The recruitment steps on the contact page are the numbered list in `content/contact/recruit-process.md`. Each step gets a picture by its place in the list, `static/images/recruit/<accent>/<light or dark>/<step number>.svg`, and the list is laid out four across, or two across as a switchback (1 2, then 4 3 under them), with an arrow from each step to the next. Keep a blank line between the steps. The two bullet lists under them (신입, 경력) are shown as two blocks side by side.
 - The ODM items each have a picture, `static/images/odm/<accent>/<place in the list>.svg` (240x216). The colors are fixed inside the files, so there is one set for each accent.
 - The business field pictures are in `static/images/fields`, 1024px square. The file name is the field title in lower case with dashes (`embedded.jpg`, `iot.jpg`, `os-porting.jpg`). A field without a file shows no picture.

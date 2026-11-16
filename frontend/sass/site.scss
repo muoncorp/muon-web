@@ -887,8 +887,8 @@ main {
 // numbers and no arrows, so they do not read as a sequence.
 .process__steps {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  // Wider on a wide screen, where the single row has room to spare.
+  // Three across, in two rows, so each picture is large enough to read.
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-xl) clamp(var(--space-lg), 2.6vw, var(--space-xl));
 }
 
@@ -916,7 +916,7 @@ main {
   vertical-align: 0.12em;
 }
 
-// Below 1200px the title moves above the items, so the pictures keep a readable size.
+// Below 1200px the title moves above the items, which then use the full width.
 @media (max-width: 75rem) {
   .process {
     grid-template-columns: minmax(0, 1fr);
@@ -1302,10 +1302,6 @@ main {
   .process {
     grid-template-columns: minmax(0, 1fr);
     padding: var(--space-lg);
-  }
-
-  .process__steps {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
   .fields,
