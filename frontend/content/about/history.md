@@ -7,8 +7,46 @@ id = "history"
 +++
 <div class="timeline is-centered">
   <header class="timeline-header">
+    <span class="tag is-info">2024</span>
+  </header>
+  <div class="timeline-item has-text-info">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading"></p>
+      <p>MUON Smart-Link 개발</p>
+    </div>
+  </div>
+  <div class="timeline-item has-text-info">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading"></p>
+      <p>S사 BLE to WiFi Converter Module 개발</p>
+    </div>
+  </div>
+  <div class="timeline-item has-text-info">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading"></p>
+      <p>C사 염수살포 제어 보드 개발</p>
+    </div>
+  </div>
+  <header class="timeline-header">
     <span class="tag is-primary">2023</span>
   </header>
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading"></p>
+      <p>C사 Distance 4CH ToF Sensor 개발</p>
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading"></p>
+      <p>A사 태양열 발전소 RTU 개발</p>
+    </div>
+  </div>
   <div class="timeline-item">
     <div class="timeline-marker"></div>
     <div class="timeline-content">
