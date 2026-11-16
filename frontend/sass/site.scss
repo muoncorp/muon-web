@@ -891,11 +891,12 @@ main {
   gap: var(--space-xl) clamp(var(--space-lg), 2.6vw, var(--space-xl));
 }
 
-// One item: its picture, and under it a small accent mark and the name.
+// One item: its picture, and the name centered under it.
 .process__steps li {
   display: grid;
   row-gap: var(--space-sm);
   align-content: start;
+  text-align: center;
   font-size: var(--text-title);
   font-weight: 600;
 }
@@ -903,16 +904,6 @@ main {
 .process__steps img {
   width: 100%;
   height: auto;
-}
-
-.process__steps span::before {
-  content: "";
-  display: inline-block;
-  width: 0.45em;
-  height: 0.45em;
-  margin-inline-end: var(--space-xs);
-  background: var(--color-accent-on-dark);
-  vertical-align: 0.12em;
 }
 
 .fields {
