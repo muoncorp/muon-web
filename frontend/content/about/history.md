@@ -12,21 +12,21 @@ id = "history"
   <div class="timeline-item has-text-info">
     <div class="timeline-marker"></div>
     <div class="timeline-content">
-      <p class="heading"></p>
-      <p>MUON Smart-Link 개발</p>
-    </div>
-  </div>
-  <div class="timeline-item has-text-info">
-    <div class="timeline-marker"></div>
-    <div class="timeline-content">
-      <p class="heading"></p>
+      <p class="heading">2024.09</p>
       <p>S사 BLE to WiFi Converter Module 개발</p>
     </div>
   </div>
   <div class="timeline-item has-text-info">
     <div class="timeline-marker"></div>
     <div class="timeline-content">
-      <p class="heading"></p>
+      <p class="heading">2024.07</p>
+      <p>MUON Smart-Link 개발</p>
+    </div>
+  </div>
+  <div class="timeline-item has-text-info">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading">2024.03</p>
       <p>C사 염수살포 제어 보드 개발</p>
     </div>
   </div>
@@ -36,15 +36,8 @@ id = "history"
   <div class="timeline-item">
     <div class="timeline-marker"></div>
     <div class="timeline-content">
-      <p class="heading"></p>
+      <p class="heading">2023.11</p>
       <p>C사 Distance 4CH ToF Sensor 개발</p>
-    </div>
-  </div>
-  <div class="timeline-item">
-    <div class="timeline-marker"></div>
-    <div class="timeline-content">
-      <p class="heading"></p>
-      <p>A사 태양열 발전소 RTU 개발</p>
     </div>
   </div>
   <div class="timeline-item">
@@ -54,7 +47,14 @@ id = "history"
       <p>M사 시각 장애인을 위한 점자 학습기 개발</p>
     </div>
   </div>
-    <div class="timeline-item">
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading">2023.07</p>
+      <p>A사 태양열 발전소 RTU 개발</p>
+    </div>
+  </div>
+  <div class="timeline-item">
     <div class="timeline-marker"></div>
     <div class="timeline-content">
       <p class="heading">2023.06</p>
