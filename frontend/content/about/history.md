@@ -70,7 +70,7 @@ id = "history"
   <div class="timeline-item has-text-info">
     <div class="timeline-marker"></div>
     <div class="timeline-content">
-      <p class="heading">2022.10</p>
+      <p class="heading">2020.10</p>
       <p>산학협력 체결 (유한공업고등학교)</p>
     </div>
   </div>
