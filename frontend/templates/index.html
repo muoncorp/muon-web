@@ -36,8 +36,7 @@
 
   {%- for content in section.extra.contents %}
     {%- if loop.first %}
-      {#- Business fields: the first card (ODM) is a process, the rest are fields. -#}
-      {%- set process = content.cards | first %}
+      {#- Business fields: one navy panel for each card, with its items in a row. -#}
       <section id="{{ content.id }}" class="section">
         <div class="container">
           <div class="section__head">
@@ -45,44 +44,27 @@
             <p class="lead">{{ intro_lines | first | trim }}</p>
           </div>
 
-          <div class="process">
-            <h3>{{ process.title }}</h3>
-            {#- Each item has a picture, static/images/odm/<accent>/<place in the list>.svg.
-                The colors are fixed inside the files, so there is one set per accent. -#}
-            {%- set art = "yellow" %}
-            {%- if config.extra.accent and config.extra.accent == "blue" %}
-              {%- set art = "blue" %}
-            {%- endif %}
-            <ul class="process__steps">
-              {%- for item in process.items %}
-                <li>
-                  <img src="{{ get_url(path='images/odm/' ~ art ~ '/' ~ loop.index ~ '.svg') }}" alt="" width="240" height="216" loading="lazy" decoding="async">
-                  <span>{{ item }}</span>
-                </li>
-              {%- endfor %}
-            </ul>
-          </div>
-
-          <div class="fields">
-            {%- for card in content.cards | slice(start=1) %}
-              {#- A field gets a picture when static/images/fields/<accent> has an svg named after
-                  its title, e.g. os-porting.svg. They are drawn like the ODM pictures above. -#}
-              {%- set slug = card.title | slugify %}
-              {%- set picture = "images/fields/" ~ art ~ "/" ~ slug ~ ".svg" %}
-              {%- set found = get_image_metadata(path=picture, allow_missing=true) %}
-              <div class="field">
-                {%- if found %}
-                  <img src="{{ get_url(path=picture) }}" alt="" width="240" height="216" loading="lazy" decoding="async">
-                {%- endif %}
-                <h3>{{ card.title }}</h3>
-                <ul>
-                  {%- for item in card.items %}
-                    <li>{{ item }}</li>
-                  {%- endfor %}
-                </ul>
-              </div>
-            {%- endfor %}
-          </div>
+          {#- Each item has a picture, static/images/<field>/<accent>/<place in the list>.svg,
+              where <field> is the card title in lower case with dashes (odm, os-porting).
+              The colors are fixed inside the files, so there is one set per accent. -#}
+          {%- set art = "yellow" %}
+          {%- if config.extra.accent and config.extra.accent == "blue" %}
+            {%- set art = "blue" %}
+          {%- endif %}
+          {%- for card in content.cards %}
+            {%- set field = card.title | slugify %}
+            <div class="process">
+              <h3>{{ card.title }}</h3>
+              <ul class="process__steps" style="--count: {{ card.items | length }}">
+                {%- for item in card.items %}
+                  <li>
+                    <img src="{{ get_url(path='images/' ~ field ~ '/' ~ art ~ '/' ~ loop.index ~ '.svg') }}" alt="" width="240" height="216" loading="lazy" decoding="async">
+                    <span>{{ item }}</span>
+                  </li>
+                {%- endfor %}
+              </ul>
+            </div>
+          {%- endfor %}
         </div>
       </section>
     {%- else %}

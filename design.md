@@ -8,7 +8,7 @@ From the brand package (muon-ci `colors/color.js`) and the logo.
 
 | Token | Value | Used for |
 | --- | --- | --- |
-| `--ci-navy` | `#022c4c` | text, ODM panel, header and footer in dark mode |
+| `--ci-navy` | `#022c4c` | text, business field panels, header and footer in dark mode |
 | `--ci-paper` | `#fdfdfd` | background, text on navy |
 | `--ci-pale` | `#b5c3d9` | lines, tinted band, footer in light mode (40% mix), secondary text on navy |
 | `--ci-yellow` | `#ffd012` | accent (yellow set) |
@@ -48,10 +48,10 @@ Sizes at 1440px: h1 72, h2 52, h3 25, lead 21, body 16.
 - Hover only changes color (120ms). Nothing animates on scroll.
 - Keep the section ids (`business-field`, `company-tech`, `products`) and URLs.
 - Product photos are real, each with alt text.
-- The ODM items run in one row on a wide screen, three across on a tablet and two across on a phone, in plain reading order. The ODM title sits above them, so the row has the full width of the panel and the pictures come out larger. They are shown as equal parts of the work and not as a sequence, so they carry no numbers, marks or arrows, only the name centered under each picture.
+- Each business field (ODM, Embedded, IoT, OS Porting) is a navy panel with its title above its items. A full row holds six items on a wide screen, three on a tablet and two on a phone, in plain reading order; a field with fewer items spreads them over the same width. The items are equal parts of the field and not a sequence, so they carry no numbers, marks or arrows, only the name centered under each picture.
 - The recruitment steps on the contact page are the numbered list in `content/contact/recruit-process.md`. Each step gets a picture by its place in the list, `static/images/recruit/<accent>/<light or dark>/<step number>.svg`, and the list is laid out four across, or two across as a switchback (1 2, then 4 3 under them), with an arrow from each step to the next. Keep a blank line between the steps. The two bullet lists under them (신입, 경력) are shown as two blocks side by side.
-- The ODM items each have a picture, `static/images/odm/<accent>/<place in the list>.svg` (240x216). The colors are fixed inside the files, so there is one set for each accent.
-- The business field pictures are illustrations drawn like the ODM pictures (240x216, colors fixed inside the files), in `static/images/fields/<accent>/`. The file name is the field title in lower case with dashes (`embedded.svg`, `iot.svg`, `os-porting.svg`). Each is shown on a navy tile, like the ODM panel. A field without a file shows no picture.
+- Every item has a picture, `static/images/<field>/<accent>/<place in the list>.svg` (240x216), where `<field>` is the field title in lower case with dashes (`odm`, `embedded`, `iot`, `os-porting`). The colors are fixed inside the files, so there is one set for each accent. A new item needs a new file.
+- A picture is as wide as one column of a full row, whatever the number of items in its field, so the pictures of all four panels are the same size.
 - A product photo opens in a large view over the page (a `dialog`), closed with the X, Esc or a click outside the photo. When the product has several photos, its photos sit in a row that slides sideways: arrows and arrow keys with a mouse, a finger drag on a touch screen (no arrows there), and a count such as "1 / 2" shows under it. Without JS it links to the original file. The video plays in place.
 - A product with several photos shows one at a time: dots under the photo, arrows on hover, swipe on touch.
 
