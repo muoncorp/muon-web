@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+
+# AI search and assistant crawlers may read the site like any other crawler.
+# To keep one out, give it a group of its own with "Disallow: /".
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: Claude-SearchBot
+User-agent: Claude-User
+User-agent: PerplexityBot
+User-agent: Perplexity-User
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: {{ get_url(path="sitemap.xml") }}

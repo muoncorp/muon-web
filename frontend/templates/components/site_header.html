@@ -1,0 +1,77 @@
+{#- Components only see the arguments they are given, so pass `config` where it is needed. -#}
+
+{#- Logo for a navy surface: the header and the footer in dark mode. -#}
+{% component logo_url(config) -%}
+  {%- if config.extra.accent and config.extra.accent == "blue" -%}
+    {{ get_url(path='/images/muon-logo-color.svg') }}
+  {%- else -%}
+    {{ get_url(path='/images/muon-logo-white.svg') }}
+  {%- endif -%}
+{%- endcomponent logo_url %}
+
+{#- Inline svg for a Font Awesome class pair such as "fa-brands fa-youtube",
+    read from the Font Awesome package under sass/_vendor. -#}
+{% component icon(fa) -%}
+  {%- set parts = fa | split(pat=" ") -%}
+  {%- set style = parts | first | replace(from="fa-", to="") -%}
+  {%- set name = parts | last | replace(from="fa-", to="") -%}
+  <span class="icon" aria-hidden="true">{{ load_data(path="sass/_vendor/fontawesome-free-6.4.2-web/svgs/" ~ style ~ "/" ~ name ~ ".svg", format="plain") | safe }}</span>
+{%- endcomponent icon %}
+
+{% component header(config, current_section) %}
+<header class="site-header">
+  <div class="container site-header__bar">
+    <a class="site-logo" href="{{ get_url(path='#', trailing_slash=false) }}">
+      {#- Light mode shows the navy logo on paper, dark mode the logo for navy. site.scss swaps them. -#}
+      <img class="site-logo__light" src="{{ get_url(path='/images/muon-logo-navy.svg') }}" alt="MUON" width="87" height="40">
+      <img class="site-logo__dark" src="{{<logo_url config={config} />}}" alt="MUON" width="87" height="40">
+    </a>
+
+    <button class="nav-toggle" type="button" aria-controls="navMenu" aria-expanded="false" aria-label="메뉴">
+      <span class="nav-toggle__open">{{<icon fa="fa-solid fa-bars" />}}</span>
+      <span class="nav-toggle__close">{{<icon fa="fa-solid fa-xmark" />}}</span>
+    </button>
+
+    <nav id="navMenu" class="site-nav" aria-label="주 메뉴">
+      {%- if config.extra.menu.nav %}
+        <ul class="site-nav__list">
+          {%- for item in config.extra.menu.nav %}
+            <li class="site-nav__item">
+              <a class="site-nav__link" href="{{ get_url(path=item.url, trailing_slash=false) | safe }}"{% if current_section == item.section %} aria-current="page"{% endif %}>
+                {{- item.name -}}
+              </a>
+              {%- if item.subitems %}
+                <ul class="site-nav__sub">
+                  {%- for subitem in item.subitems %}
+                    <li><a href="{{ get_url(path=subitem.href, trailing_slash=false) }}">{{ subitem.name }}</a></li>
+                  {%- endfor %}
+                </ul>
+              {%- endif %}
+            </li>
+          {%- endfor %}
+        </ul>
+      {%- endif %}
+
+      {%- if config.build_search_index %}
+        <form class="site-search" role="search" onsubmit="return goSearch(event)">
+          <label class="visually-hidden" for="site-search-input">{{ config.extra.search }}</label>
+          <input id="site-search-input" type="text" placeholder="{{ config.extra.search }}">
+        </form>
+      {%- endif %}
+
+      {%- if config.extra.menu.social %}
+        <ul class="site-nav__social">
+          {%- for val in config.extra.menu.social %}
+            <li><a href="{{ val.url }}" aria-label="{{ val.name }}" title="{{ val.name }}">{{<icon fa={val.icon} />}}</a></li>
+          {%- endfor %}
+        </ul>
+      {%- endif %}
+
+      <button class="theme-toggle" type="button" aria-label="다크 모드로 전환" hidden>
+        <span class="theme-toggle__moon">{{<icon fa="fa-solid fa-moon" />}}</span>
+        <span class="theme-toggle__sun">{{<icon fa="fa-solid fa-sun" />}}</span>
+      </button>
+    </nav>
+  </div>
+</header>
+{% endcomponent header %}

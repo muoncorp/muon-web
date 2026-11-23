@@ -1,0 +1,42 @@
+# 뮤온 주식회사 (Muon Corp.)
+
+> 뮤온은 임베디드·IoT 제품을 설계부터 양산, 납품까지 맡는 ODM 회사입니다. 2019년 10월에 설립했고 서울 영등포구에 있습니다.
+
+## 사업 분야
+
+- ODM: 제품개발, 설계, 프로그램, 샘플, 양산, 납품
+- Embedded: Single Board Computer, Microcontroller, DID Board
+- IoT: Smart Device, Sensors, Data Analysis, Dashboard
+- OS Porting: RTOS, Linux, Android
+
+## 보유 기술
+
+- 임베디드 H/W: 32-bit MCU, 32/64-bit ARM CPU, STM32, ESP32
+- 임베디드 F/W: RTOS, Arduino, Linux, Android OS
+- 인증 지원: 국내외 인증 (KC, CE, FCC, UL)
+- 양산 및 납품: 완제품, 반제품, SMT, 아트웍, 조립
+
+## 개발 실적
+
+- Smart Touch Controller: Quad-core Cortex-A53 SoC, 7인치·4.3인치 LCD + CTP, Android 7.1
+- Arcade Game Machine IO Board: STM32F103 MCU 기반, 입력 16·출력 16 채널
+- AI Camera Board: OpenMV 기반 인공지능 영상 분석
+- 교육용 자율주행차: 모터·서보 제어, 초음파 센서, 카메라, MQTT
+- LED 액자: Raspberry Pi 3 기반 128x128 LED, Web Application, WebAssembly Applets
+
+## 페이지
+
+- [사업 분야, 보유 기술, 개발 실적](https://muon.co/)
+- [회사 소개, 연혁, 오시는 길](https://muon.co/about/)
+- [개발 의뢰 및 문의, 입사 지원](https://muon.co/contact/)
+- [블로그](https://muon.co/blog/)
+
+## 연락처
+
+- 전화: 02-2635-6789 (+82-2-2635-6789)
+- 이메일: contact@muon.co
+- 주소: 서울특별시 영등포구 선유로3길 10, 608호 (문래동5가)
+- 영문 주소: 608, 10, Seonyu-ro 3-gil, Yeongdeungpo-gu, Seoul, Republic of Korea
+- [YouTube](https://www.youtube.com/@muoncorp)
+- [Store](https://smartstore.naver.com/muonstore)
+- [GitHub](https://github.com/muoncorp/)

@@ -1,87 +1,269 @@
-
-{% extends "base.html" %}
-
-{% block banner %}
-  {{ macros_banner::banner(title=section.extra.banner_title, background_class=section.extra.banner_background_class) }}
-{% endblock %}
+{% extends "site.html" %}
 
 {% block content %}
-  {% for content in section.extra.contents %}
-    <section {% if content.id %}id="{{ content.id }}"{% endif %}>
-      {{ macros_title::title(title=content.title) }}
-      {{ content.text | safe }}
-      {% if content.cards %}
-        <div class="columns is-multiline">
-          {% for card in content.cards %}
-            <div class="column is-half-tablet is-one-quarter-desktop">
-              <div class="message{% if loop.index % 2 == 0 %}{{ ' is-primary' }}{% else %}{{ ' is-info' }}{% endif %}">
-                <div class="message-header">
-                  {{ card.title }}
-                </div>
-                <div class="message-body">
-                  <ul>
-                    {% for item in card.items %}
-                      <li>
-                        {{ item }}
-                      </li>
-                    {% endfor %}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-        </div>
-      {% endif %}
-    </section>
-  {% endfor %}
+  {#- The first content block's text has two sentences: the first opens its own section, the second is the hero line. -#}
+  {%- set intro = section.extra.contents | first -%}
+  {%- set intro_lines = intro.text | striptags | trim | split(pat="\n") -%}
 
-  <section id="products">
-    {{ macros_title::title(title=section.extra.products_title) }}
-    {% for product in section.extra.products %}
-      <h6 class="title is-6">
-        {{ product.title }}
-      </h6>
-      <div class="columns">
-        <div class="column is-6">
-          <section>
-            {% set carousel_id = "carousel_" ~ loop.index %}
-            <div class="carousel">
-              {% for asset in product.images %}
-                {% set img_url = "images/products/" ~ asset %}
-                {% set img_id = carousel_id ~ "_" ~ loop.index %}
-                <figure class="image is-5by3 js-modal-trigger" data-target="{{ img_id }}">
-                  {% set image = resize_image(path=img_url, width=1000, height=600, op="fill") %}
-                  <img src="{{ image.url }}" />
-                </figure>
-              {% endfor %}
-            </div>
-          </section>
-          {% for asset in product.images %}
-            {% set img_id = carousel_id ~ "_" ~ loop.index %}
-            <div id="{{ img_id }}" class="modal">
-              <div class="modal-background"></div>
-              <div class="modal-content">
-                {% set img_url = "images/products/" ~ asset %}
-                {% if img_url is ending_with(".mp4.jpg") %}
-                  <video controls autoplay>
-                    <source src="{{ img_url | replace(from='.jpg', to='') }}" type="video/mp4" />
-                  </video>
-                {% else %}
-                  <img src="{{ get_url(path=img_url) }}" />
-                {% endif %}
-              </div>
-              <button class="modal-close is-large" aria-label="close"></button>
-            </div>
-          {% endfor %}
-        </div>
-        <div class="column is-6">
-          <ul>
-            {% for feature in product.features %}
-              <li>{{ feature }}</li>
-            {% endfor %}
-          </ul>
-        </div>
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__text">
+        <h1>{{ section.extra.banner_title }}</h1>
+        <p class="lead">{{ intro_lines | last | trim }}</p>
+        <p class="hero__actions">
+          <a class="button" href="{{ get_url(path='/contact/#contact', trailing_slash=false) }}">개발의뢰 및 문의</a>
+        </p>
       </div>
-    {% endfor %}
+
+      {#- Three product photos in the shape of the logo mark. -#}
+      <div class="hero__mark">
+        {%- set shots = ["io-board.jpg", "ai-camera.jpg", "MUON-SBC-7.jpg"] -%}
+        {%- set shot_alts = ["Arcade Game Machine IO Board", "AI Camera Board", "Smart Touch Controller"] -%}
+        {%- for shot in shots %}
+          {%- set tiny = resize_image(path="images/products/" ~ shot, height=380, op="fit_height", format="webp", quality=80) %}
+          {%- set small = resize_image(path="images/products/" ~ shot, height=600, op="fit_height", format="webp", quality=80) %}
+          {%- set image = resize_image(path="images/products/" ~ shot, height=900, op="fit_height", format="webp", quality=80) %}
+          {#- The photo is cropped to a tall block, so the width it needs follows its own ratio:
+              the block is about 52vw tall on small screens and 550px tall on wide ones. -#}
+          {%- set ratio = image.width / image.height %}
+          {%- set need_vw = ratio * 52 %}
+          {%- set need_px = ratio * 550 %}
+          <img src="{{ image.url }}" srcset="{{ tiny.url }} {{ tiny.width }}w, {{ small.url }} {{ small.width }}w, {{ image.url }} {{ image.width }}w" sizes="(max-width: 60rem) {{ need_vw | round }}vw, {{ need_px | round }}px" alt="{{ shot_alts[loop.index0] }}" width="{{ image.width }}" height="{{ image.height }}"{% if loop.first %} fetchpriority="high"{% endif %}>
+        {%- endfor %}
+      </div>
+    </div>
   </section>
-{% endblock content %}
+
+  {%- for content in section.extra.contents %}
+    {%- if loop.first %}
+      {#- Business fields: one navy panel for each card, with its items in a row. -#}
+      <section id="{{ content.id }}" class="section">
+        <div class="container">
+          <div class="section__head">
+            <h2>{{ content.title }}</h2>
+            <p class="lead">{{ intro_lines | first | trim }}</p>
+          </div>
+
+          {#- Each item has a picture, static/images/<field>/<accent>/<place in the list>.svg,
+              where <field> is the card title in lower case with dashes (odm, os-porting).
+              The colors are fixed inside the files, so there is one set per accent. -#}
+          {%- set art = "yellow" %}
+          {%- if config.extra.accent and config.extra.accent == "blue" %}
+            {%- set art = "blue" %}
+          {%- endif %}
+          {%- for card in content.cards %}
+            {%- set field = card.title | slugify %}
+            <div class="process">
+              <h3>{{ card.title }}</h3>
+              <ul class="process__steps" style="--count: {{ card.items | length }}">
+                {%- for item in card.items %}
+                  <li>
+                    <img src="{{ get_url(path='images/' ~ field ~ '/' ~ art ~ '/' ~ loop.index ~ '.svg') }}" alt="" width="240" height="216" loading="lazy" decoding="async">
+                    <span>{{ item }}</span>
+                  </li>
+                {%- endfor %}
+              </ul>
+            </div>
+          {%- endfor %}
+        </div>
+      </section>
+    {%- else %}
+      <section {% if content.id %}id="{{ content.id }}" {% endif %}class="section section--band">
+        <div class="container rows">
+          <div class="section__head">
+            <h2>{{ content.title }}</h2>
+            <p class="lead">{{ content.text | striptags | trim | replace(from="\n", to=" ") }}</p>
+          </div>
+
+          <dl class="rows__list">
+            {%- for card in content.cards %}
+              <div class="rows__row">
+                <dt>{{ card.title }}</dt>
+                <dd>
+                  <ul>
+                    {%- for item in card.items %}
+                      <li>{{ item }}</li>
+                    {%- endfor %}
+                  </ul>
+                </dd>
+              </div>
+            {%- endfor %}
+          </dl>
+        </div>
+      </section>
+    {%- endif %}
+  {%- endfor %}
+
+  <section id="products" class="section">
+    <div class="container">
+      <div class="section__head">
+        <h2>{{ section.extra.products_title }}</h2>
+      </div>
+
+      <div class="products">
+        {%- for product in section.extra.products %}
+          {%- set count = product.images | length %}
+          <article class="product{% if loop.first %} product--lead{% endif %}">
+            <div class="product__gallery">
+            <div class="product__media"{% if count > 1 %} tabindex="0" role="group" aria-label="{{ product.title }} 사진 {{ count }}장"{% endif %}>
+              {%- for asset in product.images %}
+                {%- set img_url = "images/products/" ~ asset %}
+                {%- set small = resize_image(path=img_url, width=640, height=384, op="fill", format="webp", quality=80) %}
+                {%- set medium = resize_image(path=img_url, width=960, height=576, op="fill", format="webp", quality=80) %}
+                {%- set large = resize_image(path=img_url, width=1280, height=768, op="fill", format="webp", quality=80) %}
+                {%- if img_url is ending_with(pat=".mp4.jpg") %}
+                  {#- The poster cannot be lazy-loaded, so keep it small. -#}
+                  {%- set poster = resize_image(path=img_url, width=480, height=288, op="fill", format="webp", quality=70) %}
+                  <video controls preload="none" playsinline poster="{{ poster.url }}" width="1280" height="768" aria-label="{{ product.title }} 영상">
+                    <source src="{{ get_url(path=img_url | replace(from='.jpg', to='')) }}" type="video/mp4">
+                  </video>
+                {%- else %}
+                  {%- set full = resize_image(path=img_url, width=1920, height=1920, op="fit", format="webp", quality=85) %}
+                  <a href="{{ get_url(path=img_url) }}" data-full="{{ full.url }}">
+                    <img src="{{ large.url }}" srcset="{{ small.url }} 640w, {{ medium.url }} 960w, {{ large.url }} 1280w" sizes="(min-width: 60rem) 50vw, 100vw" alt="{{ product.title }}{% if product.images | length > 1 %} {{ loop.index }}{% endif %}" width="1280" height="768" loading="lazy">
+                  </a>
+                {%- endif %}
+              {%- endfor %}
+            </div>
+            {%- if count > 1 %}
+              <button class="pager__arrow pager__arrow--prev" type="button" aria-label="이전 사진" hidden>{{<icon fa="fa-solid fa-chevron-left" />}}</button>
+              <button class="pager__arrow pager__arrow--next" type="button" aria-label="다음 사진" hidden>{{<icon fa="fa-solid fa-chevron-right" />}}</button>
+            {%- endif %}
+            </div>
+            {%- if count > 1 %}
+              <div class="pager__dots" aria-hidden="true" hidden>
+                {%- for asset in product.images %}<span></span>{% endfor -%}
+              </div>
+            {%- endif %}
+
+            <div class="product__body">
+              <h3>{{ product.title }}</h3>
+              <ul class="product__features">
+                {%- for feature in product.features %}
+                  <li>{{ feature }}</li>
+                {%- endfor %}
+              </ul>
+            </div>
+          </article>
+        {%- endfor %}
+      </div>
+    </div>
+  </section>
+
+  {#- Large photo view, opened from the product photos by the script below. -#}
+  <dialog class="lightbox" aria-label="사진 크게 보기">
+    <button class="lightbox__close" type="button" aria-label="닫기">{{<icon fa="fa-solid fa-xmark" />}}</button>
+    <button class="lightbox__arrow lightbox__arrow--prev" type="button" aria-label="이전 사진" hidden>{{<icon fa="fa-solid fa-chevron-left" />}}</button>
+    <button class="lightbox__arrow lightbox__arrow--next" type="button" aria-label="다음 사진" hidden>{{<icon fa="fa-solid fa-chevron-right" />}}</button>
+    <div class="lightbox__photos"></div>
+    <p class="lightbox__count" aria-live="polite" hidden></p>
+  </dialog>
+
+  <script>
+    // Photo pager: one photo per page. The arrows and dots follow the scroll position.
+    document.querySelectorAll('.product').forEach(function (product) {
+      var dotsBox = product.querySelector('.pager__dots');
+      if (!dotsBox) return;
+      var track = product.querySelector('.product__media');
+      var prev = product.querySelector('.pager__arrow--prev');
+      var next = product.querySelector('.pager__arrow--next');
+      var dots = dotsBox.children;
+      var behavior = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+      function show() {
+        var current = Math.round(track.scrollLeft / track.clientWidth);
+        for (var i = 0; i < dots.length; i++) {
+          dots[i].classList.toggle('is-current', i === current);
+        }
+        prev.disabled = current === 0;
+        next.disabled = current === dots.length - 1;
+      }
+
+      prev.addEventListener('click', function () {
+        track.scrollBy({ left: -track.clientWidth, behavior: behavior });
+      });
+      next.addEventListener('click', function () {
+        track.scrollBy({ left: track.clientWidth, behavior: behavior });
+      });
+      track.addEventListener('scroll', show, { passive: true });
+
+      prev.hidden = next.hidden = dotsBox.hidden = false;
+      show();
+    });
+
+    // A product photo opens in the large view instead of leaving the page. The view
+    // holds that product's photos in a row that scrolls sideways, one photo per screen,
+    // so a finger drags it and the arrows slide it.
+    var lightbox = document.querySelector('.lightbox');
+    if (lightbox.showModal) {
+      var photos = lightbox.querySelector('.lightbox__photos');
+      var arrows = lightbox.querySelectorAll('.lightbox__arrow');
+      var count = lightbox.querySelector('.lightbox__count');
+      var root = document.documentElement;
+      var slide = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+
+      function current() {
+        return Math.round(photos.scrollLeft / photos.clientWidth);
+      }
+
+      function showCount() {
+        count.textContent = (current() + 1) + ' / ' + photos.children.length;
+      }
+
+      // Slides to the next or previous photo. After the last one comes the first.
+      function step(by) {
+        var total = photos.children.length;
+        photos.scrollTo({ left: ((current() + by + total) % total) * photos.clientWidth, behavior: slide });
+      }
+
+      document.querySelectorAll('.product__media a').forEach(function (link) {
+        link.addEventListener('click', function (event) {
+          if (event.metaKey || event.ctrlKey || event.shiftKey) return;
+          event.preventDefault();
+          var links = link.parentNode.querySelectorAll('a');
+          var first = 0;
+          for (var i = 0; i < links.length; i++) {
+            var page = document.createElement('div');
+            var photo = document.createElement('img');
+            photo.src = links[i].dataset.full;
+            photo.alt = links[i].querySelector('img').alt;
+            photo.draggable = false;
+            page.className = 'lightbox__photo';
+            page.appendChild(photo);
+            photos.appendChild(page);
+            if (links[i] === link) first = i;
+          }
+          arrows[0].hidden = arrows[1].hidden = count.hidden = links.length < 2;
+          // Stop the page behind from scrolling, and keep the scrollbar's width so nothing moves.
+          root.style.paddingRight = (window.innerWidth - root.clientWidth) + 'px';
+          root.style.overflow = 'hidden';
+          lightbox.showModal();
+          photos.scrollLeft = first * photos.clientWidth;
+          showCount();
+        });
+      });
+
+      photos.addEventListener('scroll', showCount, { passive: true });
+      arrows[0].addEventListener('click', function () {
+        step(-1);
+      });
+      arrows[1].addEventListener('click', function () {
+        step(1);
+      });
+      lightbox.addEventListener('keydown', function (event) {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        step(event.key === 'ArrowLeft' ? -1 : 1);
+      });
+
+      // The close button and the dimmed area around the photo both close it.
+      lightbox.addEventListener('click', function (event) {
+        if (!event.target.closest('img, .lightbox__arrow, .lightbox__count')) lightbox.close();
+      });
+      lightbox.addEventListener('close', function () {
+        photos.replaceChildren();
+        root.style.paddingRight = root.style.overflow = '';
+      });
+    }
+  </script>
+{% endblock %}

@@ -6,6 +6,40 @@ weight = 20
 id = "history"
 +++
 <div class="timeline is-centered">
+  <header class="timeline-header">
+    <span class="tag is-info">2024</span>
+  </header>
+  <div class="timeline-item has-text-info">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading">2024.09</p>
+      <p>S사 BLE to WiFi Converter Module 개발</p>
+    </div>
+  </div>
+  <div class="timeline-item has-text-info">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading">2024.07</p>
+      <p>MUON Smart-Link 개발</p>
+    </div>
+  </div>
+  <div class="timeline-item has-text-info">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading">2024.03</p>
+      <p>C사 염수살포 제어 보드 개발</p>
+    </div>
+  </div>
+  <header class="timeline-header">
+    <span class="tag is-primary">2023</span>
+  </header>
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading">2023.11</p>
+      <p>C사 Distance 4CH ToF Sensor 개발</p>
+    </div>
+  </div>
   <div class="timeline-item">
     <div class="timeline-marker"></div>
     <div class="timeline-content">
@@ -13,7 +47,14 @@ id = "history"
       <p>M사 시각 장애인을 위한 점자 학습기 개발</p>
     </div>
   </div>
-    <div class="timeline-item">
+  <div class="timeline-item">
+    <div class="timeline-marker"></div>
+    <div class="timeline-content">
+      <p class="heading">2023.07</p>
+      <p>A사 태양열 발전소 RTU 개발</p>
+    </div>
+  </div>
+  <div class="timeline-item">
     <div class="timeline-marker"></div>
     <div class="timeline-content">
       <p class="heading">2023.06</p>
@@ -21,7 +62,7 @@ id = "history"
     </div>
   </div>
   <header class="timeline-header">
-    <span class="tag is-primary">2023</span>
+    <span class="tag is-info">2022</span>
   </header>
   <div class="timeline-item has-text-info">
     <div class="timeline-marker"></div>
@@ -52,7 +93,7 @@ id = "history"
     </div>
   </div>
   <header class="timeline-header">
-    <span class="tag is-info">2022</span>
+    <span class="tag is-primary">2021</span>
   </header>
   <div class="timeline-item">
     <div class="timeline-marker"></div>
@@ -62,12 +103,12 @@ id = "history"
     </div>
   </div>
   <header class="timeline-header">
-    <span class="tag is-primary">2021</span>
+    <span class="tag is-info">2020</span>
   </header>
   <div class="timeline-item has-text-info">
     <div class="timeline-marker"></div>
     <div class="timeline-content">
-      <p class="heading">2022.10</p>
+      <p class="heading">2020.10</p>
       <p>산학협력 체결 (유한공업고등학교)</p>
     </div>
   </div>
@@ -86,7 +127,7 @@ id = "history"
     </div>
   </div>
   <header class="timeline-header">
-    <span class="tag is-info">2020</span>
+    <span class="tag is-primary">2019</span>
   </header>
   <div class="timeline-item">
     <div class="timeline-marker"></div>
@@ -95,7 +136,4 @@ id = "history"
       <p>뮤온(주) 법인 설립</p>
     </div>
   </div>
-  <header class="timeline-header">
-    <span class="tag is-primary">2019</span>
-  </header>
 </div>

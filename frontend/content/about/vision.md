@@ -5,7 +5,7 @@ weight = 10
 [extra]
 id = "company"
 +++
-### The BEST IoT Solution, <small>뮤온은 모두의 꿈을 실현합니다.</small>
+### The BEST IoT Solution,<br>뮤온은 모두의 꿈을 실현합니다.
 
 현 시대는 4차 산업혁명을 맞이하고 있습니다.
 
@@ -19,4 +19,7 @@ id = "company"
 
 감사합니다.
 
-<div style="text-align: right"><strong>뮤온(주) 대표이사 박 흥 준</strong></div>
+<div class="signature">
+  <span>뮤온(주) 대표이사</span>
+  <strong>박 흥 준</strong>
+</div>

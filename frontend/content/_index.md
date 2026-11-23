@@ -90,4 +90,67 @@ features = [
   'Web Application',
   'WebAssembly Applets',
 ]
+
+[[extra.products]]
+title = "염수살포장치 제어 보드"
+images = [ "brine-control.jpg", "brine-relay.jpg" ]
+features = [
+  'RS-485 Modbus Protocol, TCP-IP Ethernet',
+  'AC Pump, AC Valve, AC Power Line 제어',
+  'PT100 온도 센서, 온습도 센서, 탱크 유량 측정 센서',
+  'Power Relay 8CH 확장 보드 (최대 3개)',
+]
+
+[[extra.products]]
+title = "OpenMV Customize Board"
+images = [ "openmv-board.jpg" ]
+features = [
+  'OpenMV H7 Plus 기반 사용자 정의 보드',
+  'STM32H743 (ARM Cortex-M7) MCU, OV5640 CMOS Sensor',
+  '2952x1944 (5MP) Grayscale / RGB565 / JPEG',
+  '아날로그 게이지 수치 자동 인식',
+]
+
+[[extra.products]]
+title = "Distance 4CH ToF Sensor"
+images = [ "tof-sensor.jpg" ]
+features = [
+  'VL53L1X ToF Sensor 4채널, STM32F030 MCU',
+  'RS485 Modbus Protocol 기반',
+  'Code Rotary Switch로 Master / Slave 구분',
+  '거리 측정 범위: 3mm ~ 400mm',
+]
+
+[[extra.products]]
+title = "MUON Smart-Link"
+images = [ "smart-link.jpg" ]
+features = [
+  'ESP32 기반 WiFi to Ethernet Module',
+  'PoE Module',
+  'BG96 LTE Module',
+  'RS485 / RS232 / RS422 Module 중 선택',
+]
+
+[[extra.products]]
+title = "태양열 발전소 Inverter RTU Board"
+images = [ "solar-rtu.jpg" ]
+features = [
+  'HUAWEI SUN2000 Inverter RS485 Modbus 통신',
+  '전력 생산정보 취득 및 Server 전송',
+  '4x16 LCD에 인버터별 취득 생산량 표시',
+]
+
+[[extra.products]]
+title = "BLE to WiFi Converter"
+images = [ "ble-wifi-converter.jpg" ]
+features = [
+  'BLE 데이터를 Server로 전송하기 위한 WiFi 변환 보드',
+]
+
+[[extra.products]]
+title = "F/W Download Jig"
+images = [ "fw-download-jig.jpg" ]
+features = [
+  '효율적 생산을 위한 Firmware Download Jig 설계',
+]
 +++

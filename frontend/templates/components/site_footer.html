@@ -1,0 +1,19 @@
+{% component footer(config) %}
+<footer class="site-footer">
+  <div class="container site-footer__grid">
+    {#- Light mode shows the navy logo, dark mode the logo for navy. site.scss swaps them. -#}
+    <img class="site-footer__logo site-logo__light" src="{{ get_url(path='/images/muon-logo-navy.svg') }}" alt="MUON" width="157" height="72" loading="lazy">
+    <img class="site-footer__logo site-logo__dark" src="{{<logo_url config={config} />}}" alt="MUON" width="157" height="72" loading="lazy">
+
+    <address>
+      <span>뮤온 주식회사 (Muon Corp.) | 대표이사(CEO): 박흥준 (HEUNGJOON PARK)</span>
+      <span>서울특별시 영등포구 선유로3길 10, 608호 (문래동5가)</span>
+      <span>608, 10, Seonyu-ro 3-gil, Yeongdeungpo-gu, Seoul, Republic of Korea</span>
+      <span>사업자등록번호 (Business Registration No.): <span class="nowrap">886-86-01576</span></span>
+      <span>TEL: 02.2635.6789 (+82226356789)</span>
+    </address>
+
+    <p class="site-footer__legal">© Copyright 2026, Muon Corp. All Rights Reserved.</p>
+  </div>
+</footer>
+{% endcomponent footer %}
